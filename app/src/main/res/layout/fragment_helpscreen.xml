@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@android:color/transparent">
+    <ImageView
+        android:id="@+id/slider_image"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:contentDescription="@string/app_name"
+        android:layout_gravity="center"
+        android:adjustViewBounds="true"
+        android:src="@drawable/slider1"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentLeft="true" android:scaleType="fitXY"
+        android:padding="10dp" android:layout_alignParentTop="true"/>
+    <FrameLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="@android:color/transparent"
+        android:id="@+id/frameLayoutMain"
+        android:layout_alignTop="@+id/slider_image"
+        >
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/Black"
+            android:textColor="@color/White"
+            android:id="@+id/button"
+            android:layout_gravity="right"
+            android:layout_margin="10dp" />
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:id="@+id/frameLayout"
+            android:layout_gravity="bottom"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="15dp">
+
+            <TextView android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textSize="18sp"
+                android:textColor="@color/White"
+                android:id="@+id/pagerText"
+                android:background="@android:color/transparent"
+                android:gravity="center|left"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                />
+        </FrameLayout>
+
+    </FrameLayout>
+
+</RelativeLayout>

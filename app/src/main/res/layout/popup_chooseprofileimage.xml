@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:background="@android:color/transparent">
+
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/White"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/relativeLayout8"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp">
+
+        <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true">
+            <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:id="@+id/closeLayout"
+                    >
+                <ImageButton
+                        android:layout_width="40dp"
+                        android:layout_height="match_parent"
+                        android:id="@+id/btnClose"
+                        android:layout_gravity="center_horizontal|right"
+                        android:background="@android:color/transparent"
+                        android:src="@drawable/close"/>
+            </LinearLayout>
+            <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:id="@+id/challengerLayout" >
+                    <TextView
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:text="@string/chooseTitle"
+                            android:id="@+id/txtTitle"
+                            android:layout_alignParentTop="false"
+                            android:layout_alignParentLeft="false"
+                            android:layout_alignParentStart="true"
+                            android:layout_alignWithParentIfMissing="false"
+                            android:layout_centerInParent="true"
+                            android:gravity="center|center_vertical"
+                            android:textStyle="bold"
+                            android:textColor="@color/Black"
+                            android:textSize="16sp"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp"
+                    android:layout_gravity="center_horizontal"
+                    android:id="@+id/gridLayout"
+                    android:layout_marginTop="10dp">
+
+                    <GridView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:drawSelectorOnTop="true"
+                            android:layout_below="@+id/avatarTitle"
+                            android:id="@+id/avatarGrid"
+                            android:numColumns="3"
+                            android:paddingLeft="20dp"
+                            android:paddingRight="20dp"
+                            android:verticalSpacing="8dp"
+                            android:horizontalSpacing="8dp"/>
+
+            </LinearLayout>
+            <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="fill_parent"
+                    android:layout_height="50dp"
+                    android:layout_below="@+id/relativeLayout8"
+                    android:layout_alignLeft="@+id/relativeLayout8"
+                    android:layout_alignStart="@+id/relativeLayout8"
+                    android:layout_alignRight="@+id/relativeLayout8"
+                    android:layout_alignEnd="@+id/relativeLayout8"
+                    android:background="@color/colorAccent"
+                    android:layout_margin="20dp">
+                <Button
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:text="@string/confirm"
+                        android:id="@+id/confirmButton"
+                        android:background="@android:color/transparent"
+                        android:textSize="14sp"
+                        android:textColor="@color/White"
+                        android:textStyle="bold"
+                        />
+            </LinearLayout>
+        </LinearLayout>
+    </RelativeLayout>
+
+
+</RelativeLayout>

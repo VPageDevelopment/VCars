@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Google -->
+    <string name="API_Key">AIzaSyCKPtU1zm0o3F9gZ7zPLfSlAMbWTyOA7E8</string>
+    <string name="ga_trackingId">vcars-156907</string>
+
+
+    <!-- FB -->
+    <string name="facebook_app_id">215382688933698</string>
+
+</resources>

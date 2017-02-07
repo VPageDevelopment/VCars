@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@android:color/transparent">
+
+    <RelativeLayout
+        android:layout_width="@dimen/loginPopup_relativelayout8_width"
+        android:layout_height="wrap_content"
+        android:background="@color/White"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/relativeLayout8">
+        <com.vpage.vcars.view.PlayGifView
+            android:id="@+id/viewGif"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="false"
+            android:layout_alignParentStart="false"
+            android:layout_centerHorizontal="true"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center"
+            android:scaleType="fitXY"
+            android:visibility="gone" />
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true">
+
+
+            <FrameLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/loginPopup_closeLayout_height"
+                android:id="@+id/closeLayout"
+                android:layout_marginBottom="@dimen/loginPopup_closeLayout_marginBottom"
+                android:layout_gravity="top|center_horizontal">
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/loginpopupHeadingText"
+                        android:id="@+id/headingTxt"
+                        android:textColor="@color/DarkGray"
+                        android:textSize="16sp"
+                        android:gravity="center"
+                        android:textAllCaps="true"
+                        android:layout_marginTop="3dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/loginpopupSubHeadingText"
+                        android:id="@+id/subheadingTxt"
+                        android:gravity="center"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="3dp"
+                        android:textSize="10dp" />
+                </LinearLayout>
+
+                <ImageButton
+                    android:layout_width="@dimen/loginPopup_btnClose_width"
+                    android:layout_height="@dimen/loginPopup_btnClose_height"
+                    android:id="@+id/btnClose"
+                    android:scaleType="fitXY"
+                    android:padding="@dimen/loginPopup_btnClose_padding"
+                    android:layout_gravity="center_horizontal|right"
+                    android:background="@android:color/transparent"
+                    android:src="@drawable/close"
+                    android:contentDescription="@string/app_name" />
+
+            </FrameLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/loginPopup_challengerLayout_height"
+                android:id="@+id/challengerLayout"
+                android:paddingLeft="@dimen/loginPopup_challengerLayout_paddingLeft"
+                android:paddingRight="@dimen/loginPopup_challengerLayout_paddingRight">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="@dimen/loginPopup_userIconLayout_width"
+                        android:layout_height="@dimen/loginPopup_userIconLayout_height"
+                        android:id="@+id/userIconLayout"
+                        android:layout_alignParentBottom="false"
+                        android:layout_alignParentTop="true"
+                        android:gravity="center|center_vertical">
+                        <ImageView
+                            android:layout_width="@dimen/loginPopup_userIcon_width"
+                            android:layout_height="@dimen/loginPopup_userIcon_height"
+                            android:id="@+id/userIcon"
+                            android:src="@drawable/phoneicon"
+                            android:layout_gravity="center"
+                            android:contentDescription="@string/app_name" />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="fill_parent"
+                        android:layout_height="@dimen/loginPopup_userTxtLayout_height"
+                        android:layout_centerVertical="true"
+                        android:layout_toRightOf="@+id/userIconLayout"
+                        android:id="@+id/userTxtLayout"
+                        android:layout_alignParentBottom="false"
+                        android:layout_alignParentTop="true">
+                        <EditText
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@android:color/transparent"
+                            android:id="@+id/userPhoneNumber"
+                            android:hint="@string/txtPhoneNumber"
+                            android:imeOptions="actionNext"
+                            android:textColor="@color/Black"
+                            android:gravity="left|center_vertical"
+                            android:textSize="@dimen/loginPopup_userName_textSize"
+                            android:singleLine="true"
+                            android:maxLines="1" />
+
+                    </LinearLayout>
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/loginPopup_userTxtLayoutBelowLayout_height"
+                        android:gravity="bottom"
+                        android:layout_below="@+id/userTxtLayout">
+
+                        <TextView android:layout_width="match_parent"
+                            android:layout_height="@dimen/loginPopup_userNameBottomLine_height"
+                            android:id="@+id/userNameBottomLine"
+                            android:textColor="@color/LiteGray"
+                            android:textStyle="bold"
+                            android:gravity="center|center_vertical|top"
+                            android:textSize="@dimen/loginPopup_userNameBottomLine_textSize"
+                            android:background="@color/LiteGray" />
+                    </LinearLayout>
+                </RelativeLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/loginPopup_passwordLayout_height"
+                android:layout_gravity="center_horizontal"
+                android:id="@+id/passwordLayout"
+                android:layout_marginTop="@dimen/loginPopup_passwordLayout_marginTop"
+                android:paddingRight="@dimen/loginPopup_passwordLayout_paddingRight"
+                android:paddingLeft="@dimen/loginPopup_passwordLayout_paddingLeft">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="@dimen/loginPopup_passwordIconLayout_width"
+                        android:layout_height="@dimen/loginPopup_passwordIconLayout_height"
+                        android:id="@+id/passwordIconLayout"
+                        android:layout_alignParentBottom="false"
+                        android:layout_alignParentTop="true"
+                        android:gravity="center|center_vertical">
+                        <ImageView
+                            android:layout_width="@dimen/loginPopup_passwordIcon_width"
+                            android:layout_height="@dimen/loginPopup_passwordIcon_height"
+                            android:id="@+id/passwordIcon"
+                            android:src="@drawable/pass"
+                            android:contentDescription="@string/app_name" />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="fill_parent"
+                        android:layout_height="@dimen/loginPopup_passwordTxtLayout_height"
+                        android:layout_centerVertical="true"
+                        android:layout_toRightOf="@+id/passwordIconLayout"
+                        android:id="@+id/passwordTxtLayout"
+                        android:layout_alignParentTop="true">
+                        <EditText
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@android:color/transparent"
+                            android:id="@+id/userOTP"
+                            android:imeOptions="actionGo"
+                            android:textColor="@color/Black"
+                            android:gravity="left|center_vertical"
+                            android:textSize="@dimen/loginPopup_passWord_textSize"
+                            android:singleLine="true"
+                            android:maxLines="1"
+                            android:hint="@string/txtOTP"
+                            android:inputType="number" />
+
+                    </LinearLayout>
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/loginPopup_passwordTxtLayoutBelowLayout_height"
+                        android:gravity="bottom"
+                        android:layout_below="@+id/passwordTxtLayout">
+                        <TextView android:layout_width="match_parent"
+                            android:layout_height="@dimen/loginPopup_pwdBottomLine_height"
+                            android:id="@+id/pwdBottomLine"
+                            android:textColor="@color/Black"
+                            android:textStyle="bold"
+                            android:gravity="center|top|center_vertical"
+                            android:textSize="@dimen/loginPopup_pwdBottomLine_textSize"
+                            android:background="@color/LiteGray" />
+                    </LinearLayout>
+                </RelativeLayout>
+            </LinearLayout>
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/loginPopup_errorText_height"
+                android:id="@+id/errorText"
+                android:visibility="gone"
+                android:textSize="@dimen/loginPopup_errorText_textSize"
+                android:textColor="@color/Red"
+                android:gravity="center|center_vertical"
+                android:layout_marginTop="@dimen/loginPopup_errorText_marginTop" />
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/loginPopup_forgotPasswordLayout_height"
+                android:layout_gravity="center_horizontal"
+                android:id="@+id/forgotPasswordLayout"
+                android:layout_marginTop="@dimen/loginPopup_forgotPasswordLayout_marginTop"
+                android:paddingLeft="@dimen/loginPopup_forgotPasswordLayout_paddingLeft"
+                android:paddingRight="@dimen/loginPopup_forgotPasswordLayout_paddingRight">
+
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/loginPopup_signInLayout_height"
+                android:layout_gravity="center_horizontal"
+                android:id="@+id/signInLayout"
+                android:layout_marginTop="@dimen/loginPopup_signInLayout_marginTop"
+                android:layout_marginLeft="@dimen/loginPopup_signInLayout_marginLeft"
+                android:layout_marginRight="@dimen/loginopup_signInLayout_marginRight"
+                android:layout_marginBottom="@dimen/loginPopup_signInLayout_marginBottom">
+                <Button
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:text="@string/txtsignIn"
+                    android:id="@+id/btnOTPSignIn"
+                    android:background="@color/colorAccent"
+                    android:textSize="@dimen/loginPopup_btnSignIn_textSize"
+                    android:textColor="@color/White"
+                    android:paddingRight="@dimen/loginPopup_btnSignIn_paddingRight"
+                    android:paddingLeft="@dimen/loginPopup_btnSignIn_paddingLeft"/>
+            </LinearLayout>
+
+        </LinearLayout>
+    </RelativeLayout>
+
+</RelativeLayout>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    >
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="100dp"
+        android:layout_gravity="center">
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtPhone"
+            android:text="Enter the phone number of recipient"
+            />
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txtPhone"
+            android:layout_margin="10dp"
+            android:gravity="left"
+            android:id="@+id/txtPhoneNoLayout">
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:id="@+id/txtPhoneNo"
+                android:hint="Phone Number "/>
+        </android.support.design.widget.TextInputLayout>
+
+        <Button
+            android:id="@+id/btnGenerateOtp"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txtPhoneNoLayout"
+            android:background="@color/colorAccent"
+            android:text="@string/txtOTP"
+            />
+    </RelativeLayout>
+
+</LinearLayout>

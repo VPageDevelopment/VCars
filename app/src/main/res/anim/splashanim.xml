@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android"
+    android:interpolator="@android:anim/linear_interpolator"
+    android:fillAfter="true">
+
+
+    <translate
+        android:fromYDelta="-100%p"
+        android:toYDelta="0%p"
+        android:fromXDelta="0%p"
+        android:toXDelta="0%p"
+        android:startOffset="00"
+        android:duration="1000" />
+
+    <!--<scale-->
+        <!--android:toXScale="1"-->
+        <!--android:fromXScale="1"-->
+        <!--android:fromYScale=".6"-->
+        <!--android:toYScale="1"-->
+        <!--android:startOffset="500"-->
+        <!--android:duration="50"-->
+        <!--android:pivotX="50%"-->
+        <!--android:pivotY="0%"/>-->
+
+    <!--<scale-->
+    <!--android:toXScale="1"-->
+    <!--android:fromXScale="1"-->
+    <!--android:fromYScale=".6"-->
+    <!--android:toYScale="1"-->
+    <!--android:pivotX="50%"-->
+    <!--android:duration="100"-->
+    <!--android:startOffset="1200"-->
+    <!--android:pivotY="0%"/>-->
+
+    <!--<scale-->
+    <!--android:toXScale="1"-->
+    <!--android:fromXScale="1"-->
+    <!--android:fromYScale=".8"-->
+    <!--android:toYScale="1"-->
+    <!--android:pivotX="50%"-->
+    <!--android:duration="100"-->
+    <!--android:startOffset="1600"-->
+    <!--android:pivotY="0%"/>-->
+
+    <!--<translate-->
+    <!--android:fromYDelta="0%p"-->
+    <!--android:toYDelta="-10%p"-->
+    <!--android:fromXDelta="0%p"-->
+    <!--android:toXDelta="4%p"-->
+    <!--android:startOffset="700"-->
+    <!--android:duration="300" />-->
+
+    <!--<translate-->
+    <!--android:fromYDelta="-10%p"-->
+    <!--android:toYDelta="0%p"-->
+    <!--android:fromXDelta="0%p"-->
+    <!--android:toXDelta="4%p"-->
+    <!--android:startOffset="1000"-->
+    <!--android:duration="300" />-->
+
+    <!--<translate-->
+    <!--android:fromYDelta="0%p"-->
+    <!--android:toYDelta="-5%p"-->
+    <!--android:fromXDelta="0%p"-->
+    <!--android:toXDelta="2%p"-->
+    <!--android:startOffset="1300"-->
+    <!--android:duration="300" />-->
+
+    <!--<translate-->
+    <!--android:fromYDelta="-5%p"-->
+    <!--android:toYDelta="0%p"-->
+    <!--android:fromXDelta="0%p"-->
+    <!--android:toXDelta="2%p"-->
+    <!--android:startOffset="1600"-->
+    <!--android:duration="300" />-->
+
+
+
+</set>

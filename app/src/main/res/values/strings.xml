@@ -1,0 +1,113 @@
+<resources>
+    <string name="app_name">VCars</string>
+    <string name="app_version">0.0.1</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+
+
+    <string name="noInternetMsg">NO INTERNET CONNECTION</string>
+
+    <string name="welcomeText">Welcome to Interactive Mapping</string>
+
+    <integer name="Duration">2000</integer>
+    <integer name="Delay">700</integer>
+    <integer name="Period">3500</integer>
+    <integer name="SliderCount">5</integer>
+
+    <integer name="lowScreenWidth">400</integer>
+    <integer name="smallScreenWidth">480</integer>
+    <integer name="smallScreenHeight">850</integer>
+    <integer name="mediumScreenWidth">600</integer>
+    <integer name="highScreenWidth">800</integer>
+
+
+    <!-- signIn page -->
+    <string name="fb">Login/Signup with Facebook</string>
+    <string name="gPlus">Login/Signup with Google +</string>
+    <string name="login">Login/Signup with VCar</string>
+
+    <string name="referText">By signing up, I agree to abide by the</string>
+    <string name="termsText">Terms of Service</string>
+    <string name="andText">and</string>
+    <string name="privacyText">Privacy Policy</string>
+    <string name="vcarText">of VCar</string>
+
+    <string name="vCarText">BOOK OUR CARS</string>
+    <string name="vCarNextText">FOR YOUR JOURNEY</string>
+
+    <string name="loginpopupHeadingText">Login</string>
+    <string name="loginpopupSubHeadingText">Enterprise Customers Only</string>
+    <string name="txtsignIn">Sign In</string>
+
+    <string name="OTPPopupHeadingText">Generate OTP</string>
+    <string name="txtOTP">Generate OTP</string>
+
+    <string name="txtUsername">Username</string>
+    <string name="txtPhoneNumber">Phone Number</string>
+    <string name="txtPassword">Password</string>
+
+    <string name="error_unable_to_login">Unable to login</string>
+
+    <string name="action_FB">FB</string>
+
+    <!-- signUp Page -->
+    <string name="signUpTitle">Sign Up</string>
+
+    <string-array name="avatarImage">
+         <item>@drawable/user</item>
+          <item>@drawable/user</item>
+          <item>@drawable/user</item>
+          <item>@drawable/user</item>
+          <item>@drawable/user</item>
+    </string-array>
+
+    <string name="nullMessage">Fill all Information</string>
+    <string name="passwordMessage">Password doesn’t match </string>
+
+    <!-- chooseAvatar Page -->
+    <string name="chooseTitle">Choose a Profile Picture</string>
+    <string name="confirm">Confirm</string>
+
+    <!-- Home -->
+
+    <string-array name="homeTabTitle">
+        <item>MINI</item>
+        <item>MIDDLE</item>
+        <item>SUV</item>
+        <item>PRIME</item>
+    </string-array>
+
+
+    <!-- common actions -->
+    <string name="action_Exit">Exit</string>
+
+
+    <string-array name="homeTextArray">
+        <item>Hi, Welcome to Mapee</item>
+        <item>Mapee tells you.Where your Friends or Family members are...</item>
+        <item>Mapee shows you screen of your friends</item>
+        <item>Mapee allows you to chat,send SMS or call your Friends</item>
+        <item>Also you can share Files through Mapee</item>
+    </string-array>
+
+    <!-- profile -->
+    <string name="txtLogoutButton">Logout</string>
+    <string name="addMemberButton">Add Member</string>
+
+
+    <!-- FAB button text configuration -->
+    <string name="fab_text_size">16</string>
+
+
+    <string name="errorDialogTitle">Woops...</string>
+    <string name="errorResponse">Unable to get server response</string>
+
+
+    <string name="navigation_drawer_open">OPEN</string>
+    <string name="navigation_drawer_close">CLOSE</string>
+
+    <string name="event_LoginScreen">Login Screen</string>
+
+
+</resources>

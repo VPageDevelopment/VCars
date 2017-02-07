@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="signin"></string>
+
+    <string name="register"></string>
+
+    <string name="check_student"></string>
+
+
+</resources>

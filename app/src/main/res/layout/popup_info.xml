@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:background="@android:color/transparent">
+
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/White"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/relativeLayout8"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp">
+
+        <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true">
+            <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:id="@+id/closeLayout"
+                    >
+                <ImageButton
+                        android:layout_width="40dp"
+                        android:layout_height="match_parent"
+                        android:id="@+id/btnClose"
+                        android:layout_gravity="center_horizontal|right"
+                        android:background="@android:color/transparent"
+                        android:src="@drawable/close"/>
+            </LinearLayout>
+            <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:id="@+id/challengerLayout" >
+                <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:text="Hint"
+                        android:id="@+id/txtTitle"
+                        android:gravity="center|center_vertical"
+                        android:textStyle="bold"
+                        android:textColor="@color/Black"
+                        android:textSize="16sp"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:id="@+id/gridLayout"
+                    android:layout_marginTop="10dp">
+
+                <TextView android:id="@+id/infoText"
+                          android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:textColor="@color/Gray"
+                          android:textSize="12sp"
+                          android:layout_gravity="start"
+                          android:background="@color/White"
+                          android:layout_marginLeft="10dp"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </RelativeLayout>
+
+
+</RelativeLayout>

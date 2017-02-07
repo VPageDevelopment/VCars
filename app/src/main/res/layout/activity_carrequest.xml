@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    app:theme="@style/AppTheme.NoActionBar"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:theme="@style/AppTheme.AppBarOverlay"
+        android:id="@+id/appBarLayout">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay"
+            app:titleTextAppearance="@style/Toolbar.TitleText" />
+
+    </android.support.design.widget.AppBarLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="?attr/actionBarSize">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="Car Details"
+            android:id="@+id/carDetailsText"
+            android:gravity="center"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="CarProductionYear "
+            android:id="@+id/carProductionYear"
+            android:layout_below="@+id/carDetailsText"
+            android:gravity="left"/>
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:id="@+id/carLocalityLayout"
+            android:layout_below="@+id/carProductionYear">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:text="Locality "
+                android:id="@+id/carLocality"
+                android:gravity="left"/>
+
+            <RadioGroup
+                android:id="@+id/radioLocality"
+                android:orientation="horizontal"
+                android:layout_toRightOf="@id/carLocality"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                >
+                <RadioButton
+                    android:id="@+id/radioLocal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Local"
+                    />
+                <RadioButton
+                    android:id="@+id/radioOutStation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Out Station"
+                    />
+
+            </RadioGroup>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:visibility="gone"
+                android:layout_below="@id/carLocality"
+                android:id="@+id/outStationLayout">
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text"
+                    android:id="@+id/outStation"
+                    android:hint="Out Station"/>
+            </android.support.design.widget.TextInputLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:visibility="gone"
+                android:layout_below="@id/carLocality"
+                android:text="Local "
+                android:id="@+id/localStation"
+                android:gravity="left"
+                android:layout_centerVertical="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+
+
+        </RelativeLayout>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@color/common_button_color"
+            android:text="Car Request Day "
+            android:id="@+id/carRequestDay"
+            android:layout_below="@+id/carLocalityLayout"
+            android:layout_centerHorizontal="true"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="Request Date "
+            android:id="@+id/carRequestDate"
+            android:layout_below="@+id/carRequestDay"
+            android:gravity="left"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="Negotiation Amount "
+            android:id="@+id/carNegotiationAmount"
+            android:layout_below="@+id/carRequestDate"
+            android:gravity="left"/>
+
+
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:gravity="left"
+            android:id="@+id/negotiationAmountLayout"
+            android:layout_below="@+id/carNegotiationAmount" >
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:imeOptions="actionGo"
+                android:id="@+id/customerNegotiationAmount"
+                android:hint="Customer Negotiation Amount "/>
+        </android.support.design.widget.TextInputLayout>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/common_button_color"
+            android:text="REQUEST"
+            android:id="@+id/buttonRequest"
+            android:layout_below="@+id/negotiationAmountLayout"
+            android:layout_centerHorizontal="true"/>
+
+
+
+    </RelativeLayout>
+
+</RelativeLayout>
