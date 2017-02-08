@@ -230,7 +230,7 @@ public class SigninActivity extends Activity implements View.OnKeyListener, View
     public void getCurrentLocation() {
         try {
         } catch (Exception e) {
-            Log.e(TAG, e.getMessage());
+            if (LogFlag.bLogOn)Log.e(TAG, e.getMessage());
         }
     }
 
@@ -297,9 +297,9 @@ public class SigninActivity extends Activity implements View.OnKeyListener, View
                 @Override
                 public void onSuccess(final LoginResult loginResult) {
                     // App code
-                    Log.d(TAG, "Facebook login Success");
+                    if (LogFlag.bLogOn)Log.d(TAG, "Facebook login Success");
                     if (null != loginResult.getAccessToken().getToken()) {
-                        Log.d(TAG, loginResult.getAccessToken().getToken());
+                        if (LogFlag.bLogOn)Log.d(TAG, loginResult.getAccessToken().getToken());
                     }
                     GraphRequest request = GraphRequest.newMeRequest(
                             loginResult.getAccessToken(),
@@ -308,17 +308,17 @@ public class SigninActivity extends Activity implements View.OnKeyListener, View
                                 public void onCompleted(JSONObject object, GraphResponse response) {
                                     // Application code
                                     if ((response != null) && (response.getJSONObject() != null)) {
-                                        Log.d(TAG, response.toString());
+                                        if (LogFlag.bLogOn)Log.d(TAG, response.toString());
                                         String profileImg = "https://graph.facebook.com/" + loginResult.getAccessToken().getUserId() + "/picture?type=large&width=50";
-                                        Log.d(TAG, "Facebook profileImg -->" + profileImg);
+                                        if (LogFlag.bLogOn)Log.d(TAG, "Facebook profileImg -->" + profileImg);
                                         JSONObject fbObject = response.getJSONObject();
-                                        Log.d(TAG, "Facebook -->" + fbObject.toString());
+                                        if (LogFlag.bLogOn)Log.d(TAG, "Facebook -->" + fbObject.toString());
                                         facebookUserprofile = VCarRestTools.getInstance().getFacebookUserProfile(fbObject.toString());
                                         facebookUserprofile.setFacebookImage(profileImg);
                                         facebookUserExists();
                                     } else {
                                         loaderGif.setVisibility(View.GONE);
-                                        Log.e(TAG, "Facebook Error -->" + response.getError());
+                                        if (LogFlag.bLogOn)Log.e(TAG, "Facebook Error -->" + response.getError());
                                         VTools.showToast("Network Error");
                                     }
                                 }
@@ -332,14 +332,14 @@ public class SigninActivity extends Activity implements View.OnKeyListener, View
                 @Override
                 public void onCancel() {
                     loaderGif.setVisibility(View.GONE);
-                    Log.d(TAG, "Facebook login cancelled");
+                    if (LogFlag.bLogOn)Log.d(TAG, "Facebook login cancelled");
                 }
 
                 @Override
                 public void onError(FacebookException exception) {
                     loaderGif.setVisibility(View.GONE);
                     VTools.getInstance().showToast(exception.toString());
-                    Log.d(TAG, "Facebook login error");
+                    if (LogFlag.bLogOn)Log.e(TAG, "Facebook login error");
                 }
             });
 
@@ -369,17 +369,17 @@ public class SigninActivity extends Activity implements View.OnKeyListener, View
                     // App code
                     facebookProfile = currentProfile;
                     if (facebookProfile != null) {
-                        Log.d(TAG, "FB profile tracker");
-                        Log.d(TAG, facebookProfile.getId());
-                        Log.d(TAG, facebookProfile.getFirstName());
-                        Log.d(TAG, facebookProfile.getLastName());
-                        Log.d(TAG, "FB profile: "+facebookProfile.toString());
+                        if (LogFlag.bLogOn)Log.d(TAG, "FB profile tracker");
+                        if (LogFlag.bLogOn)Log.d(TAG, facebookProfile.getId());
+                        if (LogFlag.bLogOn)Log.d(TAG, facebookProfile.getFirstName());
+                        if (LogFlag.bLogOn)Log.d(TAG, facebookProfile.getLastName());
+                        if (LogFlag.bLogOn)Log.d(TAG, "FB profile: "+facebookProfile.toString());
                     }
 
                 }
             };
         } catch (Exception e) {
-            Log.d(TAG, e.getMessage());
+            if (LogFlag.bLogOn)Log.e(TAG, e.getMessage());
         }
     }
 
@@ -393,13 +393,13 @@ public class SigninActivity extends Activity implements View.OnKeyListener, View
             {
                 MessageDigest md = MessageDigest.getInstance("SHA");
                 md.update(signature.toByteArray());
-                Log.d(TAG,"KeyHash: "+Base64.encodeToString(md.digest(), Base64.DEFAULT));
+                if (LogFlag.bLogOn)Log.d(TAG,"KeyHash: "+Base64.encodeToString(md.digest(), Base64.DEFAULT));
             }
 
         } catch (NoSuchAlgorithmException e) {
-            Log.d(TAG, e.getMessage());
+            if (LogFlag.bLogOn)Log.e(TAG, e.getMessage());
         } catch (PackageManager.NameNotFoundException e) {
-            Log.d(TAG, e.getMessage());
+            if (LogFlag.bLogOn)Log.e(TAG, e.getMessage());
         }
 
     }
@@ -519,7 +519,7 @@ public class SigninActivity extends Activity implements View.OnKeyListener, View
 
     @Click(R.id.fbLoginButton)
     public void fbLoginClick(View v) {
-        Log.d(TAG, "FB Sign in clicked");
+        if (LogFlag.bLogOn)Log.d(TAG, "FB Sign in clicked");
         // To do FB Login
     }
 
@@ -546,7 +546,7 @@ public class SigninActivity extends Activity implements View.OnKeyListener, View
     }
 
     private void goGoogleLogin() {
-        Log.d(TAG, "Google Sign in clicked");
+        if (LogFlag.bLogOn)Log.d(TAG, "Google Sign in clicked");
 
         // To do Google Login
         mShouldResolve = true;
@@ -575,7 +575,7 @@ public class SigninActivity extends Activity implements View.OnKeyListener, View
         try {
             loaderGifinPopUp.setVisibility(View.GONE);
         } catch (Exception e) {
-            Log.e(TAG, "Error while stopping loader", e);
+            if (LogFlag.bLogOn)Log.e(TAG, "Error while stopping loader", e);
         }
     }
 
@@ -591,17 +591,17 @@ public class SigninActivity extends Activity implements View.OnKeyListener, View
     }
 
     void setSignInRequestData() {
-        Log.d(TAG, "setSignInRequestData");
+        if (LogFlag.bLogOn)Log.d(TAG, "setSignInRequestData");
 
         String uuid = Settings.Secure.getString(this.getContentResolver(), Settings.Secure.ANDROID_ID);
 
-        Log.d(TAG, "uuid: " + uuid);
+        if (LogFlag.bLogOn)Log.d(TAG, "uuid: " + uuid);
 
         String encryptedPassword = null;
         try {
             encryptedPassword = CommonUtils.getMD5EncodedString(passWordInput);
         } catch (NoSuchAlgorithmException e) {
-            Log.e(TAG, "", e);
+            if (LogFlag.bLogOn)Log.e(TAG, e.getMessage());
         }
         Log.d(TAG, "encryptedPassword: " + encryptedPassword);
 
@@ -617,12 +617,12 @@ public class SigninActivity extends Activity implements View.OnKeyListener, View
     }
 
     public DeviceInfoData getDeviceInfo() {
-        Log.d(TAG, "getDeviceInfo");
+        if (LogFlag.bLogOn)Log.d(TAG, "getDeviceInfo");
         PackageInfo pInfo = null;
         try {
             pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
         } catch (PackageManager.NameNotFoundException e) {
-            Log.e(TAG, e.getMessage());
+            if (LogFlag.bLogOn)Log.e(TAG, e.getMessage());
         }
 
 
@@ -634,11 +634,11 @@ public class SigninActivity extends Activity implements View.OnKeyListener, View
         String OSVersion = Build.VERSION.SDK;
 
 
-        Log.d(TAG, "version: " + version);
+        if (LogFlag.bLogOn)Log.d(TAG, "version: " + version);
         String sLocation = VPreferences.get("CurrentLocation");
         vLocation = VTools.getInstance().getLocationData(sLocation);
         if (vLocation != null) {
-            Log.d(TAG, vLocation.toString());
+            if (LogFlag.bLogOn)Log.d(TAG, vLocation.toString());
             deviceInfoData.setLatitude(Double.toString(vLocation.getLatitude()));
             deviceInfoData.setLongitude(Double.toString(vLocation.getLongitude()));
         }
@@ -654,9 +654,9 @@ public class SigninActivity extends Activity implements View.OnKeyListener, View
     @UiThread
     public void logInProcessFinish() {
         try {
-            Log.d(TAG, "logInProcessFinish");
+            if (LogFlag.bLogOn)Log.d(TAG, "logInProcessFinish");
             if (null != signInResponse) {
-                Log.d(TAG, signInResponse.toString());
+                if (LogFlag.bLogOn)Log.d(TAG, signInResponse.toString());
             }
             if (null == signInResponse) {
                 loginPopUp.dismiss();
@@ -666,17 +666,17 @@ public class SigninActivity extends Activity implements View.OnKeyListener, View
                 return;
             }
             if (signInResponse.isSuccess()) {
-                Log.d(TAG, "Login Success");
+                if (LogFlag.bLogOn)Log.d(TAG, "Login Success");
 
                 goToLanding();
 
             } else {
                 stopLoader();
-                Log.d(TAG, "error " + signInResponse.getError());
+                if (LogFlag.bLogOn)Log.d(TAG, "error " + signInResponse.getError());
                 setErrorMessage(signInResponse.getError());
             }
         } catch (Exception e) {
-            Log.e(TAG, "Error loginFinish", e);
+            if (LogFlag.bLogOn)Log.e(TAG, "Error loginFinish", e);
 
         }
 
@@ -686,8 +686,8 @@ public class SigninActivity extends Activity implements View.OnKeyListener, View
         try {
             boolean isAppInstalled = VPreferences.getAppInstallStatus("isInstalled");
 
-            Log.d(TAG, "goToLanding");
-            Log.d(TAG, signInResponse.toString());
+            if (LogFlag.bLogOn)Log.d(TAG, "goToLanding");
+            if (LogFlag.bLogOn)Log.d(TAG, signInResponse.toString());
             gson = new GsonBuilder().create();
             // Keep the login
             VPreferences.save("userdata", gson.toJson(VTools.getInstance().getActiveUser(signInResponse)));
@@ -703,7 +703,7 @@ public class SigninActivity extends Activity implements View.OnKeyListener, View
             SigninActivity.this.finish();
             startActivity(intent);
         } catch (Exception e) {
-            Log.e(TAG,  e.getMessage());
+            if (LogFlag.bLogOn)Log.e(TAG,  e.getMessage());
         }
     }
 
@@ -799,7 +799,7 @@ public class SigninActivity extends Activity implements View.OnKeyListener, View
                     break;
 
                 case R.id.userPhoneNumberTxt:
-                    Log.d(TAG, " userPhoneNumber GO Clicked :");
+                    if (LogFlag.bLogOn)Log.d(TAG, " userPhoneNumber GO Clicked :");
                     userPhoneNumberInput = userPhoneNumberTxt.getText().toString();
 
                     validationStatus = ValidationUtils.isValidUserPhoneNumber(userPhoneNumberInput);
@@ -942,7 +942,7 @@ public class SigninActivity extends Activity implements View.OnKeyListener, View
                 break;
 
             case R.id.btnOTPGenerate:
-                Log.d(TAG, " btnOTPGenerate Clicked :");
+                if (LogFlag.bLogOn)Log.d(TAG, " btnOTPGenerate Clicked :");
 
                 btnOTPGenerate.setEnabled(false);
 
@@ -1029,7 +1029,7 @@ public class SigninActivity extends Activity implements View.OnKeyListener, View
 
 
     public void googleSignInSuccess() {
-        Log.d(TAG, "googleSignInSuccess");
+        if (LogFlag.bLogOn)Log.d(TAG, "googleSignInSuccess");
         if (mGoogleApiClient.isConnected()) {
             currentPerson = Plus.PeopleApi.getCurrentPerson(mGoogleApiClient);
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.GET_ACCOUNTS) != PackageManager.PERMISSION_GRANTED) {
@@ -1041,7 +1041,7 @@ public class SigninActivity extends Activity implements View.OnKeyListener, View
                 googleUserExists();
             } else {
                 loaderGif.setVisibility(View.GONE);
-                Log.d(TAG, "google signin error");
+                if (LogFlag.bLogOn)Log.d(TAG, "google signin error");
                 mGoogleApiClient.disconnect();
             }
         }else{
@@ -1053,12 +1053,12 @@ public class SigninActivity extends Activity implements View.OnKeyListener, View
 
     @Background
     public void googleUserExists() {
-        Log.d(TAG, "googleUserExists");
+        if (LogFlag.bLogOn)Log.d(TAG, "googleUserExists");
         setCheckGoogleUserRequestData();
         VCarRestClient vCarRestClient = new VCarRestClient();
         checkUserResponse = vCarRestClient.checkStudent(checkUserRequest);
         if (checkUserResponse != null) {
-            Log.d(TAG, checkUserResponse.toString());
+            if (LogFlag.bLogOn)Log.d(TAG, checkUserResponse.toString());
             checkGoogleStudentProcessFinish();
         }
 
@@ -1067,14 +1067,14 @@ public class SigninActivity extends Activity implements View.OnKeyListener, View
 
     @Background
     public void vcarUserExists() {
-        Log.d(TAG, "vcarUserExists");
+        if (LogFlag.bLogOn)Log.d(TAG, "vcarUserExists");
 
         setCheckVCarUserRequestData();
 
         VCarRestClient vCarRestClient = new VCarRestClient();
         checkUserResponse = vCarRestClient.checkStudent(checkUserRequest);
         if(checkUserResponse != null) {
-            Log.d(TAG, checkUserResponse.toString());
+            if (LogFlag.bLogOn)Log.d(TAG, checkUserResponse.toString());
             checkVCarUserProcessFinish();
         }
 
@@ -1083,17 +1083,17 @@ public class SigninActivity extends Activity implements View.OnKeyListener, View
 
     @UiThread
     public void checkVCarUserProcessFinish() {
-        Log.d(TAG, "checkVCarUserProcessFinish");
-        Log.d(TAG, checkUserResponse.toString());
+        if (LogFlag.bLogOn)Log.d(TAG, "checkVCarUserProcessFinish");
+        if (LogFlag.bLogOn)Log.d(TAG, checkUserResponse.toString());
         if (checkUserResponse.getExists().equalsIgnoreCase("false")) {
             // register
-            Log.d(TAG, " user not found. need to register");
+            if (LogFlag.bLogOn)Log.d(TAG, " user not found. need to register");
             goToSignUpPage();
 
         } else {
             // TODO Login
-            Log.d(TAG, " user  found. show error");
-            Log.d(TAG, checkUserResponse.getError());
+            if (LogFlag.bLogOn)Log.d(TAG, " user  found. show error");
+            if (LogFlag.bLogOn)Log.d(TAG, checkUserResponse.getError());
             //setErrorMessage("Phone no has already been registered");
 
             vCarLogin();
@@ -1104,7 +1104,7 @@ public class SigninActivity extends Activity implements View.OnKeyListener, View
 
 
     public void setCheckVCarUserRequestData() {
-        Log.d(TAG, "setCheckVCarUserRequestData");
+        if (LogFlag.bLogOn)Log.d(TAG, "setCheckVCarUserRequestData");
         String uuid = Settings.Secure.getString(this.getContentResolver(), Settings.Secure.ANDROID_ID);
         checkUserRequest = new CheckUserRequest();
         checkUserRequest.setStudentid(userPhoneNumberInput);
@@ -1112,27 +1112,27 @@ public class SigninActivity extends Activity implements View.OnKeyListener, View
         checkUserRequest.setDevicePlatformName("Android");
         checkUserRequest.setLoginType(LoginType.VCars.name());
         checkUserRequest.setDeviceToken(VPreferences.get("gcmToken"));
-        Log.d(TAG, checkUserRequest.toString());
+        if (LogFlag.bLogOn)Log.d(TAG, checkUserRequest.toString());
     }
 
 
     @Background
     public void facebookUserExists() {
         try {
-            Log.d(TAG, "facebookUserExists");
+            if (LogFlag.bLogOn)Log.d(TAG, "facebookUserExists");
 
             setCheckFacebookUserRequestData();
 
             VCarRestClient oustRestClient = new VCarRestClient();
             checkUserResponse = oustRestClient.checkStudent(checkUserRequest);
             if (checkUserResponse != null) {
-                Log.d(TAG, checkUserResponse.toString());
+                if (LogFlag.bLogOn)Log.d(TAG, checkUserResponse.toString());
                 checkFacebookStudentProcessFinish();
             } else {
                 hideLoderGifImage();
             }
         }catch (Exception e){
-            Log.e(TAG,"Error facebookUserExists",e);
+            if (LogFlag.bLogOn)Log.e(TAG,"Error facebookUserExists",e);
         }
     }
 
@@ -1145,8 +1145,8 @@ public class SigninActivity extends Activity implements View.OnKeyListener, View
 
     @UiThread
     public void checkGoogleStudentProcessFinish() {
-        Log.d(TAG, "checkGoogleStudentProcessFinish");
-        Log.d(TAG, checkUserResponse.toString());
+        if (LogFlag.bLogOn)Log.d(TAG, "checkGoogleStudentProcessFinish");
+        if (LogFlag.bLogOn)Log.d(TAG, checkUserResponse.toString());
         if (checkUserResponse.getExists().equalsIgnoreCase("false")) {
             // register
             Log.d(TAG, "Google user not found. need to register");
@@ -1154,7 +1154,7 @@ public class SigninActivity extends Activity implements View.OnKeyListener, View
 
         } else {
             // TODO Login
-            Log.d(TAG, "Google user  found. login now");
+            if (LogFlag.bLogOn)Log.d(TAG, "Google user  found. login now");
             vcarGoogleLogin();
 
         }
@@ -1164,8 +1164,8 @@ public class SigninActivity extends Activity implements View.OnKeyListener, View
 
     @UiThread
     public void checkFacebookStudentProcessFinish() {
-        Log.d(TAG, "checkFacebookStudentProcessFinish");
-        Log.d(TAG, checkUserResponse.toString());
+        if (LogFlag.bLogOn)Log.d(TAG, "checkFacebookStudentProcessFinish");
+        if (LogFlag.bLogOn)Log.d(TAG, checkUserResponse.toString());
 
         if (checkUserResponse.getExists().equalsIgnoreCase("false")) {
             // register
@@ -1174,7 +1174,7 @@ public class SigninActivity extends Activity implements View.OnKeyListener, View
 
         } else {
             // TODO Login
-            Log.d(TAG, "Facebook user  found. login now");
+            if (LogFlag.bLogOn)Log.d(TAG, "Facebook user  found. login now");
             //vcarFacebookLogin(checkUserResponse.getUserId());
             vcarFacebookLogin();
 
@@ -1184,7 +1184,7 @@ public class SigninActivity extends Activity implements View.OnKeyListener, View
 
     @UiThread
     void vcarGoogleLogin() {
-        Log.d(TAG, "vcarGoogleLogin");
+        if (LogFlag.bLogOn)Log.d(TAG, "vcarGoogleLogin");
         setGoogleSignInRequestData();
         googleLogInProcessFinish();
 
@@ -1193,16 +1193,16 @@ public class SigninActivity extends Activity implements View.OnKeyListener, View
 
     @UiThread
     void vcarFacebookLogin() {
-        Log.d(TAG, "vcarFacebookLogin");
+        if (LogFlag.bLogOn)Log.d(TAG, "vcarFacebookLogin");
         facebookLogInProcessFinish();
     }
 
     void setGoogleSignInRequestData() {
 
-        Log.d(TAG, "setGoogleSignInRequestData");
+        if (LogFlag.bLogOn)Log.d(TAG, "setGoogleSignInRequestData");
         String uuid = Settings.Secure.getString(this.getContentResolver(), Settings.Secure.ANDROID_ID);
 
-        Log.d(TAG, "uuid: " + uuid);
+        if (LogFlag.bLogOn)Log.d(TAG, "uuid: " + uuid);
 
         signInResponse = new SignInResponse();
         signInResponse.setDevicePlatformName("Android");
@@ -1230,10 +1230,10 @@ public class SigninActivity extends Activity implements View.OnKeyListener, View
 
     void setFacebookSignInRequestData() {
 
-        Log.d(TAG, "setFacebookSignInRequestData");
+        if (LogFlag.bLogOn)Log.d(TAG, "setFacebookSignInRequestData");
         String uuid = Settings.Secure.getString(this.getContentResolver(), Settings.Secure.ANDROID_ID);
 
-        Log.d(TAG, "uuid: " + uuid);
+        if (LogFlag.bLogOn)Log.d(TAG, "uuid: " + uuid);
 
         signInResponse = new SignInResponse();
         signInResponse.setDevicePlatformName("Android");
@@ -1260,13 +1260,13 @@ public class SigninActivity extends Activity implements View.OnKeyListener, View
 
     @UiThread
     public void googleLogInProcessFinish() {
-        Log.d(TAG, "googleLogInProcessFinish");
+        if (LogFlag.bLogOn)Log.d(TAG, "googleLogInProcessFinish");
         if (null != signInResponse) {
-            Log.d(TAG, signInResponse.toString());
+            if (LogFlag.bLogOn)Log.d(TAG, signInResponse.toString());
         }
 
 
-        Log.d(TAG, "Login Success");
+        if (LogFlag.bLogOn)Log.d(TAG, "Login Success");
 
         goToLanding();
 
@@ -1274,13 +1274,13 @@ public class SigninActivity extends Activity implements View.OnKeyListener, View
 
     @UiThread
     public void facebookLogInProcessFinish() {
-        Log.d(TAG, "facebookLogInProcessFinish");
+        if (LogFlag.bLogOn)Log.d(TAG, "facebookLogInProcessFinish");
     /*    if(null != signInResponse) {
-            Log.d(TAG,signInResponse.toString());
+            if (LogFlag.bLogOn)Log.d(TAG,signInResponse.toString());
         }*/
         setFacebookSignInRequestData();
         //if (signInResponse.isSuccess()) {
-        Log.d(TAG, "Facebook Login Success");
+        if (LogFlag.bLogOn)Log.d(TAG, "Facebook Login Success");
 
 
          goToLanding();
@@ -1292,7 +1292,7 @@ public class SigninActivity extends Activity implements View.OnKeyListener, View
 
     @Background
     void googleSocialRegister() {
-        Log.d(TAG, "googleSocialRegister");
+        if (LogFlag.bLogOn)Log.d(TAG, "googleSocialRegister");
         setGoogleRegisterRequestData();
 
         VCarRestClient oustRestClient = new VCarRestClient();
@@ -1303,7 +1303,7 @@ public class SigninActivity extends Activity implements View.OnKeyListener, View
         if (null != signupResponse) {
             // TODO check signinResponse is null or not
             VPreferences.save("referCode",signupResponse.getReferralCode());
-            Log.d(TAG, "signupResponse: " + signupResponse.toString());
+            if (LogFlag.bLogOn)Log.d(TAG, "signupResponse: " + signupResponse.toString());
             signupProcessFinish(signupResponse,LoginType.GoogleApp);
 
         } else {
@@ -1315,23 +1315,23 @@ public class SigninActivity extends Activity implements View.OnKeyListener, View
     }
 
     void setGoogleRegisterRequestData() {
-        Log.d(TAG, "setGoogleRegisterRequestData");
+        if (LogFlag.bLogOn)Log.d(TAG, "setGoogleRegisterRequestData");
         PackageInfo pInfo = null;
         try {
             pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
         } catch (PackageManager.NameNotFoundException e) {
-            Log.d(TAG, e.getMessage(), e);
+            if (LogFlag.bLogOn)Log.e(TAG, e.getMessage(), e);
         }
         String version = pInfo.versionName;
         String uuid = Settings.Secure.getString(this.getContentResolver(), Settings.Secure.ANDROID_ID);
 
-        Log.d(TAG, "version: " + version);
-        Log.d(TAG, "uuid: " + uuid);
+        if (LogFlag.bLogOn)Log.d(TAG, "version: " + version);
+        if (LogFlag.bLogOn)Log.d(TAG, "uuid: " + uuid);
 
 
 
         String encryptedPassword = "";
-        Log.d(TAG, "encryptedPassword: " + encryptedPassword);
+        if (LogFlag.bLogOn)Log.d(TAG, "encryptedPassword: " + encryptedPassword);
         registerRequest = new SignupRequest();
         registerRequest.setUserId(currentPerson.getId());
         registerRequest.setDevicePlatformName("Android");
@@ -1356,18 +1356,18 @@ public class SigninActivity extends Activity implements View.OnKeyListener, View
         String sLocation = VPreferences.get("CurrentLocation");
         vLocation = VTools.getInstance().getLocationData(sLocation);
         if(vLocation !=null) {
-            Log.d(TAG, vLocation.toString());
+            if (LogFlag.bLogOn)Log.d(TAG, vLocation.toString());
             registerRequest.setState(vLocation.getState());
             registerRequest.setCity(vLocation.getLocation());
         }
 
-        Log.d(TAG, registerRequest.toString());
+        if (LogFlag.bLogOn)Log.d(TAG, registerRequest.toString());
     }
 
 
     @Background
     void facebookSocialRegister() {
-        Log.d(TAG, "facebookSocialRegister");
+        if (LogFlag.bLogOn)Log.d(TAG, "facebookSocialRegister");
         setFacebookRegisterRequestData();
 
         VCarRestClient vCarRestClient = new VCarRestClient();
@@ -1378,7 +1378,7 @@ public class SigninActivity extends Activity implements View.OnKeyListener, View
         // TODO check signinResponse is null or not
         if (null != signupResponse) {
             VPreferences.save("referCode",signupResponse.getReferralCode());
-            Log.d(TAG, "signupResponse: " + signupResponse.toString());
+            if (LogFlag.bLogOn)Log.d(TAG, "signupResponse: " + signupResponse.toString());
             signupProcessFinish(signupResponse,LoginType.FacebookApp);
         } else {
             hideLoderGifImage();
@@ -1394,23 +1394,23 @@ public class SigninActivity extends Activity implements View.OnKeyListener, View
 
 
     void setFacebookRegisterRequestData() {
-        Log.d(TAG, "setFacebookRegisterRequestData");
+        if (LogFlag.bLogOn)Log.d(TAG, "setFacebookRegisterRequestData");
         PackageInfo pInfo = null;
         String version = "";
         try {
             pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
             version = pInfo.versionName;
         } catch (PackageManager.NameNotFoundException e) {
-            Log.d(TAG, e.getMessage(), e);
+            if (LogFlag.bLogOn)Log.e(TAG, e.getMessage());
         }
 
         String uuid = Settings.Secure.getString(this.getContentResolver(), Settings.Secure.ANDROID_ID);
 
-        Log.d(TAG, "version: " + version);
-        Log.d(TAG, "uuid: " + uuid);
+        if (LogFlag.bLogOn)Log.d(TAG, "version: " + version);
+        if (LogFlag.bLogOn)Log.d(TAG, "uuid: " + uuid);
 
         String encryptedPassword = "";
-        Log.d(TAG, "encryptedPassword: " + encryptedPassword);
+        if (LogFlag.bLogOn)Log.d(TAG, "encryptedPassword: " + encryptedPassword);
         registerRequest = new SignupRequest();
         registerRequest.setUserId(facebookUserprofile.getToken_for_business());
         registerRequest.setDevicePlatformName("Android");
@@ -1434,18 +1434,18 @@ public class SigninActivity extends Activity implements View.OnKeyListener, View
         String sLocation = VPreferences.get("CurrentLocation");
         vLocation = VTools.getInstance().getLocationData(sLocation);
         if(vLocation !=null) {
-            Log.d(TAG, vLocation.toString());
+            if (LogFlag.bLogOn)Log.d(TAG, vLocation.toString());
             registerRequest.setState(vLocation.getState());
             registerRequest.setCity(vLocation.getLocation());
         }
 
-        Log.d(TAG ,"Facebook User-->"+ registerRequest.toString());
+        if (LogFlag.bLogOn)Log.d(TAG ,"Facebook User-->"+ registerRequest.toString());
     }
 
 
     @UiThread
     public void signupProcessFinish(SignupResponse registerResponse,LoginType loginType) {
-        Log.d(TAG, "signupProcessFinish: ");
+        if (LogFlag.bLogOn)Log.d(TAG, "signupProcessFinish: ");
         if (registerResponse.isSuccess()) {
             signInResponse = new SignInResponse();
             signInResponse.setAppleStore(registerResponse.getAppleStore());
@@ -1461,7 +1461,7 @@ public class SigninActivity extends Activity implements View.OnKeyListener, View
             signInResponse.setLoginType(loginType.toString());
 
 
-            Log.d(TAG, "signInResponse: " + signInResponse.toString());
+            if (LogFlag.bLogOn)Log.d(TAG, "signInResponse: " + signInResponse.toString());
 
             goToLanding();
         } else {
@@ -1473,7 +1473,7 @@ public class SigninActivity extends Activity implements View.OnKeyListener, View
 
 
     public void setCheckGoogleUserRequestData() {
-        Log.d(TAG, "setCheckGoogleUserRequestData");
+        if (LogFlag.bLogOn)Log.d(TAG, "setCheckGoogleUserRequestData");
         String uuid = Settings.Secure.getString(this.getContentResolver(), Settings.Secure.ANDROID_ID);
         checkUserRequest = new CheckUserRequest();
         checkUserRequest.setStudentid(currentPerson.getId());
@@ -1485,11 +1485,11 @@ public class SigninActivity extends Activity implements View.OnKeyListener, View
         checkUserRequest.setCountry(getOustCountryCode());
         checkUserRequest.setProfilePic(currentPerson.getImage().getUrl());
         checkUserRequest.setDeviceToken(VPreferences.get("gcmToken"));
-        Log.d(TAG, checkUserRequest.toString());
+        if (LogFlag.bLogOn)Log.d(TAG, checkUserRequest.toString());
     }
 
     public void setCheckFacebookUserRequestData() {
-        Log.d(TAG, "setCheckFacebookUserRequestData");
+        if (LogFlag.bLogOn)Log.d(TAG, "setCheckFacebookUserRequestData");
         String uuid = Settings.Secure.getString(this.getContentResolver(), Settings.Secure.ANDROID_ID);
         checkUserRequest = new CheckUserRequest();
         checkUserRequest.setStudentid(facebookUserprofile.getToken_for_business());
@@ -1501,14 +1501,14 @@ public class SigninActivity extends Activity implements View.OnKeyListener, View
         checkUserRequest.setFbTokenId(facebookUserprofile.getToken_for_business());
         checkUserRequest.setDeviceToken(VPreferences.get("gcmToken"));
         checkUserRequest.setProfilePic(facebookUserprofile.getFacebookImage());
-        Log.d(TAG, checkUserRequest.toString());
+        if (LogFlag.bLogOn)Log.d(TAG, checkUserRequest.toString());
     }
 
 
     @Override
     public void onConnected(Bundle bundle) {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.GET_ACCOUNTS) == PackageManager.PERMISSION_GRANTED) {
-            Log.d(TAG, "Signed in with google");
+            if (LogFlag.bLogOn)Log.d(TAG, "Signed in with google");
             googleSignInSuccess();
         } else {
             VTools.showToast("Unable to access Google account. Please change app setting to grant the permission");
@@ -1523,7 +1523,7 @@ public class SigninActivity extends Activity implements View.OnKeyListener, View
 
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
-        Log.d(TAG, connectionResult.toString());
+        if (LogFlag.bLogOn)Log.d(TAG, connectionResult.toString());
         if (!mIsResolving && mShouldResolve) {
             if (connectionResult.hasResolution()) {
                 try {
@@ -1531,7 +1531,7 @@ public class SigninActivity extends Activity implements View.OnKeyListener, View
                     connectionResult.startResolutionForResult(this, RC_SIGN_IN);
                     mIsResolving = true;
                 } catch (IntentSender.SendIntentException e) {
-                    Log.d(TAG, "Could not resolve ConnectionResult.", e);
+                    if (LogFlag.bLogOn)Log.e(TAG, "Could not resolve ConnectionResult.", e);
                     mIsResolving = false;
                     mGoogleApiClient.connect();
                 }
@@ -1543,7 +1543,7 @@ public class SigninActivity extends Activity implements View.OnKeyListener, View
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.d(TAG, "onActivityResult:" + requestCode + ":" + resultCode + ":" + data);
+        if (LogFlag.bLogOn)Log.d(TAG, "onActivityResult:" + requestCode + ":" + resultCode + ":" + data);
 
         callbackManager.onActivityResult(requestCode, resultCode, data);
 
@@ -1562,38 +1562,37 @@ public class SigninActivity extends Activity implements View.OnKeyListener, View
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults) {
         try {
-            Log.d(TAG, "onRequestPermissionsResult:" + requestCode);
+            if (LogFlag.bLogOn)Log.d(TAG, "onRequestPermissionsResult:" + requestCode);
             if (requestCode == RC_PERM_GET_ACCOUNTS) {
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     googleSignInSuccess();
                 } else {
-                    Log.d(TAG, "GET_ACCOUNTS Permission Denied.");
+                    if (LogFlag.bLogOn)Log.d(TAG, "GET_ACCOUNTS Permission Denied.");
                 }
             } else if (requestCode == RC_PERM_GET_LOCATION) {
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     getCountryCodetxt();
                     getBestLocation();
                 } else {
-                    Log.d(TAG, "GET_LOCATION Permission Denied.");
+                    if (LogFlag.bLogOn)Log.d(TAG, "GET_LOCATION Permission Denied.");
                 }
             }
         }catch (Exception e){
-            Log.e(TAG,"Error onRequestPermissionsResult",e);
+            if (LogFlag.bLogOn)Log.e(TAG,"Error onRequestPermissionsResult",e);
         }
     }
 
     @Override
     public void onChange(String status) {
-        Log.d(TAG, "Network Availability");
-        Log.d(TAG, status);
+        if (LogFlag.bLogOn)Log.d(TAG, "Network Availability");
+        if (LogFlag.bLogOn)Log.d(TAG, status);
 
     }
 
     public void networkStatus() {
         String status = NetworkUtil.getConnectivityStatusString(this);
-        if (LogFlag.bLogOn) Log.d("test", status + "");
-        Log.d(TAG, "Network Availability");
-        Log.d(TAG, status);
+        if (LogFlag.bLogOn)Log.d(TAG, "Network Availability");
+        if (LogFlag.bLogOn)Log.d(TAG, status);
 
 
         switch (status) {
@@ -1629,16 +1628,16 @@ public class SigninActivity extends Activity implements View.OnKeyListener, View
                     if (location != null) {
                         String LAC = Integer.toString(location.getLac());
                         String CID = Integer.toString(location.getCid());
-                        Log.d(TAG, "GsmCellLocation " + LAC);
-                        Log.d(TAG, "GsmCellLocation " + CID);
+                        if (LogFlag.bLogOn)Log.d(TAG, "GsmCellLocation " + LAC);
+                        if (LogFlag.bLogOn)Log.d(TAG, "GsmCellLocation " + CID);
                     }
                 }
                 countryCode = teleMgr.getSimCountryIso();
             }
             VPreferences.save("countryCode", countryCode);
-            Log.d(TAG, "Country : " + countryCode);
+            if (LogFlag.bLogOn)Log.d(TAG, "Country : " + countryCode);
         } catch (Exception e) {
-            Log.e(TAG,"Error in getting countryCode",e);
+            if (LogFlag.bLogOn)Log.e(TAG,"Error in getting countryCode",e);
         }
     }
 
@@ -1665,7 +1664,7 @@ public class SigninActivity extends Activity implements View.OnKeyListener, View
             List<Address> addresses = geocoder.getFromLocation(latitude, longitude, 1);
             if(addresses!=null) {
                 for (Address address : addresses) {
-                    Log.d(TAG, address.toString());
+                    if (LogFlag.bLogOn)Log.d(TAG, address.toString());
                     vLocation.setLocation(address.getLocality());
                     vLocation.setLatitude(latitude);
                     vLocation.setLongitude(longitude);
@@ -1674,13 +1673,13 @@ public class SigninActivity extends Activity implements View.OnKeyListener, View
                     vLocation.setPostalCode(address.getPostalCode());
                     vLocation.setCountryCode(address.getCountryCode());
                     vLocation.setCountryName(address.getCountryName());
-                    Log.d(TAG, vLocation.toString());
+                    if (LogFlag.bLogOn)Log.d(TAG, vLocation.toString());
                     Gson gson = new GsonBuilder().create();
                     VPreferences.save("CurrentLocation", gson.toJson(vLocation));
                 }
             }
         }catch (Exception e){
-            Log.e(TAG,"Error while getting user location",e);
+            if (LogFlag.bLogOn)Log.e(TAG,"Error while getting user location",e);
         }
     }
     /**
@@ -1696,7 +1695,7 @@ public class SigninActivity extends Activity implements View.OnKeyListener, View
                 }
             }
         } catch (IllegalArgumentException e) {
-            Log.e(TAG, "Cannot access Provider " + provider,e);
+            if (LogFlag.bLogOn)Log.e(TAG, "Cannot access Provider " + provider,e);
         }
         return location;
     }

@@ -149,7 +149,7 @@ public class SignupActivity extends AppCompatActivity implements   View.OnKeyLis
 
         } else {
 
-            Log.d(TAG, String.valueOf(VTools.getChosenAvatar()));
+            if (LogFlag.bLogOn)Log.d(TAG, String.valueOf(VTools.getChosenAvatar()));
             for (int i = 0; i < typedArrayImage.length(); i++) {
                 if (LogFlag.bLogOn)
                     Log.d(TAG, "typedArrayImage: " + typedArrayImage.getString(i).replace("res/drawable/", ""));
@@ -168,7 +168,7 @@ public class SignupActivity extends AppCompatActivity implements   View.OnKeyLis
         // get phone number
         TelephonyManager tMgr = (TelephonyManager)getApplicationContext().getSystemService(getApplicationContext().TELEPHONY_SERVICE);
         String mPhoneNumber = tMgr.getLine1Number();
-        Log.d(TAG, "Phone number : " + mPhoneNumber);
+        if (LogFlag.bLogOn)Log.d(TAG, "Phone number : " + mPhoneNumber);
         userPhoneNumber.setText(mPhoneNumber);
 
 
@@ -284,10 +284,10 @@ public class SignupActivity extends AppCompatActivity implements   View.OnKeyLis
                 gridImageAdapter.notifyDataSetChanged();
                 gridImageAdapter.setSelectedPosition(i);
 
-                Log.d(TAG, typedArrayImage.getString(i).replace("res/drawable/", ""));
+                if (LogFlag.bLogOn)Log.d(TAG, typedArrayImage.getString(i).replace("res/drawable/", ""));
 
                 VTools.setChosenAvatar(typedArrayImage.getString(i).replace("res/drawable/", ""));
-                Log.d(TAG, "getChosenAvatar: " + String.valueOf(VTools.getChosenAvatar()));
+                if (LogFlag.bLogOn)Log.d(TAG, "getChosenProfileImage: " + String.valueOf(VTools.getChosenAvatar()));
             }
         });
 
@@ -301,7 +301,7 @@ public class SignupActivity extends AppCompatActivity implements   View.OnKeyLis
             return;
         }
         hideKeyboard();
-           Log.d(TAG, "registerValidation");
+        if (LogFlag.bLogOn)Log.d(TAG, "registerValidation");
         ValidationStatus validationStatus,validationStatusPhoneNumber,validationStatusPassword,validationStatusUserName;
 
 
@@ -327,36 +327,36 @@ public class SignupActivity extends AppCompatActivity implements   View.OnKeyLis
 
 
         if (validationStatus.isStatus() == false) {
-            Log.d(TAG, validationStatus.getMessage());
+            if (LogFlag.bLogOn)Log.d(TAG, validationStatus.getMessage());
             setErrorMessage(validationStatus.getMessage());
             return;
         }
 
         if (validationStatusPhoneNumber.isStatus() == false) {
-            Log.d(TAG, validationStatusPhoneNumber.getMessage());
+            if (LogFlag.bLogOn)Log.d(TAG, validationStatusPhoneNumber.getMessage());
             setErrorMessage(validationStatusPhoneNumber.getMessage());
             return;
         }
 
         if (validationStatusPassword.isStatus() == false) {
-            Log.d(TAG, validationStatusPassword.getMessage());
+            if (LogFlag.bLogOn)Log.d(TAG, validationStatusPassword.getMessage());
             setErrorMessage(validationStatusPassword.getMessage());
             return;
         }
 
         if (validationStatusUserName.isStatus() == false) {
-            Log.d(TAG, validationStatusUserName.getMessage());
+            if (LogFlag.bLogOn)Log.d(TAG, validationStatusUserName.getMessage());
             setErrorMessage(validationStatusUserName.getMessage());
             return;
         }
 
         if (userPhoneNumber.equals("") || passWord.equals("") ||  displayName.equals("") || confirmPassWord.equals("") ) {
-            Log.d(TAG, String.valueOf(R.string.nullMessage));
+            if (LogFlag.bLogOn)Log.d(TAG, String.valueOf(R.string.nullMessage));
             setErrorMessage(String.valueOf(R.string.nullMessage));
             return;
         }
         if (!passWordInput.equals(conformPasswordInput)) {
-            Log.d(TAG,"Password no correct"+ String.valueOf(R.string.passwordMessage));
+            if (LogFlag.bLogOn)Log.d(TAG,"Password no correct"+ String.valueOf(R.string.passwordMessage));
             setErrorMessage(getResources().getString(R.string.passwordMessage));
             return;
         }
@@ -367,14 +367,14 @@ public class SignupActivity extends AppCompatActivity implements   View.OnKeyLis
 
     @Background
     public void isUserExists() {
-        Log.d(TAG, "isUserExists");
+        if (LogFlag.bLogOn)Log.d(TAG, "isUserExists");
 
         setCheckStudentRequestData();
 
         VCarRestClient vCarRestClient = new VCarRestClient();
         checkUserResponse = vCarRestClient.checkStudent(checkUserRequest);
         if(checkUserResponse != null) {
-            Log.d(TAG, checkUserResponse.toString());
+            if (LogFlag.bLogOn)Log.d(TAG, checkUserResponse.toString());
             checkStudentProcessFinish();
         }
 
@@ -383,17 +383,17 @@ public class SignupActivity extends AppCompatActivity implements   View.OnKeyLis
 
     @UiThread
     public void checkStudentProcessFinish() {
-        Log.d(TAG, "checkStudentProcessFinish");
-        Log.d(TAG, checkUserResponse.toString());
+        if (LogFlag.bLogOn)Log.d(TAG, "checkStudentProcessFinish");
+        if (LogFlag.bLogOn)Log.d(TAG, checkUserResponse.toString());
         if (checkUserResponse.getExists().equalsIgnoreCase("false")) {
             // register
-            Log.d(TAG, " user not found. need to register");
+            if (LogFlag.bLogOn)Log.d(TAG, " user not found. need to register");
             oustRegister();
 
         } else {
             // TODO Login
-            Log.d(TAG, " user  found. show error");
-            Log.d(TAG, checkUserResponse.getError());
+            if (LogFlag.bLogOn)Log.d(TAG, " user  found. show error");
+            if (LogFlag.bLogOn)Log.d(TAG, checkUserResponse.getError());
             setErrorMessage("Phone no has already been registered");
 
         }
@@ -402,7 +402,7 @@ public class SignupActivity extends AppCompatActivity implements   View.OnKeyLis
 
 
     public void setCheckStudentRequestData() {
-        Log.d(TAG, "setCheckStudentRequestData");
+        if (LogFlag.bLogOn)Log.d(TAG, "setCheckStudentRequestData");
         String uuid = Settings.Secure.getString(this.getContentResolver(), Settings.Secure.ANDROID_ID);
         checkUserRequest = new CheckUserRequest();
         checkUserRequest.setStudentid(userPhoneNumberInput);
@@ -410,7 +410,7 @@ public class SignupActivity extends AppCompatActivity implements   View.OnKeyLis
         checkUserRequest.setDevicePlatformName("Android");
         checkUserRequest.setLoginType("VCars");
         checkUserRequest.setDeviceToken(VPreferences.get("gcmToken"));
-        Log.d(TAG, checkUserRequest.toString());
+        if (LogFlag.bLogOn)Log.d(TAG, checkUserRequest.toString());
     }
 
 
@@ -427,33 +427,33 @@ public class SignupActivity extends AppCompatActivity implements   View.OnKeyLis
         SignupResponse signupResponse = vCarRestClient.signup();
 
         if(null !=signupResponse ){
-            Log.d(TAG, "signInResponse: " + signupResponse.toString());
+            if (LogFlag.bLogOn)Log.d(TAG, "signInResponse: " + signupResponse.toString());
             signupProcessFinish(signupResponse);
         }
 
     }
 
     void setRegisterRequestData() {
-        Log.d(TAG, "setRegisterRequestData");
+        if (LogFlag.bLogOn)Log.d(TAG, "setRegisterRequestData");
         PackageInfo pInfo = null;
         try {
             pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
         } catch (PackageManager.NameNotFoundException e) {
-            Log.d(TAG, e.getMessage(), e);
+            if (LogFlag.bLogOn)Log.e(TAG, e.getMessage(), e);
         }
         String version = pInfo.versionName;
         String uuid = Settings.Secure.getString(this.getContentResolver(), Settings.Secure.ANDROID_ID);
 
-        Log.d(TAG, "version: " + version);
-        Log.d(TAG, "uuid: " + uuid);
+        if (LogFlag.bLogOn)Log.d(TAG, "version: " + version);
+        if (LogFlag.bLogOn)Log.d(TAG, "uuid: " + uuid);
 
         String encryptedPassword= "";
         try {
             encryptedPassword = CommonUtils.getMD5EncodedString(passWordInput);
         } catch (NoSuchAlgorithmException e) {
-            Log.d(TAG, e.toString());
+            if (LogFlag.bLogOn)Log.e(TAG, e.toString());
         }
-        Log.d(TAG, "encryptedPassword: " + encryptedPassword);
+        if (LogFlag.bLogOn)Log.d(TAG, "encryptedPassword: " + encryptedPassword);
         registerRequest = new SignupRequest();
         registerRequest.setDevicePlatformName("Android");
         registerRequest.setDeviceIdentity(uuid);
@@ -469,7 +469,7 @@ public class SignupActivity extends AppCompatActivity implements   View.OnKeyLis
         } else {
             registerRequest.setAvatar(VTools.getChosenAvatar().replace("_", "-"));
         }
-        Log.d(TAG, registerRequest.toString());
+        if (LogFlag.bLogOn)Log.d(TAG, registerRequest.toString());
     }
 
 
@@ -489,7 +489,7 @@ public class SignupActivity extends AppCompatActivity implements   View.OnKeyLis
             signInResponse.setUserDisplayName(registerResponse.getUserDisplayName());
 
 
-            Log.d(TAG, "signInResponse: " + signInResponse.toString());
+            if (LogFlag.bLogOn)Log.d(TAG, "signInResponse: " + signInResponse.toString());
 
             Gson gson = new GsonBuilder().create();
             Intent intent = new Intent(SignupActivity.this, HomeActivity_.class);
@@ -533,7 +533,7 @@ public class SignupActivity extends AppCompatActivity implements   View.OnKeyLis
         View layoutSignup = (Button) findViewById(R.id.createBtn);
         switch (view.getId()){
             case R.id.confirmButton:
-                Log.d(TAG, String.valueOf(VTools.getChosenAvatar()));
+                if (LogFlag.bLogOn)Log.d(TAG, String.valueOf(VTools.getChosenAvatar()));
                 showPopUp.dismiss();
                 layoutSignup.setAlpha(220);
                 for (int i = 0; i < typedArrayImage.length(); i++) {
@@ -557,8 +557,8 @@ public class SignupActivity extends AppCompatActivity implements   View.OnKeyLis
 
     @Override
     public void onChange(String status) {
-        Log.d(TAG, "Network Availability");
-        Log.d(TAG, status);
+        if (LogFlag.bLogOn)Log.d(TAG, "Network Availability");
+        if (LogFlag.bLogOn)Log.d(TAG, status);
         VTools.getInstance().showToast(status);
         // isNetworkAvailable= true;
     }
@@ -566,9 +566,8 @@ public class SignupActivity extends AppCompatActivity implements   View.OnKeyLis
 
     public void networkStatus() {
         String status = NetworkUtil.getConnectivityStatusString(this);
-        if (LogFlag.bLogOn) Log.d("test", status + "");
-        Log.d(TAG, "Network Availability");
-        Log.d(TAG, status);
+        if (LogFlag.bLogOn)Log.d(TAG, "Network Availability");
+        if (LogFlag.bLogOn)Log.d(TAG, status);
 
 
         switch (status) {
