@@ -5,6 +5,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/White">
+
     <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
@@ -12,7 +13,10 @@
             android:layout_gravity="center_horizontal"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
             android:weightSum="1"
-            android:id="@+id/registerlayout">
+            android:id="@+id/registerlayout"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
 
         <include layout="@layout/toolbar_signup" />
 
@@ -396,7 +400,7 @@
 
 
                         <LinearLayout
-                            android:visibility="gone"
+                            android:visibility="visible"
                                 android:orientation="vertical"
                                 android:layout_width="match_parent"
                                 android:layout_height="50dp"
@@ -593,7 +597,7 @@
                                         android:background="@android:color/transparent"
                                         android:textColorHint="@color/LiteGray"
                                         android:id="@+id/license"
-                                        android:imeOptions="actionNext"
+                                        android:imeOptions="actionGo"
                                         android:textColor="@color/Black"
                                         android:gravity="left|center_vertical"
                                         android:textSize="14sp"
@@ -739,5 +743,5 @@
 
         </ScrollView>
     </LinearLayout>
-  <!--  </FrameLayout>-->
+    <!--  </FrameLayout>-->
 </RelativeLayout>

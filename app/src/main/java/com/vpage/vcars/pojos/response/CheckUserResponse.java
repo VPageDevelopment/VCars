@@ -18,20 +18,7 @@ public class CheckUserResponse {
 
     private String userId;
 
-    private String userKey;
-
-    private String appleStore;
-
     private String googleStore;
-
-
-    public String getAppleStore() {
-        return appleStore;
-    }
-
-    public void setAppleStore(String appleStore) {
-        this.appleStore = appleStore;
-    }
 
     public String getGoogleStore() {
         return googleStore;
@@ -97,13 +84,6 @@ public class CheckUserResponse {
         this.userId = userId;
     }
 
-    public String getUserKey() {
-        return userKey;
-    }
-
-    public void setUserKey(String userKey) {
-        this.userKey = userKey;
-    }
 
     @Override
     public String toString() {
@@ -115,8 +95,6 @@ public class CheckUserResponse {
                 ", existBy='" + existBy + '\'' +
                 ", success='" + success + '\'' +
                 ", userId='" + userId + '\'' +
-                ", userKey='" + userKey + '\'' +
-                ", appleStore='" + appleStore + '\'' +
                 ", googleStore='" + googleStore + '\'' +
                 '}';
     }

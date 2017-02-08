@@ -2,35 +2,24 @@ package com.vpage.vcars.pojos;
 
 public class ActiveUser {
 
-    private String hq;
-
-    private String appleStore;
 
     private String userDisplayName;
 
     private String devicePlatformName;
 
-    private String avatar;
+    private String profileImage;
 
     private String deviceIdentity;
 
-    private String ha;
-
     private String googleStore;
-
-    private String session;
 
     private String email;
 
-    private String studentid;
-
-    private String studentKey;
+    private String userId;
 
     private String place;
 
     private String uid;
-
-    private String newAlert;
 
     private String deviceToken;
 
@@ -42,22 +31,6 @@ public class ActiveUser {
 
     public void setLoginType(String loginType) {
         LoginType = loginType;
-    }
-
-    public String getHq() {
-        return hq;
-    }
-
-    public void setHq(String hq) {
-        this.hq = hq;
-    }
-
-    public String getAppleStore() {
-        return appleStore;
-    }
-
-    public void setAppleStore(String appleStore) {
-        this.appleStore = appleStore;
     }
 
     public String getUserDisplayName() {
@@ -76,12 +49,12 @@ public class ActiveUser {
         this.devicePlatformName = devicePlatformName;
     }
 
-    public String getAvatar() {
-        return avatar;
+    public String getProfileImage() {
+        return profileImage;
     }
 
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
+    public void setProfileImage(String profileImage) {
+        this.profileImage = profileImage;
     }
 
     public String getDeviceIdentity() {
@@ -92,28 +65,12 @@ public class ActiveUser {
         this.deviceIdentity = deviceIdentity;
     }
 
-    public String getHa() {
-        return ha;
-    }
-
-    public void setHa(String ha) {
-        this.ha = ha;
-    }
-
     public String getGoogleStore() {
         return googleStore;
     }
 
     public void setGoogleStore(String googleStore) {
         this.googleStore = googleStore;
-    }
-
-    public String getSession() {
-        return session;
-    }
-
-    public void setSession(String session) {
-        this.session = session;
     }
 
     public String getEmail() {
@@ -124,12 +81,12 @@ public class ActiveUser {
         this.email = email;
     }
 
-    public String getStudentid() {
-        return studentid;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setStudentid(String studentid) {
-        this.studentid = studentid;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public String getPlace() {
@@ -149,14 +106,6 @@ public class ActiveUser {
         this.deviceToken = deviceToken;
     }
 
-    public String getNewAlert() {
-        return newAlert;
-    }
-
-    public void setNewAlert(String newAlert) {
-        this.newAlert = newAlert;
-    }
-
     public String getUid() {
         return uid;
     }
@@ -165,34 +114,20 @@ public class ActiveUser {
         this.uid = uid;
     }
 
-    public String getStudentKey() {
-        return studentKey;
-    }
-
-    public void setStudentKey(String studentKey) {
-        this.studentKey = studentKey;
-    }
-
 
 
     @Override
     public String toString() {
         return "ActiveUser{" +
-                "hq='" + hq + '\'' +
-                ", appleStore='" + appleStore + '\'' +
                 ", userDisplayName='" + userDisplayName + '\'' +
                 ", devicePlatformName='" + devicePlatformName + '\'' +
-                ", avatar='" + avatar + '\'' +
+                ", profileImage='" + profileImage + '\'' +
                 ", deviceIdentity='" + deviceIdentity + '\'' +
-                ", ha='" + ha + '\'' +
                 ", googleStore='" + googleStore + '\'' +
-                ", session='" + session + '\'' +
                 ", email='" + email + '\'' +
-                ", studentid='" + studentid + '\'' +
-                ", studentKey='" + studentKey + '\'' +
+                ", userId='" + userId + '\'' +
                 ", place='" + place + '\'' +
                 ", uid='" + uid + '\'' +
-                ", newAlert='" + newAlert + '\'' +
                 ", deviceToken='" + deviceToken + '\'' +
                 '}';
     }

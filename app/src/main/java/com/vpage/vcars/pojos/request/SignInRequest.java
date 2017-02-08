@@ -16,7 +16,7 @@ public class SignInRequest extends VCarRequest {
 
     private String version;
 
-    private String studentid;
+    private String userId;
 
     private String country;
 
@@ -76,12 +76,12 @@ public class SignInRequest extends VCarRequest {
         this.version = version;
     }
 
-    public String getStudentid() {
-        return studentid;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setStudentid(String studentid) {
-        this.studentid = studentid;
+    public void setUserId(String studentid) {
+        this.userId = studentid;
     }
 
     public boolean isClientEncryptedPassword() {
@@ -106,7 +106,7 @@ public class SignInRequest extends VCarRequest {
                 ", password='" + password + '\'' +
                 ", clientEncryptedPassword=" + clientEncryptedPassword +
                 ", version='" + version + '\'' +
-                ", studentid='" + studentid + '\'' +
+                ", userId='" + userId + '\'' +
                 ", country='" + country + '\'' +
                 '}';
     }

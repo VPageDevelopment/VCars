@@ -2,11 +2,8 @@ package com.vpage.vcars.pojos.request;
 
 public class SignupRequest {
 
-    private String classcode;
 
-    private String hq;
-
-    private String avatar;
+    private String profileImage;
 
     private String devicePlatformName;
 
@@ -18,15 +15,11 @@ public class SignupRequest {
 
     private String version;
 
-    private String ha;
-
     private String appVersion;
 
     private String email;
 
     private String deviceToken;
-
-    private int grade;
 
     private boolean clientEncryptedPassword;
 
@@ -48,7 +41,6 @@ public class SignupRequest {
 
     private DeviceInfoData deviceInfoData;
 
-    private String referralCode;
 
     public String getFname() {
         return fname;
@@ -70,6 +62,14 @@ public class SignupRequest {
         return loginId;
     }
 
+    public String getProfileImage() {
+        return profileImage;
+    }
+
+    public void setProfileImage(String profileImage) {
+        this.profileImage = profileImage;
+    }
+
     public void setLoginId(String loginId) {
         this.loginId = loginId;
     }
@@ -80,30 +80,6 @@ public class SignupRequest {
 
     public void setFbTokenId(String fbTokenId) {
         this.fbTokenId = fbTokenId;
-    }
-
-    public String getClasscode() {
-        return classcode;
-    }
-
-    public void setClasscode(String classcode) {
-        this.classcode = classcode;
-    }
-
-    public String getHq() {
-        return hq;
-    }
-
-    public void setHq(String hq) {
-        this.hq = hq;
-    }
-
-    public String getAvatar() {
-        return avatar;
-    }
-
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
     }
 
     public String getDevicePlatformName() {
@@ -146,14 +122,6 @@ public class SignupRequest {
         this.version = version;
     }
 
-    public String getHa() {
-        return ha;
-    }
-
-    public void setHa(String ha) {
-        this.ha = ha;
-    }
-
     public String getAppVersion() {
         return appVersion;
     }
@@ -176,14 +144,6 @@ public class SignupRequest {
 
     public void setDeviceToken(String deviceToken) {
         this.deviceToken = deviceToken;
-    }
-
-    public int getGrade() {
-        return grade;
-    }
-
-    public void setGrade(int grade) {
-        this.grade = grade;
     }
 
     public boolean isClientEncryptedPassword() {
@@ -235,30 +195,19 @@ public class SignupRequest {
         this.state = state;
     }
 
-    public String getReferralCode() {
-        return referralCode;
-    }
-
-    public void setReferralCode(String referralCode) {
-        this.referralCode = referralCode;
-    }
 
     @Override
     public String toString() {
         return "SignupRequest{" +
-                "classcode='" + classcode + '\'' +
-                ", hq='" + hq + '\'' +
-                ", avatar='" + avatar + '\'' +
+                ", profileImage='" + profileImage + '\'' +
                 ", devicePlatformName='" + devicePlatformName + '\'' +
                 ", password='" + password + '\'' +
                 ", deviceIdentity='" + deviceIdentity + '\'' +
                 ", loginType='" + loginType + '\'' +
                 ", version='" + version + '\'' +
-                ", ha='" + ha + '\'' +
                 ", appVersion='" + appVersion + '\'' +
                 ", email='" + email + '\'' +
                 ", deviceToken='" + deviceToken + '\'' +
-                ", grade=" + grade +
                 ", clientEncryptedPassword=" + clientEncryptedPassword +
                 ", userId='" + userId + '\'' +
                 ", fbTokenId='" + fbTokenId + '\'' +
@@ -269,7 +218,6 @@ public class SignupRequest {
                 ", city='" + city + '\'' +
                 ", state='" + state + '\'' +
                 ", deviceInfoData=" + deviceInfoData +
-                ", referralCode='" + referralCode + '\'' +
                 '}';
     }
 }

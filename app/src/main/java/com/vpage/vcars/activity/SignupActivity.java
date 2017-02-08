@@ -79,8 +79,17 @@ public class SignupActivity extends AppCompatActivity implements   View.OnKeyLis
     @ViewById(R.id.confirmPassWord)
     EditText confirmPassWord;
 
+    @ViewById(R.id.userName)
+    EditText userNameEditText;
+
     @ViewById(R.id.displayName)
     EditText displayName;
+
+    @ViewById(R.id.address)
+    EditText address;
+
+    @ViewById(R.id.license)
+    EditText licenseNumber;
 
     @ViewById(R.id.createBtn)
     Button createBtn;
@@ -112,7 +121,8 @@ public class SignupActivity extends AppCompatActivity implements   View.OnKeyLis
     TypedArray typedArrayImage;
     int typedArrayImagePosition = -1;
 
-    String userPhoneNumberInput= "",passWordInput= "",conformPasswordInput= "",userDisplayName= "";
+    String userPhoneNumberInput= "",passWordInput= "",conformPasswordInput= "",userDisplayName= ""
+            ,useName= "",userAddress= "",drivingLicenseNumber= "";
 
     SignupRequest registerRequest;
     Intent intent;
@@ -140,7 +150,7 @@ public class SignupActivity extends AppCompatActivity implements   View.OnKeyLis
             StringUtils.makeTextViewHyperlink(signInText);
         }
 
-        if (null == VTools.getChosenAvatar() || VTools.getChosenAvatar().equals("")) {
+        if (null == VTools.getChosenProfileImage() || VTools.getChosenProfileImage().equals("")) {
         //    chooseProfile.setImageResource(R.drawable.avatar_1);
             Picasso.with(SignupActivity.this)
                     .load(R.drawable.usersample)
@@ -149,11 +159,11 @@ public class SignupActivity extends AppCompatActivity implements   View.OnKeyLis
 
         } else {
 
-            if (LogFlag.bLogOn)Log.d(TAG, String.valueOf(VTools.getChosenAvatar()));
+            if (LogFlag.bLogOn)Log.d(TAG, String.valueOf(VTools.getChosenProfileImage()));
             for (int i = 0; i < typedArrayImage.length(); i++) {
                 if (LogFlag.bLogOn)
                     Log.d(TAG, "typedArrayImage: " + typedArrayImage.getString(i).replace("res/drawable/", ""));
-                if (typedArrayImage.getString(i).contains(VTools.getChosenAvatar())) {
+                if (typedArrayImage.getString(i).contains(VTools.getChosenProfileImage())) {
                     typedArrayImagePosition = i;
                 }
             }
@@ -172,7 +182,7 @@ public class SignupActivity extends AppCompatActivity implements   View.OnKeyLis
         userPhoneNumber.setText(mPhoneNumber);
 
 
-        displayName.setOnKeyListener(this);
+        licenseNumber.setOnKeyListener(this);
 
         signInText.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -189,7 +199,8 @@ public class SignupActivity extends AppCompatActivity implements   View.OnKeyLis
         VTools.animation(this);
     }
 
-    @Click({R.id.chooseProfile, R.id.createBtn, R.id.signInLayout,R.id.phoneInfoButton,R.id.passWordInfoButton,R.id.cpassWordInfoButton,R.id.displayNameInfoButton})
+    @Click({R.id.chooseProfile, R.id.createBtn, R.id.signInLayout,R.id.phoneInfoButton,R.id.passWordInfoButton,R.id.cpassWordInfoButton,R.id.displayNameInfoButton,
+            R.id.userNameInfoButton,R.id.addressInfoButton})
     public void onButtonClick(View v) {
 
         final View infoPopUpView =getLayoutInflater().inflate(R.layout.popup_info, null); // inflating popup layout
@@ -233,7 +244,19 @@ public class SignupActivity extends AppCompatActivity implements   View.OnKeyLis
                 infoText.setText("Should match with password");
                 break;
 
+            case R.id.userNameInfoButton:
+                showPopUp = VTools.createPopUp(infoPopUpView);
+                infoClose.setOnClickListener(this);
+                infoText.setText("Starts with alphabet"+"\nCan have numbers, dash, underscore"+"\nMIN 3 and MAX 20 characters");
+                break;
+
             case R.id.displayNameInfoButton:
+                showPopUp = VTools.createPopUp(infoPopUpView);
+                infoClose.setOnClickListener(this);
+                infoText.setText("Starts with alphabet"+"\nCan have numbers, dash, underscore"+"\nMIN 3 and MAX 20 characters");
+                break;
+
+            case R.id.addressInfoButton:
                 showPopUp = VTools.createPopUp(infoPopUpView);
                 infoClose.setOnClickListener(this);
                 infoText.setText("Starts with alphabet"+"\nCan have numbers, dash, underscore"+"\nMIN 3 and MAX 20 characters");
@@ -255,14 +278,14 @@ public class SignupActivity extends AppCompatActivity implements   View.OnKeyLis
     private void setGridViewItem(GridView avatarGrid) {
         typedArrayImage = getResources().obtainTypedArray(R.array.avatarImage);
 
-        if (null == VTools.getChosenAvatar() || VTools.getChosenAvatar().equals("")) {
-            VTools.setChosenAvatar("avatar_1.png");
+        if (null == VTools.getChosenProfileImage() || VTools.getChosenProfileImage().equals("")) {
+            VTools.setChosenProfileImage("avatar_1.png");
         } else {
 
             for (int i = 0; i < typedArrayImage.length(); i++) {
                 if (LogFlag.bLogOn)
                     Log.d(TAG, "typedArrayImage: " + typedArrayImage.getString(i).replace("res/drawable/", ""));
-                if (typedArrayImage.getString(i).contains(VTools.getChosenAvatar())) {
+                if (typedArrayImage.getString(i).contains(VTools.getChosenProfileImage())) {
                     typedArrayImagePosition = i;
                 }
             }
@@ -286,8 +309,8 @@ public class SignupActivity extends AppCompatActivity implements   View.OnKeyLis
 
                 if (LogFlag.bLogOn)Log.d(TAG, typedArrayImage.getString(i).replace("res/drawable/", ""));
 
-                VTools.setChosenAvatar(typedArrayImage.getString(i).replace("res/drawable/", ""));
-                if (LogFlag.bLogOn)Log.d(TAG, "getChosenProfileImage: " + String.valueOf(VTools.getChosenAvatar()));
+                VTools.setChosenProfileImage(typedArrayImage.getString(i).replace("res/drawable/", ""));
+                if (LogFlag.bLogOn)Log.d(TAG, "getChosenProfileImage: " + String.valueOf(VTools.getChosenProfileImage()));
             }
         });
 
@@ -302,18 +325,22 @@ public class SignupActivity extends AppCompatActivity implements   View.OnKeyLis
         }
         hideKeyboard();
         if (LogFlag.bLogOn)Log.d(TAG, "registerValidation");
-        ValidationStatus validationStatus,validationStatusPhoneNumber,validationStatusPassword,validationStatusUserName;
+        ValidationStatus validationStatus,validationStatusPhoneNumber,validationStatusPassword,
+                validationStatusUserName,validationStatusUserDisplayName;
 
 
        /* userPhoneNumber.setOnKeyListener(this);
         passWord.setOnKeyListener(this);
         confirmPassWord.setOnKeyListener(this);*/
-        displayName.setOnKeyListener(this);
-
+       // confirmPassWord.setOnKeyListener(this);
         userPhoneNumberInput = userPhoneNumber.getText().toString();
+
         passWordInput = passWord.getText().toString();
         conformPasswordInput = confirmPassWord.getText().toString();
         userDisplayName = displayName.getText().toString();
+        useName = userNameEditText.getText().toString();
+        userAddress = address.getText().toString();
+        drivingLicenseNumber = licenseNumber.getText().toString();
 
 
         validationStatus = ValidationUtils.isValidLoginUserNamePassword(userPhoneNumberInput,userDisplayName, passWordInput);
@@ -322,7 +349,8 @@ public class SignupActivity extends AppCompatActivity implements   View.OnKeyLis
 
         validationStatusPassword =  ValidationUtils.isValidPassword(passWordInput);
 
-        validationStatusUserName =  ValidationUtils.isValidUserUserName(userDisplayName);
+        validationStatusUserName =  ValidationUtils.isValidUserUserName(useName);
+        validationStatusUserDisplayName =  ValidationUtils.isValidUserUserName(userDisplayName);
 
 
 
@@ -350,7 +378,14 @@ public class SignupActivity extends AppCompatActivity implements   View.OnKeyLis
             return;
         }
 
-        if (userPhoneNumber.equals("") || passWord.equals("") ||  displayName.equals("") || confirmPassWord.equals("") ) {
+
+        if (validationStatusUserDisplayName.isStatus() == false) {
+            if (LogFlag.bLogOn)Log.d(TAG, validationStatusUserDisplayName.getMessage());
+            setErrorMessage(validationStatusUserDisplayName.getMessage());
+            return;
+        }
+
+        if (userPhoneNumber.equals("") || passWord.equals("") ||  useName.equals("")||  displayName.equals("") || confirmPassWord.equals("") ) {
             if (LogFlag.bLogOn)Log.d(TAG, String.valueOf(R.string.nullMessage));
             setErrorMessage(String.valueOf(R.string.nullMessage));
             return;
@@ -369,21 +404,21 @@ public class SignupActivity extends AppCompatActivity implements   View.OnKeyLis
     public void isUserExists() {
         if (LogFlag.bLogOn)Log.d(TAG, "isUserExists");
 
-        setCheckStudentRequestData();
+        setCheckUserRequestData();
 
         VCarRestClient vCarRestClient = new VCarRestClient();
         checkUserResponse = vCarRestClient.checkStudent(checkUserRequest);
         if(checkUserResponse != null) {
             if (LogFlag.bLogOn)Log.d(TAG, checkUserResponse.toString());
-            checkStudentProcessFinish();
+            checkUserProcessFinish();
         }
 
     }
 
 
     @UiThread
-    public void checkStudentProcessFinish() {
-        if (LogFlag.bLogOn)Log.d(TAG, "checkStudentProcessFinish");
+    public void checkUserProcessFinish() {
+        if (LogFlag.bLogOn)Log.d(TAG, "checkUserProcessFinish");
         if (LogFlag.bLogOn)Log.d(TAG, checkUserResponse.toString());
         if (checkUserResponse.getExists().equalsIgnoreCase("false")) {
             // register
@@ -395,14 +430,15 @@ public class SignupActivity extends AppCompatActivity implements   View.OnKeyLis
             if (LogFlag.bLogOn)Log.d(TAG, " user  found. show error");
             if (LogFlag.bLogOn)Log.d(TAG, checkUserResponse.getError());
             setErrorMessage("Phone no has already been registered");
+            gotoSignInPage();
 
         }
     }
 
 
 
-    public void setCheckStudentRequestData() {
-        if (LogFlag.bLogOn)Log.d(TAG, "setCheckStudentRequestData");
+    public void setCheckUserRequestData() {
+        if (LogFlag.bLogOn)Log.d(TAG, "setCheckUserRequestData");
         String uuid = Settings.Secure.getString(this.getContentResolver(), Settings.Secure.ANDROID_ID);
         checkUserRequest = new CheckUserRequest();
         checkUserRequest.setStudentid(userPhoneNumberInput);
@@ -462,12 +498,11 @@ public class SignupActivity extends AppCompatActivity implements   View.OnKeyLis
         registerRequest.setPassword(encryptedPassword);
         registerRequest.setClientEncryptedPassword(true);
         registerRequest.setAppVersion(version);
-        registerRequest.setGrade(8);
-        if (null == VTools.getChosenAvatar() || VTools.getChosenAvatar().equals("")) {
-            registerRequest.setAvatar("avatar-1.png");
-            VTools.setChosenAvatar("avatar_1.png");
+        if (null == VTools.getChosenProfileImage() || VTools.getChosenProfileImage().equals("")) {
+            registerRequest.setProfileImage("avatar-1.png");
+            VTools.setChosenProfileImage("avatar_1.png");
         } else {
-            registerRequest.setAvatar(VTools.getChosenAvatar().replace("_", "-"));
+            registerRequest.setProfileImage(VTools.getChosenProfileImage().replace("_", "-"));
         }
         if (LogFlag.bLogOn)Log.d(TAG, registerRequest.toString());
     }
@@ -478,13 +513,9 @@ public class SignupActivity extends AppCompatActivity implements   View.OnKeyLis
 
         if (registerResponse.isSuccess()) {
             SignInResponse signInResponse = new SignInResponse();
-            signInResponse.setAppleStore(registerResponse.getAppleStore());
-            signInResponse.setAvatar(registerResponse.getAvatar());
+            signInResponse.setUserProfileImage(registerResponse.getProfileImage());
             signInResponse.setEmail(registerResponse.getEmail());
             signInResponse.setGoogleStore(registerResponse.getGoogleStore());
-            signInResponse.setHa(registerResponse.getHa());
-            signInResponse.setHq(registerResponse.getHq());
-            signInResponse.setSession(registerResponse.getSession());
             signInResponse.setUserId(registerResponse.getUserId());
             signInResponse.setUserDisplayName(registerResponse.getUserDisplayName());
 
@@ -507,7 +538,7 @@ public class SignupActivity extends AppCompatActivity implements   View.OnKeyLis
         errorText.setText(errorMessage);
     }
 
-    @FocusChange({R.id.userPhoneNumber, R.id.passWord, R.id.confirmPassWord, R.id.displayName})
+    @FocusChange({R.id.userPhoneNumber, R.id.passWord, R.id.confirmPassWord, R.id.displayName,R.id.userName,R.id.address,R.id.license})
     public void onFocusChange(View v, boolean hasFocus) {
         if (hasFocus) {
             errorText.setVisibility(View.GONE);
@@ -533,11 +564,11 @@ public class SignupActivity extends AppCompatActivity implements   View.OnKeyLis
         View layoutSignup = (Button) findViewById(R.id.createBtn);
         switch (view.getId()){
             case R.id.confirmButton:
-                if (LogFlag.bLogOn)Log.d(TAG, String.valueOf(VTools.getChosenAvatar()));
+                if (LogFlag.bLogOn)Log.d(TAG, String.valueOf(VTools.getChosenProfileImage()));
                 showPopUp.dismiss();
                 layoutSignup.setAlpha(220);
                 for (int i = 0; i < typedArrayImage.length(); i++) {
-                    if (typedArrayImage.getString(i).contains(VTools.getChosenAvatar())) {
+                    if (typedArrayImage.getString(i).contains(VTools.getChosenProfileImage())) {
                         typedArrayImagePosition = i;
                     }
                 }

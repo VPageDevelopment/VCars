@@ -2,9 +2,6 @@ package com.vpage.vcars.pojos.response;
 
 
 public class SignInResponse {
-    private String hq;
-
-    private String appleStore;
 
     private String error;
 
@@ -14,15 +11,11 @@ public class SignInResponse {
 
     private String devicePlatformName;
 
-    private String avatar;
+    private String userProfileImage;
 
     private String deviceIdentity;
 
-    private String ha;
-
     private String googleStore;
-
-    private String session;
 
     private String email;
 
@@ -30,25 +23,8 @@ public class SignInResponse {
 
     private String userId;
 
-    private String userKey;
-
     private String loginType;
 
-    public String getHq() {
-        return hq;
-    }
-
-    public void setHq(String hq) {
-        this.hq = hq;
-    }
-
-    public String getAppleStore() {
-        return appleStore;
-    }
-
-    public void setAppleStore(String appleStore) {
-        this.appleStore = appleStore;
-    }
 
     public String getError() {
         return error;
@@ -82,14 +58,6 @@ public class SignInResponse {
         this.devicePlatformName = devicePlatformName;
     }
 
-    public String getAvatar() {
-        return avatar;
-    }
-
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
-    }
-
     public String getDeviceIdentity() {
         return deviceIdentity;
     }
@@ -98,12 +66,12 @@ public class SignInResponse {
         this.deviceIdentity = deviceIdentity;
     }
 
-    public String getHa() {
-        return ha;
+    public String getUserProfileImage() {
+        return userProfileImage;
     }
 
-    public void setHa(String ha) {
-        this.ha = ha;
+    public void setUserProfileImage(String userProfileImage) {
+        this.userProfileImage = userProfileImage;
     }
 
     public String getGoogleStore() {
@@ -114,13 +82,6 @@ public class SignInResponse {
         this.googleStore = googleStore;
     }
 
-    public String getSession() {
-        return session;
-    }
-
-    public void setSession(String session) {
-        this.session = session;
-    }
 
     public String getEmail() {
         return email;
@@ -146,13 +107,6 @@ public class SignInResponse {
         this.userId = userId;
     }
 
-    public String getUserKey() {
-        return userKey;
-    }
-
-    public void setUserKey(String userKey) {
-        this.userKey = userKey;
-    }
 
     public String getLoginType() {
         return loginType;
@@ -165,21 +119,16 @@ public class SignInResponse {
     @Override
     public String toString() {
         return "SignInResponse{" +
-                "hq='" + hq + '\'' +
-                ", appleStore='" + appleStore + '\'' +
                 ", error='" + error + '\'' +
                 ", apiVersionMismatch='" + apiVersionMismatch + '\'' +
                 ", userDisplayName='" + userDisplayName + '\'' +
                 ", devicePlatformName='" + devicePlatformName + '\'' +
-                ", avatar='" + avatar + '\'' +
+                ", userProfileImage='" + userProfileImage + '\'' +
                 ", deviceIdentity='" + deviceIdentity + '\'' +
-                ", ha='" + ha + '\'' +
                 ", googleStore='" + googleStore + '\'' +
-                ", session='" + session + '\'' +
                 ", email='" + email + '\'' +
                 ", success=" + success +
                 ", userId='" + userId + '\'' +
-                ", userKey='" + userKey + '\'' +
                 '}';
     }
 }

@@ -148,14 +148,14 @@ public class VTools {
     }
 
 
-    private static String chosenAvatar;
+    private static String chosenProfileImage;
 
-    public static String getChosenAvatar() {
-        return chosenAvatar;
+    public static String getChosenProfileImage() {
+        return chosenProfileImage;
     }
 
-    public static void setChosenAvatar(String chosenAvatarNew) {
-        chosenAvatar = chosenAvatarNew;
+    public static void setChosenProfileImage(String chosenProfileImageNew) {
+        chosenProfileImage = chosenProfileImageNew;
     }
 
 
@@ -239,14 +239,11 @@ public class VTools {
     public static ActiveUser getActiveUser(SignInResponse signInResponse) {
         ActiveUser activeUser = new ActiveUser();
         try {
-            activeUser.setStudentid(signInResponse.getUserId());
-            activeUser.setStudentKey(signInResponse.getUserKey());
+            activeUser.setUserId(signInResponse.getUserId());
             activeUser.setUserDisplayName(signInResponse.getUserDisplayName());
-            activeUser.setAppleStore(signInResponse.getAppleStore());
-            activeUser.setAvatar(signInResponse.getAvatar());
             if(signInResponse.getLoginType()!=null) {
                 if (signInResponse.getLoginType().equalsIgnoreCase(LoginType.VCars.name())) {
-                    activeUser.setAvatar(signInResponse.getAvatar());
+                    activeUser.setProfileImage(signInResponse.getUserProfileImage());
                 }
                 activeUser.setLoginType(signInResponse.getLoginType());
             }
@@ -254,9 +251,6 @@ public class VTools {
             activeUser.setDevicePlatformName(signInResponse.getDevicePlatformName());
             activeUser.setEmail(signInResponse.getEmail());
             activeUser.setGoogleStore(signInResponse.getGoogleStore());
-            activeUser.setHa(signInResponse.getHa());
-            activeUser.setHq(signInResponse.getHq());
-            activeUser.setSession(signInResponse.getSession());
 
         }catch (Exception e){
             if (LogFlag.bLogOn) Log.e(TAG, e.toString());

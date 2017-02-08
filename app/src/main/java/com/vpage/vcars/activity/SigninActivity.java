@@ -609,7 +609,7 @@ public class SigninActivity extends Activity implements View.OnKeyListener, View
         //signInRequest.setDevicePlatformName("Android");
         signInRequest.setDeviceIdentity(uuid);
         signInRequest.setDeviceToken(VPreferences.get("gcmToken"));
-        signInRequest.setStudentid(userNameInput);
+        signInRequest.setUserId(userNameInput);
         signInRequest.setPassword(encryptedPassword);
         signInRequest.setClientEncryptedPassword(true);
         signInRequest.setDeviceInfoData(getDeviceInfo());
@@ -1208,12 +1208,10 @@ public class SigninActivity extends Activity implements View.OnKeyListener, View
         signInResponse.setDevicePlatformName("Android");
         signInResponse.setDeviceIdentity(uuid);
         signInResponse.setUserId(checkUserResponse.getUserId());
-        signInResponse.setUserKey(checkUserResponse.getUserKey());
         signInResponse.setUserDisplayName(checkUserResponse.getUserDisplayName());
-        signInResponse.setAvatar(currentPerson.getImage().getUrl());
+        signInResponse.setUserProfileImage(currentPerson.getImage().getUrl());
         signInResponse.setEmail(googleEmail);
         signInResponse.setGoogleStore(checkUserResponse.getGoogleStore());
-        signInResponse.setAppleStore(checkUserResponse.getAppleStore());
         signInResponse.setLoginType(LoginType.GoogleApp.name());
 
 /*        signInRequest = new SignInRequest();
@@ -1239,12 +1237,10 @@ public class SigninActivity extends Activity implements View.OnKeyListener, View
         signInResponse.setDevicePlatformName("Android");
         signInResponse.setDeviceIdentity(uuid);
         signInResponse.setUserId(checkUserResponse.getUserId());
-        signInResponse.setUserKey(checkUserResponse.getUserKey());
         signInResponse.setUserDisplayName(checkUserResponse.getUserDisplayName());
-        signInResponse.setAvatar(facebookUserprofile.getFacebookImage());
+        signInResponse.setUserProfileImage(facebookUserprofile.getFacebookImage());
         signInResponse.setEmail(facebookUserprofile.getEmail());
         signInResponse.setGoogleStore(checkUserResponse.getGoogleStore());
-        signInResponse.setAppleStore(checkUserResponse.getAppleStore());
         signInResponse.setLoginType(LoginType.FacebookApp.name());
 
 /*        signInRequest = new SignInRequest();
@@ -1302,7 +1298,6 @@ public class SigninActivity extends Activity implements View.OnKeyListener, View
 
         if (null != signupResponse) {
             // TODO check signinResponse is null or not
-            VPreferences.save("referCode",signupResponse.getReferralCode());
             if (LogFlag.bLogOn)Log.d(TAG, "signupResponse: " + signupResponse.toString());
             signupProcessFinish(signupResponse,LoginType.GoogleApp);
 
@@ -1340,16 +1335,13 @@ public class SigninActivity extends Activity implements View.OnKeyListener, View
         registerRequest.setPassword(encryptedPassword);
         registerRequest.setClientEncryptedPassword(true);
         registerRequest.setAppVersion(version);
-        registerRequest.setGrade(8);
         registerRequest.setLoginType("GoogleApp");
         registerRequest.setEmail(googleEmail);
         registerRequest.setFbTokenId(null);
         registerRequest.setLoginId(currentPerson.getId());
-        registerRequest.setAvatar(currentPerson.getImage().getUrl());
+        registerRequest.setProfileImage(currentPerson.getImage().getUrl());
         registerRequest.setFname(currentPerson.getName().getGivenName());
         registerRequest.setLname(currentPerson.getName().getFamilyName());
-        registerRequest.setHa("");
-        registerRequest.setHq("");
         registerRequest.setCountry(getOustCountryCode());
         registerRequest.setDeviceInfoData(getDeviceInfo());
 
@@ -1377,7 +1369,6 @@ public class SigninActivity extends Activity implements View.OnKeyListener, View
 
         // TODO check signinResponse is null or not
         if (null != signupResponse) {
-            VPreferences.save("referCode",signupResponse.getReferralCode());
             if (LogFlag.bLogOn)Log.d(TAG, "signupResponse: " + signupResponse.toString());
             signupProcessFinish(signupResponse,LoginType.FacebookApp);
         } else {
@@ -1419,16 +1410,13 @@ public class SigninActivity extends Activity implements View.OnKeyListener, View
         registerRequest.setPassword(encryptedPassword);
         registerRequest.setClientEncryptedPassword(true);
         registerRequest.setAppVersion(version);
-        registerRequest.setGrade(8);
         registerRequest.setEmail(facebookUserprofile.getEmail());
         registerRequest.setLoginType("FacebookApp");
         registerRequest.setFbTokenId(facebookUserprofile.getToken_for_business());
         registerRequest.setLoginId(null);
-        registerRequest.setAvatar(facebookUserprofile.getFacebookImage());
+        registerRequest.setProfileImage(facebookUserprofile.getFacebookImage());
         registerRequest.setFname(facebookUserprofile.getFirst_name());
         registerRequest.setLname(facebookUserprofile.getLast_name());
-        registerRequest.setHa("");
-        registerRequest.setHq("");
         registerRequest.setCountry(getOustCountryCode());
         registerRequest.setDeviceInfoData(getDeviceInfo());
         String sLocation = VPreferences.get("CurrentLocation");
@@ -1448,18 +1436,12 @@ public class SigninActivity extends Activity implements View.OnKeyListener, View
         if (LogFlag.bLogOn)Log.d(TAG, "signupProcessFinish: ");
         if (registerResponse.isSuccess()) {
             signInResponse = new SignInResponse();
-            signInResponse.setAppleStore(registerResponse.getAppleStore());
-            signInResponse.setAvatar(registerResponse.getAvatar());
+            signInResponse.setUserProfileImage(registerResponse.getProfileImage());
             signInResponse.setEmail(registerResponse.getEmail());
             signInResponse.setGoogleStore(registerResponse.getGoogleStore());
-            signInResponse.setHa(registerResponse.getHa());
-            signInResponse.setHq(registerResponse.getHq());
-            signInResponse.setSession(registerResponse.getSession());
             signInResponse.setUserId(registerResponse.getUserId());
-            signInResponse.setUserKey(registerResponse.getStudentKey());
             signInResponse.setUserDisplayName(registerResponse.getUserDisplayName());
             signInResponse.setLoginType(loginType.toString());
-
 
             if (LogFlag.bLogOn)Log.d(TAG, "signInResponse: " + signInResponse.toString());
 
