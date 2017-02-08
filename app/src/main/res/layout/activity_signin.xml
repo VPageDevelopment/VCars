@@ -183,7 +183,7 @@
                             android:layout_height="fill_parent"
                             android:background="@color/colorAccent"
                             android:textColor="@color/White"
-                            android:textSize="@dimen/loginScreen_loginButton_textSize"
+                            android:textSize="14sp"
                             android:text="@string/login"
                             android:id="@+id/loginButton" />
                 </LinearLayout>

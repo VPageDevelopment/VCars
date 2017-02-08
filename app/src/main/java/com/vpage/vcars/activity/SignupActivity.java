@@ -10,6 +10,8 @@ import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.telephony.TelephonyManager;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuItem;
@@ -38,6 +40,7 @@ import com.vpage.vcars.pojos.request.SignupRequest;
 import com.vpage.vcars.pojos.response.CheckUserResponse;
 import com.vpage.vcars.pojos.response.SignInResponse;
 import com.vpage.vcars.pojos.response.SignupResponse;
+import com.vpage.vcars.tools.ActionEditText;
 import com.vpage.vcars.tools.NetworkUtil;
 import com.vpage.vcars.tools.OnNetworkChangeListener;
 import com.vpage.vcars.tools.VPreferences;
@@ -122,7 +125,7 @@ public class SignupActivity extends AppCompatActivity implements   View.OnKeyLis
     int typedArrayImagePosition = -1;
 
     String userPhoneNumberInput= "",passWordInput= "",conformPasswordInput= "",userDisplayName= ""
-            ,useName= "",userAddress= "",drivingLicenseNumber= "";
+            ,useName= "",userAddress= "",drivingLicenseNumber= "",userPhoneNumberEntered;
 
     SignupRequest registerRequest;
     Intent intent;
@@ -134,6 +137,8 @@ public class SignupActivity extends AppCompatActivity implements   View.OnKeyLis
 
     CheckUserResponse checkUserResponse;
 
+    SignInResponse signInResponse;
+
 
     @AfterViews
     public void initSignUp() {
@@ -143,6 +148,10 @@ public class SignupActivity extends AppCompatActivity implements   View.OnKeyLis
         title.setText(R.string.signUpTitle);
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+
+        Intent callingIntent=getIntent();
+
+        userPhoneNumberEntered = callingIntent.getStringExtra("UserPhoneNumber");
 
         typedArrayImage = getResources().obtainTypedArray(R.array.avatarImage);
 
@@ -190,6 +199,26 @@ public class SignupActivity extends AppCompatActivity implements   View.OnKeyLis
             }
         });
 
+        new ActionEditText(this);
+
+        TextWatcher textWatcher = new TextWatcher() {
+            public void afterTextChanged(Editable s) {
+            }
+
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                // you can check for enter key here
+            }
+
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.length() >= 150) {
+                    VTools.showAlertDialog(SignupActivity.this,"Character Exceed the Limit");
+                }
+
+            }
+        };
+
+        address.addTextChangedListener(textWatcher);
+
     }
 
     private void gotoSignInPage() {
@@ -197,7 +226,22 @@ public class SignupActivity extends AppCompatActivity implements   View.OnKeyLis
         Intent intent = new Intent(getApplicationContext(), SigninActivity_.class);
         startActivity(intent);
         VTools.animation(this);
+        finish();
     }
+
+
+    private void gotoHomePage() {
+
+        Gson gson = new GsonBuilder().create();
+        Intent intent = new Intent(SignupActivity.this, HomeActivity_.class);
+        intent.putExtra("ActiveUser", gson.toJson(VTools.getInstance().getActiveUser(signInResponse)));
+        startActivity(intent);
+        VTools.animation(this);
+        finish();
+    }
+
+
+
 
     @Click({R.id.chooseProfile, R.id.createBtn, R.id.signInLayout,R.id.phoneInfoButton,R.id.passWordInfoButton,R.id.cpassWordInfoButton,R.id.displayNameInfoButton,
             R.id.userNameInfoButton,R.id.addressInfoButton})
@@ -259,7 +303,7 @@ public class SignupActivity extends AppCompatActivity implements   View.OnKeyLis
             case R.id.addressInfoButton:
                 showPopUp = VTools.createPopUp(infoPopUpView);
                 infoClose.setOnClickListener(this);
-                infoText.setText("Starts with alphabet"+"\nCan have numbers, dash, underscore"+"\nMIN 3 and MAX 20 characters");
+                infoText.setText("Can have numbers, dash, underscore"+"\n MAX 150 characters");
                 break;
 
             case R.id.createBtn:
@@ -333,6 +377,7 @@ public class SignupActivity extends AppCompatActivity implements   View.OnKeyLis
         passWord.setOnKeyListener(this);
         confirmPassWord.setOnKeyListener(this);*/
        // confirmPassWord.setOnKeyListener(this);
+        userPhoneNumber.setText(userPhoneNumberEntered);
         userPhoneNumberInput = userPhoneNumber.getText().toString();
 
         passWordInput = passWord.getText().toString();
@@ -396,7 +441,9 @@ public class SignupActivity extends AppCompatActivity implements   View.OnKeyLis
             return;
         }
         Log.d(TAG, "registerValidation done");
-        isUserExists();
+       // isUserExists();   // to be used when developing
+
+        gotoHomePage();   // For Testing alone
     }
 
 
@@ -463,7 +510,7 @@ public class SignupActivity extends AppCompatActivity implements   View.OnKeyLis
         SignupResponse signupResponse = vCarRestClient.signup();
 
         if(null !=signupResponse ){
-            if (LogFlag.bLogOn)Log.d(TAG, "signInResponse: " + signupResponse.toString());
+            if (LogFlag.bLogOn)Log.d(TAG, "signupResponse: " + signupResponse.toString());
             signupProcessFinish(signupResponse);
         }
 
@@ -512,7 +559,7 @@ public class SignupActivity extends AppCompatActivity implements   View.OnKeyLis
     public void signupProcessFinish(SignupResponse registerResponse) {
 
         if (registerResponse.isSuccess()) {
-            SignInResponse signInResponse = new SignInResponse();
+            signInResponse = new SignInResponse();
             signInResponse.setUserProfileImage(registerResponse.getProfileImage());
             signInResponse.setEmail(registerResponse.getEmail());
             signInResponse.setGoogleStore(registerResponse.getGoogleStore());
@@ -522,11 +569,7 @@ public class SignupActivity extends AppCompatActivity implements   View.OnKeyLis
 
             if (LogFlag.bLogOn)Log.d(TAG, "signInResponse: " + signInResponse.toString());
 
-            Gson gson = new GsonBuilder().create();
-            Intent intent = new Intent(SignupActivity.this, HomeActivity_.class);
-            intent.putExtra("ActiveUser", gson.toJson(VTools.getInstance().getActiveUser(signInResponse)));
-            startActivity(intent);
-            finish();
+           gotoHomePage();
         } else {
             setErrorMessage(registerResponse.getError());
         }

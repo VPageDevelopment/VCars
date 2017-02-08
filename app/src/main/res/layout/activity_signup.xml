@@ -109,8 +109,10 @@
                                         android:layout_toRightOf="@+id/userIconLayout"
                                         android:id="@+id/userTxtLayout"
                                         android:layout_alignParentTop="true">
-                                    <EditText android:layout_width="match_parent"
+                                    <EditText
+                                              android:layout_width="match_parent"
                                               android:layout_height="fill_parent"
+                                              android:layout_marginRight="25dp"
                                               android:background="@android:color/transparent"
                                               android:textColorHint="@color/LiteGray"
                                               android:id="@+id/userPhoneNumber"
@@ -181,8 +183,10 @@
                                     android:layout_alignParentTop="true"
                                     android:layout_toRightOf="@+id/userNameIconLayout"
                                     android:layout_toEndOf="@+id/userNameIconLayout">
-                                    <EditText android:layout_width="match_parent"
+                                    <EditText
+                                        android:layout_width="match_parent"
                                         android:layout_height="fill_parent"
+                                        android:layout_marginRight="25dp"
                                         android:background="@android:color/transparent"
                                         android:textColorHint="@color/LiteGray"
                                         android:id="@+id/userName"
@@ -278,8 +282,10 @@
                                     android:layout_alignParentTop="true"
                                     android:layout_toRightOf="@+id/displayNameIconLayout"
                                     android:layout_toEndOf="@+id/displayNameIconLayout">
-                                    <EditText android:layout_width="match_parent"
+                                    <EditText
+                                        android:layout_width="match_parent"
                                         android:layout_height="fill_parent"
+                                        android:layout_marginRight="25dp"
                                         android:background="@android:color/transparent"
                                         android:textColorHint="@color/LiteGray"
                                         android:id="@+id/displayName"
@@ -355,8 +361,10 @@
                                         android:layout_toRightOf="@+id/passwordIconLayout"
                                         android:id="@+id/passwordTxtLayout"
                                         android:layout_alignParentTop="true">
-                                    <EditText android:layout_width="match_parent"
+                                    <EditText
+                                              android:layout_width="match_parent"
                                               android:layout_height="fill_parent"
+                                              android:layout_marginRight="25dp"
                                               android:background="@android:color/transparent"
                                               android:textColorHint="@color/LiteGray"
                                               android:id="@+id/passWord"
@@ -436,8 +444,10 @@
                                         android:layout_alignParentTop="true"
                                         android:layout_toRightOf="@+id/confirmPasswordIconLayout"
                                         android:layout_toEndOf="@+id/confirmPasswordIconLayout">
-                                    <EditText android:layout_width="match_parent"
+                                    <EditText
+                                              android:layout_width="match_parent"
                                               android:layout_height="fill_parent"
+                                              android:layout_marginRight="25dp"
                                               android:background="@android:color/transparent"
                                               android:textColorHint="@color/LiteGray"
                                               android:id="@+id/confirmPassWord"
@@ -518,17 +528,23 @@
                                     android:layout_toRightOf="@+id/addressIconLayout"
                                     android:id="@+id/addressTxtLayout"
                                     android:layout_alignParentTop="true">
-                                    <EditText android:layout_width="match_parent"
+                                    <com.vpage.vcars.tools.ActionEditText
+                                        android:layout_width="match_parent"
                                         android:layout_height="fill_parent"
+                                        android:layout_marginRight="25dp"
                                         android:background="@android:color/transparent"
                                         android:textColorHint="@color/LiteGray"
-                                        android:inputType="textPostalAddress"
+                                        android:maxLines="5"
+                                        android:maxLength="150"
                                         android:id="@+id/address"
+                                        android:isScrollContainer="true"
                                         android:imeOptions="actionNext"
                                         android:textColor="@color/Black"
                                         android:gravity="left|center_vertical"
                                         android:textSize="14sp"
-                                        android:hint="address"/>
+                                        android:hint="address"
+                                        android:inputType="textAutoCorrect|textCapSentences|textMultiLine" />
+
                                     <Button
                                         android:layout_width="20dp"
                                         android:layout_height="20dp"
@@ -592,8 +608,10 @@
                                     android:layout_height="40dp"
                                     android:id="@+id/licenseTxtLayout"
                                     android:layout_below="@+id/licenseNoLayout">
-                                    <EditText android:layout_width="match_parent"
+                                    <EditText
+                                        android:layout_width="match_parent"
                                         android:layout_height="fill_parent"
+                                        android:layout_marginRight="25dp"
                                         android:background="@android:color/transparent"
                                         android:textColorHint="@color/LiteGray"
                                         android:id="@+id/license"

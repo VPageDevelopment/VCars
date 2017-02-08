@@ -24,9 +24,11 @@ import android.util.Base64;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -236,6 +238,8 @@ public class SigninActivity extends Activity implements View.OnKeyListener, View
 
     @AfterViews
     public void initView() {
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+
         generateKeyHash();
         try {
             homestudy_textview.setTypeface(VTools.getAvenirLTStdHeavy());
@@ -668,7 +672,7 @@ public class SigninActivity extends Activity implements View.OnKeyListener, View
             if (signInResponse.isSuccess()) {
                 if (LogFlag.bLogOn)Log.d(TAG, "Login Success");
 
-                goToLanding();
+                goToHome();
 
             } else {
                 stopLoader();
@@ -682,7 +686,7 @@ public class SigninActivity extends Activity implements View.OnKeyListener, View
 
     }
 
-    private void goToLanding() {
+    private void goToHome() {
         try {
             boolean isAppInstalled = VPreferences.getAppInstallStatus("isInstalled");
 
@@ -1264,7 +1268,7 @@ public class SigninActivity extends Activity implements View.OnKeyListener, View
 
         if (LogFlag.bLogOn)Log.d(TAG, "Login Success");
 
-        goToLanding();
+        goToHome();
 
     }
 
@@ -1279,7 +1283,7 @@ public class SigninActivity extends Activity implements View.OnKeyListener, View
         if (LogFlag.bLogOn)Log.d(TAG, "Facebook Login Success");
 
 
-         goToLanding();
+        goToHome();
 
         //}
 
@@ -1445,7 +1449,7 @@ public class SigninActivity extends Activity implements View.OnKeyListener, View
 
             if (LogFlag.bLogOn)Log.d(TAG, "signInResponse: " + signInResponse.toString());
 
-            goToLanding();
+            goToHome();
         } else {
             loaderGif.setVisibility(View.GONE);
             showToastErrorMsg(registerResponse.getError());
@@ -1619,7 +1623,7 @@ public class SigninActivity extends Activity implements View.OnKeyListener, View
             VPreferences.save("countryCode", countryCode);
             if (LogFlag.bLogOn)Log.d(TAG, "Country : " + countryCode);
         } catch (Exception e) {
-            if (LogFlag.bLogOn)Log.e(TAG,"Error in getting countryCode",e);
+            if (LogFlag.bLogOn)Log.e(TAG,"Error in getting countryCode "+e.getMessage());
         }
     }
 
@@ -1661,7 +1665,7 @@ public class SigninActivity extends Activity implements View.OnKeyListener, View
                 }
             }
         }catch (Exception e){
-            if (LogFlag.bLogOn)Log.e(TAG,"Error while getting user location",e);
+            if (LogFlag.bLogOn)Log.e(TAG,"Error while getting user location "+e.getMessage());
         }
     }
     /**
@@ -1677,7 +1681,7 @@ public class SigninActivity extends Activity implements View.OnKeyListener, View
                 }
             }
         } catch (IllegalArgumentException e) {
-            if (LogFlag.bLogOn)Log.e(TAG, "Cannot access Provider " + provider,e);
+            if (LogFlag.bLogOn)Log.e(TAG, "Cannot access Provider " + e.getMessage());
         }
         return location;
     }

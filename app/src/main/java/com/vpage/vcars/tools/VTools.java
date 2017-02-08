@@ -3,9 +3,12 @@ package com.vpage.vcars.tools;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
@@ -300,5 +303,31 @@ public class VTools {
         Typeface   typeface = Typeface.createFromAsset(VCarsApplication.getContext().getAssets(),"Lithos-Pro-Black_28554.ttf");
         return typeface;
     }
+
+
+    public static void showAlertDialog(Activity activity,String message) {
+
+        TextView title = new TextView(activity);
+        // You Can Customise your Title here
+        title.setText(activity.getResources().getString(R.string.app_name));
+        title.setBackgroundColor(Color.BLACK);
+        title.setPadding(10, 15, 15, 10);
+        title.setGravity(Gravity.CENTER);
+        title.setTextColor(Color.WHITE);
+        title.setTextSize(20);
+
+        AlertDialog alertDialog = new AlertDialog.Builder(activity).create();
+        alertDialog.setCustomTitle(title);
+        alertDialog.setMessage(message);
+
+        alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+        alertDialog.show();
+
+    }
+
 
 }
