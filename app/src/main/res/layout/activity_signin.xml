@@ -87,7 +87,8 @@
                 android:id="@+id/loging_layout"
                 android:layout_height="match_parent"
                 android:weightSum="4"
-                android:gravity="bottom|center_vertical">
+                android:gravity="bottom|center_vertical"
+                android:baselineAligned="false">
                 <LinearLayout
                     android:orientation="horizontal"
                     android:layout_width="match_parent"

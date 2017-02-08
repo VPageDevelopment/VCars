@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 import com.vpage.vcars.R;
+import com.vpage.vcars.tools.VTools;
 import com.vpage.vcars.tools.utils.LogFlag;
 
 import org.androidannotations.annotations.AfterViews;
@@ -92,7 +93,7 @@ public class CarRequestActivity extends AppCompatActivity implements View.OnClic
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
-        getSupportActionBar().setTitle(selectedCar);
+        getSupportActionBar().setTitle(selectedCar+"");
 
     }
 
@@ -125,6 +126,7 @@ public class CarRequestActivity extends AppCompatActivity implements View.OnClic
 
         switch (v.getId()){
             case R.id.buttonRequest:
+                gotoPaymentPage();
                 break;
 
             case R.id.carRequestDay:
@@ -133,6 +135,14 @@ public class CarRequestActivity extends AppCompatActivity implements View.OnClic
                 break;
         }
 
+    }
+
+    private void gotoPaymentPage() {
+
+        Intent intent = new Intent(getApplicationContext(), PaymentActivity_.class);
+        intent.putExtra("SelectedCar","Car Selected");
+        startActivity(intent);
+        VTools.animation(this);
     }
 
 

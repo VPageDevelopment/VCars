@@ -54,9 +54,11 @@ public class SplashActivity extends Activity {
         setAnimStyle();
 
 
-        afterSplash();
+      //  afterSplash();
 
       //  gotoSignUpPage();
+
+        gotoCarRequestPage();
 
     }
 
@@ -64,6 +66,14 @@ public class SplashActivity extends Activity {
     private void gotoHomePage() {
 
         Intent intent = new Intent(getApplicationContext(), HomeActivity_.class);
+        startActivity(intent);
+        VTools.animation(this);
+    }
+
+
+    private void gotoCarRequestPage() {
+
+        Intent intent = new Intent(getApplicationContext(), CarRequestActivity_.class);
         startActivity(intent);
         VTools.animation(this);
     }

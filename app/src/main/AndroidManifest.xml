@@ -110,6 +110,11 @@
             android:name=".activity.CarRequestActivity_"
             android:screenOrientation="portrait"
             />
+        <activity
+            android:name=".activity.PaymentActivity_"
+            android:screenOrientation="portrait"
+            />
+
         <!-- Declare SMS Broadcast receiver -->
         <receiver android:name="com.vpage.vcars.tools.IncomingSms">
             <intent-filter>
