@@ -71,8 +71,8 @@
                     android:layout_width="@dimen/loginPopup_btnClose_width"
                     android:layout_height="@dimen/loginPopup_btnClose_height"
                     android:id="@+id/btnClose"
-                android:scaleType="fitXY"
-                android:padding="@dimen/loginPopup_btnClose_padding"
+                    android:scaleType="fitXY"
+                    android:padding="@dimen/loginPopup_btnClose_padding"
                     android:layout_gravity="center_horizontal|right"
                     android:background="@android:color/transparent"
                     android:src="@drawable/close"
@@ -104,7 +104,7 @@
                             android:id="@+id/userIcon"
                             android:src="@drawable/user"
                             android:layout_gravity="center"
-                        android:contentDescription="@string/app_name" />
+                            android:contentDescription="@string/app_name" />
                 </LinearLayout>
                 <LinearLayout
                         android:orientation="horizontal"
@@ -116,7 +116,7 @@
                         android:layout_alignParentBottom="false"
                         android:layout_alignParentTop="true">
                     <EditText
-                        android:layout_width="match_parent"
+                              android:layout_width="match_parent"
                               android:layout_height="match_parent"
                               android:background="@android:color/transparent"
                               android:id="@+id/userName"

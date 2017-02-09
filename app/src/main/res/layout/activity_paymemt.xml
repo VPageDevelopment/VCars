@@ -17,11 +17,12 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
+            android:background="?attr/colorAccent"
             app:popupTheme="@style/AppTheme.PopupOverlay"
             app:titleTextAppearance="@style/Toolbar.TitleText" />
 
     </android.support.design.widget.AppBarLayout>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -52,7 +53,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="text"
-                        android:hint="Name" />
+                        android:hint="Account Holder Name" />
                 </android.support.design.widget.TextInputLayout>
 
                 <android.support.design.widget.TextInputLayout
@@ -81,20 +82,25 @@
                         android:hint="Card Number" />
                 </android.support.design.widget.TextInputLayout>
 
-                <android.support.design.widget.TextInputLayout
+                <Button
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:layout_marginBottom="8dp">
-                    <EditText
-                        android:id="@+id/expDate"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="date"
-                        android:hint="Experi Date "
-                        />
-                </android.support.design.widget.TextInputLayout>
+                    android:layout_marginBottom="8dp"
+                    android:background="@color/common_button_color"
+                    android:text="Card Expiry Day "
+                    android:id="@+id/cardExpiryDay"
+                    android:layout_below="@+id/carLocalityLayout"
+                    android:layout_centerHorizontal="true"/>
 
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:text="Expiry Date "
+                    android:id="@+id/expDate"
+                    android:gravity="left"/>
 
 
                 <android.support.v7.widget.AppCompatButton
