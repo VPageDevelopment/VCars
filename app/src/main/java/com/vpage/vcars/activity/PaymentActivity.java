@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.TextView;
 import com.vpage.vcars.R;
 import com.vpage.vcars.tools.utils.LogFlag;
@@ -32,6 +33,14 @@ public class PaymentActivity extends AppCompatActivity implements View.OnClickLi
     @ViewById(R.id.buttonPayment)
     Button buttonPayment;
 
+    @ViewById(R.id.editTextAccountHolderName)
+    EditText editTextAccountHolderName;
+
+    @ViewById(R.id.editTextBankName)
+    EditText editTextBankName;
+
+    @ViewById(R.id.editTextCardNo)
+    EditText editTextCardNo;
 
     @ViewById(R.id.cardExpiryDay)
     Button cardExpiryDay;
@@ -39,8 +48,11 @@ public class PaymentActivity extends AppCompatActivity implements View.OnClickLi
     @ViewById(R.id.expDate)
     TextView expDateDateView;
 
+    @ViewById(R.id.errorText)
+    TextView errorText;
 
     String selectedCar;
+    String accountHolderName = "",bankName = "",cardNumber= "",cardExpiryDate = "";
 
     private int year;
     private int month;
@@ -77,6 +89,7 @@ public class PaymentActivity extends AppCompatActivity implements View.OnClickLi
         setCurrentDate();
         expDateDateView.setText(String.valueOf((new StringBuilder().append(month+1).append("-").append(day).append("-")
                 .append(year).append(" "))));
+        cardExpiryDate= expDateDateView.getText().toString();
     }
 
 
@@ -98,6 +111,15 @@ public class PaymentActivity extends AppCompatActivity implements View.OnClickLi
         switch (v.getId()){
             case R.id.buttonPayment:
                 // TO Do
+
+                accountHolderName = editTextAccountHolderName.getText().toString();
+                bankName = editTextBankName.getText().toString();
+                cardNumber = editTextCardNo.getText().toString();
+                if (accountHolderName.equals("") || bankName.equals("")|| cardNumber.equals("")|| cardExpiryDate.equals("")) {
+                    if (LogFlag.bLogOn)Log.d(TAG, String.valueOf(R.string.nullMessage));
+                    setErrorMessage(String.valueOf(R.string.nullMessage));
+                    return;
+                }
                 break;
 
             case R.id.cardExpiryDay:
@@ -141,6 +163,7 @@ public class PaymentActivity extends AppCompatActivity implements View.OnClickLi
                     .append(month + 1).append("-").append(day).append("-")
                     .append(year).append(" ")));
             expDateDateView.setText(carRequestDate);
+            cardExpiryDate= expDateDateView.getText().toString();
             if (LogFlag.bLogOn) Log.d(TAG, "Car Request Date: "+carRequestDate);
 
         }
@@ -155,6 +178,11 @@ public class PaymentActivity extends AppCompatActivity implements View.OnClickLi
         month = calendar.get(Calendar.MONTH);
         day = calendar.get(Calendar.DAY_OF_MONTH);
 
+    }
+
+    void setErrorMessage(String errorMessage) {
+        errorText.setVisibility(View.VISIBLE);
+        errorText.setText(errorMessage);
     }
 
 }

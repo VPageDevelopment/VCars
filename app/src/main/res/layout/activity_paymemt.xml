@@ -49,7 +49,7 @@
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="8dp">
                     <EditText
-                        android:id="@+id/editTextUsername"
+                        android:id="@+id/editTextAccountHolderName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="text"
@@ -101,6 +101,17 @@
                     android:text="Expiry Date "
                     android:id="@+id/expDate"
                     android:gravity="left"/>
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="40dp"
+                    android:layout_below="@+id/expDate"
+                    android:id="@+id/errorText"
+                    android:visibility="gone"
+                    android:textSize="14sp"
+                    android:textColor="@color/Red"
+                    android:gravity="center|center_vertical"
+                    android:layout_marginTop="10dp"/>
 
 
                 <android.support.v7.widget.AppCompatButton

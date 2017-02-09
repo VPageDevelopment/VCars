@@ -66,7 +66,12 @@ public class CarRequestActivity extends AppCompatActivity implements View.OnClic
     @ViewById(R.id.outStationLayout)
     TextInputLayout outStationLayout;
 
+    @ViewById(R.id.errorText)
+    TextView errorText;
+
     String selectedCar;
+
+    String requestLocation = "",requestDate = "";
 
 
     private int year;
@@ -105,6 +110,7 @@ public class CarRequestActivity extends AppCompatActivity implements View.OnClic
         setCurrentDate();
         carRequestDateView.setText(String.valueOf((new StringBuilder().append(month+1).append("-").append(day).append("-")
                 .append(year).append(" "))));
+        requestDate = carRequestDateView.getText().toString();
     }
 
 
@@ -126,6 +132,11 @@ public class CarRequestActivity extends AppCompatActivity implements View.OnClic
 
         switch (v.getId()){
             case R.id.buttonRequest:
+                if (requestLocation.equals("") || requestDate.equals("")) {
+                    if (LogFlag.bLogOn)Log.d(TAG, getResources().getString(R.string.nullMessage));
+                    setErrorMessage( getResources().getString(R.string.nullMessage));
+                    return;
+                }
                 gotoPaymentPage();
                 break;
 
@@ -152,11 +163,14 @@ public class CarRequestActivity extends AppCompatActivity implements View.OnClic
         {
             localStation.setVisibility(View.VISIBLE);
             outStationLayout.setVisibility(View.GONE);
+            localStation.setText("");  // To Do set the value from service response
+            requestLocation = localStation.getText().toString();
         }
         else if(radioOutStation.isChecked())
         {
             outStationLayout.setVisibility(View.VISIBLE);
             localStation.setVisibility(View.GONE);
+            requestLocation = outStation.getText().toString();
 
         }
     }
@@ -193,6 +207,7 @@ public class CarRequestActivity extends AppCompatActivity implements View.OnClic
                     .append(month + 1).append("-").append(day).append("-")
                     .append(year).append(" ")));
             carRequestDateView.setText(carRequestDate);
+            requestDate = carRequestDateView.getText().toString();
             if (LogFlag.bLogOn) Log.d(TAG, "Car Request Date: "+carRequestDate);
 
         }
@@ -209,5 +224,9 @@ public class CarRequestActivity extends AppCompatActivity implements View.OnClic
 
     }
 
+    void setErrorMessage(String errorMessage) {
+        errorText.setVisibility(View.VISIBLE);
+        errorText.setText(errorMessage);
+    }
 
 }

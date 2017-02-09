@@ -157,13 +157,24 @@
                 android:hint="Customer Negotiation Amount "/>
         </android.support.design.widget.TextInputLayout>
 
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="40dp"
+            android:layout_below="@+id/negotiationAmountLayout"
+            android:id="@+id/errorText"
+            android:visibility="gone"
+            android:textSize="14sp"
+            android:textColor="@color/Red"
+            android:gravity="center|center_vertical"
+            android:layout_marginTop="10dp"/>
+
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@color/common_button_color"
             android:text="REQUEST"
             android:id="@+id/buttonRequest"
-            android:layout_below="@+id/negotiationAmountLayout"
+            android:layout_below="@+id/errorText"
             android:layout_centerHorizontal="true"/>
 
 

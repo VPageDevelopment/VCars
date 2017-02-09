@@ -431,8 +431,8 @@ public class SignupActivity extends AppCompatActivity implements   View.OnKeyLis
         }
 
         if (userPhoneNumber.equals("") || passWord.equals("") ||  useName.equals("")||  displayName.equals("") || confirmPassWord.equals("") ) {
-            if (LogFlag.bLogOn)Log.d(TAG, String.valueOf(R.string.nullMessage));
-            setErrorMessage(String.valueOf(R.string.nullMessage));
+            if (LogFlag.bLogOn)Log.d(TAG, getResources().getString(R.string.nullMessage));
+            setErrorMessage( getResources().getString(R.string.nullMessage));
             return;
         }
         if (!passWordInput.equals(conformPasswordInput)) {

@@ -44,8 +44,6 @@
         android:name="android.permission.READ_CONTACTS"
         android:required="false" />
 
-
-
     <!-- Permissions to receive and read SMS -->
     <uses-permission android:name="android.permission.SEND_SMS" />
     <uses-permission android:name="android.permission.RECEIVE_SMS"/>
@@ -57,7 +55,7 @@
     <uses-feature android:glEsVersion="0x00020000"
         android:required="true"/>
 
-
+    <uses-feature android:name="android.hardware.location.gps" />
 
     <application
         android:name="com.vpage.vcars.tools.VCarsApplication_"
