@@ -16,7 +16,7 @@
 
     <item android:id="@+id/favourite"
         android:title="Favourite"
-        android:icon="@drawable/heart"
+        android:icon="@drawable/favourite"
         app:showAsAction="always">
     </item>
 
