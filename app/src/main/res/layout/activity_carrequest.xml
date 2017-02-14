@@ -80,33 +80,37 @@
 
             </RadioGroup>
 
-            <android.support.design.widget.TextInputLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:visibility="gone"
-                android:layout_below="@id/carLocality"
-                android:id="@+id/outStationLayout">
-
-                <EditText
+                android:layout_height="wrap_content"
+                android:layout_below="@id/carLocality">
+                <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="text"
-                    android:id="@+id/outStation"
-                    android:hint="Out Station"/>
-            </android.support.design.widget.TextInputLayout>
+                    android:layout_height="50dp"
+                    android:visibility="gone"
+                    android:id="@+id/outStationLayout">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:visibility="gone"
-                android:layout_below="@id/carLocality"
-                android:text="Local "
-                android:id="@+id/localStation"
-                android:gravity="left"
-                android:layout_centerVertical="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="text"
+                        android:id="@+id/outStation"
+                        android:hint="Out Station"/>
+                </android.support.design.widget.TextInputLayout>
 
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:visibility="gone"
+                    android:text="Local "
+                    android:id="@+id/localStation"
+                    android:gravity="left|center"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true" />
+
+
+            </RelativeLayout>
 
         </RelativeLayout>
 
@@ -219,7 +223,8 @@
             android:text="Pick"
             android:id="@+id/buttonPick"
             android:layout_below="@+id/errorText"
-            android:layout_centerHorizontal="true"/>
+            android:layout_centerHorizontal="true"
+            android:drawablePadding="10dp" />
 
 
 

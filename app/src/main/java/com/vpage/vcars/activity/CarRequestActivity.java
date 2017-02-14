@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 import com.vpage.vcars.R;
+import com.vpage.vcars.pojos.VLocation;
 import com.vpage.vcars.tools.VTools;
 import com.vpage.vcars.tools.utils.LogFlag;
 
@@ -81,6 +82,8 @@ public class CarRequestActivity extends AppCompatActivity implements View.OnClic
 
     boolean dateSelectedFrom = false;
 
+    VLocation vLocation = new VLocation();
+
 
     private int year;
     private int month;
@@ -116,22 +119,8 @@ public class CarRequestActivity extends AppCompatActivity implements View.OnClic
         carRequestFromDay.setOnClickListener(this);
         carRequestToDay.setOnClickListener(this);
         radioLocality.setOnCheckedChangeListener(this);
-
-
-        if(radioLocal.isChecked())
-        {
-            localStation.setVisibility(View.VISIBLE);
-            outStationLayout.setVisibility(View.GONE);
-            localStation.setText("");  // To Do set the value from service response
-            requestLocation = localStation.getText().toString();
-        }
-        else if(radioOutStation.isChecked())
-        {
-            outStationLayout.setVisibility(View.VISIBLE);
-            localStation.setVisibility(View.GONE);
-            requestLocation = outStation.getText().toString();
-        }
-
+        radioLocal.setOnClickListener(this);
+        radioOutStation.setOnClickListener(this);
 
         setCurrentDate();
         carRequestFromDay.setText(String.valueOf((new StringBuilder().append(day).append("-").append(month+1).append("-")
@@ -142,6 +131,8 @@ public class CarRequestActivity extends AppCompatActivity implements View.OnClic
                 .append(year).append(" "))));
         requestToDate = carRequestToDay.getText().toString();
 
+        if (LogFlag.bLogOn)Log.d(TAG, "requestFromDate: "+requestFromDate);
+        if (LogFlag.bLogOn)Log.d(TAG, "requestToDate: "+requestToDate);
         noOfRequestDays = dayBetween(requestFromDate,requestToDate);
 
         carRequestDays.setText(noOfRequestDays);
@@ -166,6 +157,18 @@ public class CarRequestActivity extends AppCompatActivity implements View.OnClic
 
         switch (v.getId()){
             case R.id.buttonPick:
+
+                if(radioLocal.isChecked())
+                {
+                    requestLocation = localStation.getText().toString();
+                    if (LogFlag.bLogOn)Log.d(TAG, "requestLocation: "+requestLocation);
+                }
+                else if(radioOutStation.isChecked())
+                {
+                    requestLocation = outStation.getText().toString();
+                    if (LogFlag.bLogOn)Log.d(TAG, "requestLocation: "+requestLocation);
+                }
+
                 if (requestLocation.equals("") || requestFromDate.equals("") || requestToDate.equals("") || noOfRequestDays.equals("")) {
                     if (LogFlag.bLogOn)Log.d(TAG, getResources().getString(R.string.nullMessage));
                     setErrorMessage( getResources().getString(R.string.nullMessage));
@@ -185,6 +188,21 @@ public class CarRequestActivity extends AppCompatActivity implements View.OnClic
                 dateSelectedFrom = false;
                 showDialog(DATE_PICKER_ID);
                 break;
+
+            case R.id.radioLocal:
+                localStation.setVisibility(View.VISIBLE);
+                outStationLayout.setVisibility(View.GONE);
+                // To be removed after service code update
+                if(null == vLocation.getLocation()){
+                    vLocation.setLocation("Chennai");
+                }
+                localStation.setText(vLocation.getLocation().toString());  // To Do set the value from service response
+                break;
+
+            case R.id.radioOutStation:
+                outStationLayout.setVisibility(View.VISIBLE);
+                localStation.setVisibility(View.GONE);
+                break;
         }
 
     }
@@ -200,18 +218,21 @@ public class CarRequestActivity extends AppCompatActivity implements View.OnClic
 
     @Override
     public void onCheckedChanged(RadioGroup group, int checkedId) {
+
         if(radioLocal.isChecked())
         {
             localStation.setVisibility(View.VISIBLE);
             outStationLayout.setVisibility(View.GONE);
-            localStation.setText("");  // To Do set the value from service response
-            requestLocation = localStation.getText().toString();
+            // To be removed after service code update
+            if(null == vLocation.getLocation()){
+                vLocation.setLocation("Chennai");
+            }
+            localStation.setText(vLocation.getLocation().toString());  // To Do set the value from service response
         }
         else if(radioOutStation.isChecked())
         {
             outStationLayout.setVisibility(View.VISIBLE);
             localStation.setVisibility(View.GONE);
-            requestLocation = outStation.getText().toString();
         }
     }
 
@@ -224,6 +245,7 @@ public class CarRequestActivity extends AppCompatActivity implements View.OnClic
                 // open datepicker dialog.
                 // set date picker for current date
                 // add pickerListener listner to date picker
+                carRequestDays.setText(" ");
                 return new DatePickerDialog(this, pickerListener, year, month,day);
         }
         return null;
@@ -253,7 +275,8 @@ public class CarRequestActivity extends AppCompatActivity implements View.OnClic
                         .append(year).append(" "))));
                 requestToDate = carRequestToDay.getText().toString();
             }
-
+            if (LogFlag.bLogOn)Log.d(TAG, "requestFromDate: "+requestFromDate);
+            if (LogFlag.bLogOn)Log.d(TAG, "requestToDate: "+requestToDate);
             noOfRequestDays = dayBetween(requestFromDate,requestToDate);
 
             carRequestDays.setText(noOfRequestDays);
@@ -284,9 +307,13 @@ public class CarRequestActivity extends AppCompatActivity implements View.OnClic
             if (LogFlag.bLogOn)Log.e(TAG, e.getMessage());
         }
 
-        long diff = (date2.getTime() - date1.getTime())/(24*60*60*1000);
+        long diff = date2.getTime() - date1.getTime();
 
         float dayCount = (float) diff / (24 * 60 * 60 * 1000);
+
+        if((int) dayCount >= 0){
+            dayCount = dayCount +1;
+        }
 
         String noOfDays = "" + (int) dayCount + " Days";
         if (LogFlag.bLogOn)Log.d(TAG, "noOfDays: "+noOfDays);

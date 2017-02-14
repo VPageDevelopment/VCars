@@ -20,7 +20,7 @@
                 android:layout_width="@dimen/splashScreen_splash_oustboy_width"
                 android:layout_height="@dimen/splashScreen_splash_oustboy_height"
                 android:id="@+id/splash_image"
-                android:src="@drawable/appicon"
+                android:src="@mipmap/appicon"
                 android:layout_marginBottom="@dimen/splashScreen_splash_oustboy_marginBottom"
                 android:visibility="visible"
                 android:layout_centerVertical="true"
