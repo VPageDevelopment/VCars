@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    app:theme="@style/AppTheme.NoActionBar"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="CONGRATULATION !!!!"
+            android:id="@+id/congText"
+            android:gravity="center"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:id="@+id/congImageLayout"
+            android:layout_below="@+id/congText">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/congImageOne"
+                android:src="@mipmap/congratulationicon"
+                android:layout_alignParentLeft="true"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/congImageTwo"
+                android:src="@mipmap/congratulationicon"
+                android:layout_alignParentRight="true"/>
+
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/congImageLayout"
+            android:layout_margin="10dp"
+            android:text="You are Driving Car Name Of Model"
+            android:id="@+id/messageText"
+            android:gravity="center"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:layout_margin="10dp"
+            android:id="@+id/progressLayout"
+            android:layout_below="@+id/messageText">
+
+            <ProgressBar
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="10dp"
+                android:indeterminate="false"
+                android:progressDrawable="@drawable/progressimage"
+                android:layout_alignParentLeft="true"
+                android:id="@+id/progressBar"
+                android:max="200"
+                android:progress="150" />
+
+            <Button
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
+                android:id="@+id/fullViewButton"
+                android:background="@color/common_button_color"
+                android:text="Full View"
+                android:textSize="10sp"
+                android:textAllCaps="false"
+                android:textColor="@color/button_text_color"
+                android:layout_alignParentRight="true"/>
+
+            </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/progressLayout"
+            android:visibility="visible"
+            android:id="@+id/mapContentLayout">
+
+            <fragment
+                android:id="@+id/map"
+                android:name="com.google.android.gms.maps.SupportMapFragment"
+                android:layout_width="match_parent"
+                android:layout_gravity="center"
+                android:layout_height="match_parent"
+                />
+
+        </RelativeLayout>
+
+
+
+
+    </RelativeLayout>
+
+
+</RelativeLayout>

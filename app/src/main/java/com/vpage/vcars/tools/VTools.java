@@ -150,6 +150,12 @@ public class VTools {
 
     }
 
+    public static Boolean checkNetworkConnection(Activity activity) {
+        ConnectionDetector connectionDetector = new ConnectionDetector(activity);
+        Boolean isInternetPresent = connectionDetector.isConnectingToInternet();
+        return isInternetPresent;
+    }
+
 
     private static String chosenProfileImage;
 

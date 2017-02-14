@@ -27,16 +27,13 @@ import com.vpage.vcars.tools.fab.FloatingActionsMenu;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Fullscreen;
-import org.androidannotations.annotations.OptionsMenu;
-import org.androidannotations.annotations.OptionsMenuItem;
 import org.androidannotations.annotations.ViewById;
-
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
 import com.vpage.vcars.tools.fab.FloatingActionButton;
 import com.vpage.vcars.tools.utils.LogFlag;
-
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.location.Address;
@@ -61,13 +58,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
-
 import java.io.IOException;
 import java.util.List;
 
 @EActivity(R.layout.activity_home)
-
 @Fullscreen
 public class HomeActivity  extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,OnMapReadyCallback,GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
 
@@ -137,11 +131,7 @@ public class HomeActivity  extends AppCompatActivity implements NavigationView.O
         mapFragment.getMapAsync(this);
     }
 
-    Boolean checkNetworkConnection() {
-        ConnectionDetector connectionDetector = new ConnectionDetector(HomeActivity.this);
-        Boolean isInternetPresent = connectionDetector.isConnectingToInternet();
-        return isInternetPresent;
-    }
+
 
     @Override
     public void onDestroy() {
@@ -151,15 +141,15 @@ public class HomeActivity  extends AppCompatActivity implements NavigationView.O
 
 
     @Override
-    public void onMapReady(GoogleMap gMap) {
-        mMap = gMap;
+    public void onMapReady(GoogleMap googleMap) {
+        mMap = googleMap;
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
             return;
         }
         mMap.setMyLocationEnabled(true);
 
-        Boolean isInternetPresent = checkNetworkConnection();
+        Boolean isInternetPresent = VTools.checkNetworkConnection(HomeActivity.this);
         if (isInternetPresent) {
             buildGoogleApiClient();
 
@@ -349,9 +339,20 @@ public class HomeActivity  extends AppCompatActivity implements NavigationView.O
         final FloatingActionButton viewStatus= new FloatingActionButton(getBaseContext());
         viewStatus.setIconDrawable(getResources().getDrawable(R.drawable.mapviewicon));
         viewStatus.setTitle("Map View");
+
+        final FloatingActionButton chatButton= new FloatingActionButton(getBaseContext());
+        chatButton.setIconDrawable(getResources().getDrawable(R.drawable.mapviewicon));
+        chatButton.setTitle("Chat");
+
+        final FloatingActionButton carDetailButton= new FloatingActionButton(getBaseContext());
+        carDetailButton.setIconDrawable(getResources().getDrawable(R.drawable.mapviewicon));
+        carDetailButton.setTitle("Car Detail");
+
         tabContentLayout.setVisibility(View.VISIBLE);
 
         floatingActionsMenu.addButton(viewStatus);
+        floatingActionsMenu.addButton(chatButton);
+        floatingActionsMenu.addButton(carDetailButton);
 
         View.OnClickListener listener = new View.OnClickListener() {
             @SuppressLint("NewApi")
@@ -459,6 +460,7 @@ public class HomeActivity  extends AppCompatActivity implements NavigationView.O
             case 2:
                 // Current Driving
                 if (LogFlag.bLogOn) Log.d(TAG, "ItemSelected 2: "+item.getTitle());
+                gotoCurrentCarViewPage();
                 return true;
             case 3:
                 // Report
@@ -500,6 +502,14 @@ public class HomeActivity  extends AppCompatActivity implements NavigationView.O
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void gotoCurrentCarViewPage() {
+
+        Intent intent = new Intent(getApplicationContext(), CurrentCarViewActivity_.class);
+        intent.putExtra("SelectedCar","Car Selected");
+        startActivity(intent);
+        VTools.animation(this);
     }
 
 }
