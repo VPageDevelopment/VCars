@@ -110,23 +110,65 @@
 
         </RelativeLayout>
 
-        <Button
+
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:id="@+id/carRequestDayTitle"
             android:layout_margin="10dp"
-            android:background="@color/common_button_color"
-            android:text="Car Request Day "
-            android:id="@+id/carRequestDay"
-            android:layout_below="@+id/carLocalityLayout"
-            android:layout_centerHorizontal="true"/>
+            android:layout_below="@+id/carLocalityLayout">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Car Request From Date"
+                android:layout_alignParentLeft="true"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Car Request To Date"
+                android:layout_alignParentRight="true"/>
+
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/carRequestDayButton"
+            android:layout_margin="10dp"
+            android:layout_below="@+id/carRequestDayTitle">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/button_text_color"
+                android:background="@color/common_button_color"
+                android:text=" Pick From Date "
+                android:id="@+id/carRequestFromDay"
+                android:layout_alignParentLeft="true"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/button_text_color"
+                android:background="@color/common_button_color"
+                android:text=" Pick To Date "
+                android:id="@+id/carRequestToDay"
+                android:layout_alignParentRight="true"/>
+
+        </RelativeLayout>
+
+
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:text="Request Date "
-            android:id="@+id/carRequestDate"
-            android:layout_below="@+id/carRequestDay"
+            android:text="No.days "
+            android:id="@+id/carRequestDays"
+            android:layout_below="@+id/carRequestDayButton"
             android:gravity="left"/>
 
         <TextView
@@ -135,7 +177,7 @@
             android:layout_margin="10dp"
             android:text="Negotiation Amount "
             android:id="@+id/carNegotiationAmount"
-            android:layout_below="@+id/carRequestDate"
+            android:layout_below="@+id/carRequestDays"
             android:gravity="left"/>
 
 
@@ -171,9 +213,11 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:drawableRight="@drawable/keyicon"
             android:background="@color/common_button_color"
-            android:text="REQUEST"
-            android:id="@+id/buttonRequest"
+            android:textColor="@color/button_text_color"
+            android:text="Pick"
+            android:id="@+id/buttonPick"
             android:layout_below="@+id/errorText"
             android:layout_centerHorizontal="true"/>
 

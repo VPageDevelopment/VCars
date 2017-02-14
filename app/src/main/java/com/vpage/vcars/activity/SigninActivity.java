@@ -761,8 +761,6 @@ public class SigninActivity extends Activity implements View.OnKeyListener, View
                        // vCarLogin();
 
                           vcarUserExists(); // TO be Used
-
-
                     }
                     break;
 
@@ -1509,12 +1507,14 @@ public class SigninActivity extends Activity implements View.OnKeyListener, View
 
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
-        if (LogFlag.bLogOn)Log.d(TAG, connectionResult.toString());
+        if (LogFlag.bLogOn)Log.d(TAG, "onConnectionFailed: "+connectionResult.toString());
+        if (LogFlag.bLogOn)Log.d(TAG, "onConnectionFailed: "+connectionResult.getErrorMessage());
         if (!mIsResolving && mShouldResolve) {
             if (connectionResult.hasResolution()) {
                 try {
                     // !!!
                     connectionResult.startResolutionForResult(this, RC_SIGN_IN);
+                   // startActivityForResult(this.getIntent(), RC_SIGN_IN);
                     mIsResolving = true;
                 } catch (IntentSender.SendIntentException e) {
                     if (LogFlag.bLogOn)Log.e(TAG, "Could not resolve ConnectionResult.", e);

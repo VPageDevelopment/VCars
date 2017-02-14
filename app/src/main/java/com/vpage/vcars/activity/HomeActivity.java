@@ -22,11 +22,13 @@ import com.vpage.vcars.pojos.VLocation;
 import com.vpage.vcars.tools.ConnectionDetector;
 import com.vpage.vcars.tools.VCarsApplication;
 import com.vpage.vcars.tools.VPreferences;
+import com.vpage.vcars.tools.VTools;
 import com.vpage.vcars.tools.fab.FloatingActionsMenu;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Fullscreen;
 import org.androidannotations.annotations.OptionsMenu;
+import org.androidannotations.annotations.OptionsMenuItem;
 import org.androidannotations.annotations.ViewById;
 
 import android.Manifest;
@@ -36,6 +38,7 @@ import com.vpage.vcars.tools.fab.FloatingActionButton;
 import com.vpage.vcars.tools.utils.LogFlag;
 
 import android.content.pm.PackageManager;
+import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -50,16 +53,21 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.ImageSpan;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import java.io.IOException;
 import java.util.List;
 
 @EActivity(R.layout.activity_home)
-@OptionsMenu(R.menu.menu_home)
+
 @Fullscreen
 public class HomeActivity  extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,OnMapReadyCallback,GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
 
@@ -105,10 +113,10 @@ public class HomeActivity  extends AppCompatActivity implements NavigationView.O
     String[] tabItems;
 
 
+
     @AfterViews
     public void onInitHome() {
         setActionBarSupport();
-
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
@@ -260,9 +268,31 @@ public class HomeActivity  extends AppCompatActivity implements NavigationView.O
             markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
             currLocationMarker = mMap.addMarker(markerOptions);
 
+
+
         }else {
             if (LogFlag.bLogOn) Log.i(TAG, "Not able to get Location");
         }
+
+        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener()
+        {
+
+            @Override
+            public boolean onMarkerClick(Marker arg0) {
+              //  if(arg0.getTitle().equals("MyHome")) // if marker source is clicked
+                gotoCarDetailPage();
+                return true;
+            }
+
+        });
+    }
+
+    private void gotoCarDetailPage() {
+
+        Intent intent = new Intent(getApplicationContext(), CarDetailActivity_.class);
+        intent.putExtra("SelectedCar","Car Selected");
+        startActivity(intent);
+        VTools.animation(this);
     }
 
 
@@ -376,19 +406,64 @@ public class HomeActivity  extends AppCompatActivity implements NavigationView.O
         }
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_home, menu);
+
+
+        setMenu(menu);
+        return true;
+    }
+
+    void setMenu(Menu menu){
+        menu.add(0, 1, 1, menuIconWithText(getResources().getDrawable(R.drawable.shareicon), "Share"));
+        menu.add(0, 2, 2, menuIconWithText(getResources().getDrawable(R.drawable.caricon), "Current Driving"));
+        menu.add(0, 3, 3, menuIconWithText(getResources().getDrawable(R.drawable.reporticon), "Report"));
+
+    }
+
+    private CharSequence menuIconWithText(Drawable drawable, String title) {
+
+        drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
+        SpannableString spannableString = new SpannableString("  "+title);
+        ImageSpan imageSpan = new ImageSpan(drawable, ImageSpan.ALIGN_BOTTOM);
+        spannableString.setSpan(imageSpan, 0, 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        return spannableString;
+    }
+
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
+
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.home) {
-            return true;
-        }else if((id == R.id.share)){
-            callShareIntent();
+        switch (id) {
+            case R.id.home:
+                if (LogFlag.bLogOn) Log.d(TAG, "ItemSelected : "+item.getTitle());
+                return true;
+            case R.id.user:
+                if (LogFlag.bLogOn) Log.d(TAG, "ItemSelected : "+item.getTitle());
+                return true;
+            case R.id.favourite:
+                if (LogFlag.bLogOn) Log.d(TAG, "ItemSelected : "+item.getTitle());
+                return true;
+            case 1:
+                // Share
+                if (LogFlag.bLogOn) Log.d(TAG, "ItemSelected 1: "+item.getTitle());
+                callShareIntent();
+                return true;
+            case 2:
+                // Current Driving
+                if (LogFlag.bLogOn) Log.d(TAG, "ItemSelected 2: "+item.getTitle());
+                return true;
+            case 3:
+                // Report
+                if (LogFlag.bLogOn) Log.d(TAG, "ItemSelected 3: "+item.getTitle());
+                return true;
         }
 
         return super.onOptionsItemSelected(item);

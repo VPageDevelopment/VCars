@@ -5,13 +5,9 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
-
-import com.vpage.vcars.fragment.MiddleFragment;
 import com.vpage.vcars.fragment.MiddleFragment_;
 import com.vpage.vcars.fragment.MiniFragment_;
-import com.vpage.vcars.fragment.PrimeFragment;
 import com.vpage.vcars.fragment.PrimeFragment_;
-import com.vpage.vcars.fragment.SUVFragment;
 import com.vpage.vcars.fragment.SUVFragment_;
 
 public class HomeFragmentAdapter extends FragmentStatePagerAdapter {

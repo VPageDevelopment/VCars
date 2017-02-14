@@ -15,7 +15,8 @@ import com.vpage.vcars.tools.VPreferences;
 import com.vpage.vcars.tools.VTools;
 import com.vpage.vcars.tools.utils.LogFlag;
 import com.vpage.vcars.service.GCMClientManager;
-import com.vpage.vcars.view.GIFView;
+
+import com.vpage.vcars.view.PlayGifView;
 
 import org.androidannotations.annotations.*;
 
@@ -30,7 +31,7 @@ public class SplashActivity extends Activity {
     private GCMClientManager pushClientManager;
     String PROJECT_NUMBER = "";
 
-    int delay = 2000;
+    int delay = 1500;
 
    /* @ViewById(R.id.splash_textV)
     TextView splash_textView;
@@ -39,7 +40,7 @@ public class SplashActivity extends Activity {
     LinearLayout mainlanding_layout;
 
     @ViewById(R.id.splashImage)
-    GIFView imageView;
+    PlayGifView imageView;
 
     private boolean shouldKillActivity = false;
 
@@ -54,11 +55,9 @@ public class SplashActivity extends Activity {
         setAnimStyle();
 
 
-      //  afterSplash();
+       afterSplash();
 
-      //  gotoSignUpPage();
-
-        gotoCarRequestPage();
+      //  gotoHomePage();
 
     }
 
@@ -106,9 +105,12 @@ public class SplashActivity extends Activity {
 
     private void setAnimStyle() {
 
-        final Animation splash_anim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.splashanim);
+       /* final Animation splash_anim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.splashanim);
         imageView.setVisibility(View.VISIBLE);
-        imageView.startAnimation(splash_anim);
+        imageView.startAnimation(splash_anim);*/
+
+        imageView.setVisibility(View.VISIBLE);
+        imageView.setImageResource(R.mipmap.splashimage);
 
     }
 
@@ -171,6 +173,16 @@ public class SplashActivity extends Activity {
     }
 
 
+    private void gotoGoogleSignInPage() {
+
+        Intent intent = new Intent(getApplicationContext(), GoogleSignInActivity.class);
+        startActivity(intent);
+        VTools.animation(this);
+
+    }
+
+
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -183,7 +195,7 @@ public class SplashActivity extends Activity {
 
     private void getGcmDeviceToken(){
         try {
-            PROJECT_NUMBER = getString(R.string.ga_trackingId);
+            PROJECT_NUMBER = getString(R.string.G_PROJECT_NUMBER);
             if (LogFlag.bLogOn) Log.d(TAG, "PROJECT_NUMBER: "+ PROJECT_NUMBER);
             pushClientManager = new GCMClientManager(this, PROJECT_NUMBER);
             pushClientManager.registerIfNeeded(new GCMClientManager.RegistrationCompletedHandler() {

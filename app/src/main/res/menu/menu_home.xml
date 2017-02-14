@@ -20,9 +20,4 @@
         app:showAsAction="always">
     </item>
 
-    <item android:id="@+id/share"
-        android:title="Share"
-        android:icon="@drawable/share">
-    </item>
-
 </menu>

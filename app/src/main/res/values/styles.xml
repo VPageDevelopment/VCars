@@ -52,10 +52,6 @@
         <item name="android:textColor">@color/White</item>
     </style>
 
-    <declare-styleable name="GIFView">
-        <attr name="src" format="reference" />
-    </declare-styleable>
-
     <style name="Toolbar.TitleText" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
         <item name="android:textSize">12sp</item>
     </style>

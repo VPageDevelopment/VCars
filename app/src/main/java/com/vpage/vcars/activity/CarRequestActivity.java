@@ -27,7 +27,10 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Fullscreen;
 import org.androidannotations.annotations.ViewById;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 
 @EActivity(R.layout.activity_carrequest)
@@ -39,11 +42,14 @@ public class CarRequestActivity extends AppCompatActivity implements View.OnClic
     @ViewById(R.id.toolbar)
     Toolbar toolbar;
 
-    @ViewById(R.id.buttonRequest)
-    Button buttonRequest;
+    @ViewById(R.id.buttonPick)
+    Button buttonPick;
 
-    @ViewById(R.id.carRequestDay)
-    Button carRequestDay;
+    @ViewById(R.id.carRequestFromDay)
+    Button carRequestFromDay;
+
+    @ViewById(R.id.carRequestToDay)
+    Button carRequestToDay;
 
     @ViewById(R.id.radioLocality)
     RadioGroup radioLocality;
@@ -57,8 +63,8 @@ public class CarRequestActivity extends AppCompatActivity implements View.OnClic
     @ViewById(R.id.localStation)
     TextView localStation;
 
-    @ViewById(R.id.carRequestDate)
-    TextView carRequestDateView;
+    @ViewById(R.id.carRequestDays)
+    TextView carRequestDays;
 
     @ViewById(R.id.outStation)
     EditText outStation;
@@ -71,7 +77,9 @@ public class CarRequestActivity extends AppCompatActivity implements View.OnClic
 
     String selectedCar;
 
-    String requestLocation = "",requestDate = "";
+    String requestLocation = "",requestFromDate = "",requestToDate = "",noOfRequestDays;
+
+    boolean dateSelectedFrom = false;
 
 
     private int year;
@@ -104,13 +112,39 @@ public class CarRequestActivity extends AppCompatActivity implements View.OnClic
 
     private void setView() {
 
-        buttonRequest.setOnClickListener(this);
-        carRequestDay.setOnClickListener(this);
+        buttonPick.setOnClickListener(this);
+        carRequestFromDay.setOnClickListener(this);
+        carRequestToDay.setOnClickListener(this);
         radioLocality.setOnCheckedChangeListener(this);
+
+
+        if(radioLocal.isChecked())
+        {
+            localStation.setVisibility(View.VISIBLE);
+            outStationLayout.setVisibility(View.GONE);
+            localStation.setText("");  // To Do set the value from service response
+            requestLocation = localStation.getText().toString();
+        }
+        else if(radioOutStation.isChecked())
+        {
+            outStationLayout.setVisibility(View.VISIBLE);
+            localStation.setVisibility(View.GONE);
+            requestLocation = outStation.getText().toString();
+        }
+
+
         setCurrentDate();
-        carRequestDateView.setText(String.valueOf((new StringBuilder().append(month+1).append("-").append(day).append("-")
+        carRequestFromDay.setText(String.valueOf((new StringBuilder().append(day).append("-").append(month+1).append("-")
                 .append(year).append(" "))));
-        requestDate = carRequestDateView.getText().toString();
+        requestFromDate = carRequestFromDay.getText().toString();
+
+        carRequestToDay.setText(String.valueOf((new StringBuilder().append(day).append("-").append(month+1).append("-")
+                .append(year).append(" "))));
+        requestToDate = carRequestToDay.getText().toString();
+
+        noOfRequestDays = dayBetween(requestFromDate,requestToDate);
+
+        carRequestDays.setText(noOfRequestDays);
     }
 
 
@@ -131,17 +165,24 @@ public class CarRequestActivity extends AppCompatActivity implements View.OnClic
     public void onClick(View v) {
 
         switch (v.getId()){
-            case R.id.buttonRequest:
-                if (requestLocation.equals("") || requestDate.equals("")) {
+            case R.id.buttonPick:
+                if (requestLocation.equals("") || requestFromDate.equals("") || requestToDate.equals("") || noOfRequestDays.equals("")) {
                     if (LogFlag.bLogOn)Log.d(TAG, getResources().getString(R.string.nullMessage));
                     setErrorMessage( getResources().getString(R.string.nullMessage));
-                    return;
+                }else {
+                    gotoPaymentPage();
                 }
-                gotoPaymentPage();
                 break;
 
-            case R.id.carRequestDay:
+            case R.id.carRequestFromDay:
                 // On button click show datepicker dialog
+                dateSelectedFrom = true;
+                showDialog(DATE_PICKER_ID);
+                break;
+
+            case R.id.carRequestToDay:
+                // On button click show datepicker dialog
+                dateSelectedFrom = false;
                 showDialog(DATE_PICKER_ID);
                 break;
         }
@@ -171,7 +212,6 @@ public class CarRequestActivity extends AppCompatActivity implements View.OnClic
             outStationLayout.setVisibility(View.VISIBLE);
             localStation.setVisibility(View.GONE);
             requestLocation = outStation.getText().toString();
-
         }
     }
 
@@ -201,14 +241,22 @@ public class CarRequestActivity extends AppCompatActivity implements View.OnClic
             day   = selectedDay;
 
 
-            // set selected date
-            String carRequestDate = String.valueOf((new StringBuilder()
-                    // Month is 0 based, just add 1
-                    .append(month + 1).append("-").append(day).append("-")
-                    .append(year).append(" ")));
-            carRequestDateView.setText(carRequestDate);
-            requestDate = carRequestDateView.getText().toString();
-            if (LogFlag.bLogOn) Log.d(TAG, "Car Request Date: "+carRequestDate);
+            if(dateSelectedFrom){
+                // set selected date
+                carRequestFromDay.setText(String.valueOf((new StringBuilder().append(day).append("-").append(month+1).append("-")
+                        .append(year).append(" "))));
+                requestFromDate = carRequestFromDay.getText().toString();
+            }else {
+
+                // set selected date
+                carRequestToDay.setText(String.valueOf((new StringBuilder().append(day).append("-").append(month+1).append("-")
+                        .append(year).append(" "))));
+                requestToDate = carRequestToDay.getText().toString();
+            }
+
+            noOfRequestDays = dayBetween(requestFromDate,requestToDate);
+
+            carRequestDays.setText(noOfRequestDays);
 
         }
     };
@@ -222,6 +270,28 @@ public class CarRequestActivity extends AppCompatActivity implements View.OnClic
         month = calendar.get(Calendar.MONTH);
         day = calendar.get(Calendar.DAY_OF_MONTH);
 
+    }
+
+    public String dayBetween(String requestFromDate,String requestToDate)
+    {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH);
+        Date date1 = null,date2 = null;
+        try{
+            date1 = sdf.parse(requestFromDate);
+            date2 = sdf.parse(requestToDate);
+        }catch(Exception e)
+        {
+            if (LogFlag.bLogOn)Log.e(TAG, e.getMessage());
+        }
+
+        long diff = (date2.getTime() - date1.getTime())/(24*60*60*1000);
+
+        float dayCount = (float) diff / (24 * 60 * 60 * 1000);
+
+        String noOfDays = "" + (int) dayCount + " Days";
+        if (LogFlag.bLogOn)Log.d(TAG, "noOfDays: "+noOfDays);
+
+        return (noOfDays);
     }
 
     void setErrorMessage(String errorMessage) {

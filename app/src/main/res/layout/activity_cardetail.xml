@@ -70,8 +70,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:text="Fuel "
-            android:id="@+id/carFuel"
+            android:text="Car Model Number "
+            android:id="@+id/carModelNumber"
             android:layout_below="@+id/carVarient"
             android:gravity="left"/>
 
@@ -79,9 +79,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@color/common_button_color"
+            android:textColor="@color/button_text_color"
             android:text="ENTER"
             android:id="@+id/buttonEnter"
-            android:layout_below="@+id/carFuel"
+            android:layout_below="@+id/carModelNumber"
             android:layout_centerHorizontal="true"/>
 
     </RelativeLayout>

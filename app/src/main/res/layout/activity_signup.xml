@@ -703,7 +703,7 @@
                                 android:layout_marginTop="20dp"
                                 android:text="CREATE"
                                 android:background="@color/colorAccent"
-                                android:textColor="@color/White"
+                                android:textColor="@color/button_text_color"
                                 android:layout_marginLeft="20dp"
                                 android:layout_marginRight="20dp"
                                 android:id="@+id/createBtn"/>

@@ -87,7 +87,7 @@ public class PaymentActivity extends AppCompatActivity implements View.OnClickLi
         buttonPayment.setOnClickListener(this);
         cardExpiryDay.setOnClickListener(this);
         setCurrentDate();
-        expDateDateView.setText(String.valueOf((new StringBuilder().append(month+1).append("-").append(day).append("-")
+        expDateDateView.setText(String.valueOf((new StringBuilder().append(day).append("-").append(month+1).append("-")
                 .append(year).append(" "))));
         cardExpiryDate= expDateDateView.getText().toString();
     }
@@ -116,8 +116,8 @@ public class PaymentActivity extends AppCompatActivity implements View.OnClickLi
                 bankName = editTextBankName.getText().toString();
                 cardNumber = editTextCardNo.getText().toString();
                 if (accountHolderName.equals("") || bankName.equals("")|| cardNumber.equals("")|| cardExpiryDate.equals("")) {
-                    if (LogFlag.bLogOn)Log.d(TAG, String.valueOf(R.string.nullMessage));
-                    setErrorMessage(String.valueOf(R.string.nullMessage));
+                    if (LogFlag.bLogOn)Log.d(TAG, getResources().getString(R.string.nullMessage));
+                    setErrorMessage( getResources().getString(R.string.nullMessage));
                     return;
                 }
                 break;
@@ -160,7 +160,7 @@ public class PaymentActivity extends AppCompatActivity implements View.OnClickLi
             // set selected date
             String carRequestDate = String.valueOf((new StringBuilder()
                     // Month is 0 based, just add 1
-                    .append(month + 1).append("-").append(day).append("-")
+                    .append(day).append("-").append( month+1).append("-")
                     .append(year).append(" ")));
             expDateDateView.setText(carRequestDate);
             cardExpiryDate= expDateDateView.getText().toString();

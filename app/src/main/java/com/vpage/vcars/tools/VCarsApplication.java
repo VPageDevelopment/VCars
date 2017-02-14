@@ -54,7 +54,7 @@ public class VCarsApplication extends MultiDexApplication {
         if (mTracker == null) {
             GoogleAnalytics analytics = GoogleAnalytics.getInstance(activity.getApplicationContext());
             // To enable debug logging use: adb shell setprop log.tag.GAv4 DEBUG
-            mTracker = analytics.newTracker(activity.getResources().getString(R.string.ga_trackingId));
+            mTracker = analytics.newTracker(activity.getResources().getString(R.string.G_PROJECT_ID));
         }
         return mTracker;
     }

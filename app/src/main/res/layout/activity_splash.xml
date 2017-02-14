@@ -12,25 +12,14 @@
         android:id="@+id/splash_container"
         android:gravity="center|center_vertical">
 
-
-       <!-- <TextView
-            android:layout_width="match_parent"
-            android:id="@+id/splash_textV"
-            android:layout_height="wrap_content"
-            android:gravity="center|center_horizontal"
-            android:textSize="12sp"
-            android:visibility="visible"
-            android:textStyle="bold"
-            android:textColor="@color/Black"
-            android:text="@string/welcomeText" />-->
-
-
-        <com.vpage.vcars.view.GIFView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+        <com.vpage.vcars.view.PlayGifView
             android:id="@+id/splashImage"
-            android:scaleType="fitXY"
-            android:src="@drawable/samplecar" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerInParent="true"
+          />
+
 
     </RelativeLayout>
 
