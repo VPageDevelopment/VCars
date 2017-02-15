@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    app:theme="@style/AppTheme.NoActionBar"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:visibility="visible"
+            android:id="@+id/contentLayout">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:textSize="18sp"
+                android:textColor="@color/Black"
+                android:text="CONGRATULATION !!!!"
+                android:id="@+id/congText"
+                android:gravity="center"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/congImageOne"
+                android:src="@mipmap/congratulationicon"
+                android:layout_alignParentLeft="true"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/congImageTwo"
+                android:src="@mipmap/congratulationicon"
+                android:layout_alignParentRight="true"/>
+
+        </RelativeLayout>
+
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            android:layout_margin="10dp"
+            android:layout_below="@+id/contentLayout"
+            android:id="@+id/progressLayout">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:textSize="18sp"
+                android:textColor="@color/Black"
+                android:text="You are Driving Car Name Of Model"
+                android:id="@+id/messageText"
+                android:gravity="center"/>
+
+            <ProgressBar
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="10dp"
+                android:layout_below="@+id/messageText"
+                android:indeterminate="false"
+                android:progressDrawable="@drawable/progressimage"
+                android:layout_alignParentLeft="true"
+                android:id="@+id/progressBar"
+                android:max="200"
+                android:progress="150" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/progressBar"
+                android:layout_margin="10dp"
+                android:textColor="@color/Black"
+                android:text="150 %"
+                android:textSize="10sp"
+                android:id="@+id/progressText"
+                android:gravity="center"/>
+
+            <Button
+                android:layout_width="50dp"
+                android:layout_height="20dp"
+                android:layout_below="@+id/messageText"
+                android:id="@+id/fullViewButton"
+                android:background="@color/common_button_color"
+                android:text="Full View"
+                android:textSize="10sp"
+                android:textAllCaps="false"
+                android:textColor="@color/button_text_color"
+                android:layout_alignParentRight="true"/>
+
+            </RelativeLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/progressLayout"
+            android:id="@+id/mapContentLayout">
+
+            <fragment
+                android:id="@+id/map"
+                android:name="com.google.android.gms.maps.SupportMapFragment"
+                android:layout_width="match_parent"
+                android:layout_gravity="center"
+                android:layout_height="match_parent" />
+
+            <Button
+                android:layout_width="50dp"
+                android:layout_height="20dp"
+                android:layout_margin="10dp"
+                android:visibility="gone"
+                android:id="@+id/halfViewButton"
+                android:background="@color/common_button_color"
+                android:text="Half View"
+                android:textSize="10sp"
+                android:textAllCaps="false"
+                android:textColor="@color/button_text_color"
+                android:layout_gravity="right"/>
+        </FrameLayout>
+
+
+    </RelativeLayout>
+
+
+</FrameLayout>

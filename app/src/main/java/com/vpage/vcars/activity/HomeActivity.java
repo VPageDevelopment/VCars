@@ -19,7 +19,6 @@ import com.google.gson.GsonBuilder;
 import com.vpage.vcars.R;
 import com.vpage.vcars.adapter.HomeFragmentAdapter;
 import com.vpage.vcars.pojos.VLocation;
-import com.vpage.vcars.tools.ConnectionDetector;
 import com.vpage.vcars.tools.VCarsApplication;
 import com.vpage.vcars.tools.VPreferences;
 import com.vpage.vcars.tools.VTools;
@@ -30,7 +29,6 @@ import org.androidannotations.annotations.Fullscreen;
 import org.androidannotations.annotations.ViewById;
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Intent;
 import com.vpage.vcars.tools.fab.FloatingActionButton;
 import com.vpage.vcars.tools.utils.LogFlag;
@@ -341,11 +339,11 @@ public class HomeActivity  extends AppCompatActivity implements NavigationView.O
         viewStatus.setTitle("Map View");
 
         final FloatingActionButton chatButton= new FloatingActionButton(getBaseContext());
-        chatButton.setIconDrawable(getResources().getDrawable(R.drawable.mapviewicon));
+        chatButton.setIconDrawable(getResources().getDrawable(R.drawable.chaticon));
         chatButton.setTitle("Chat");
 
         final FloatingActionButton carDetailButton= new FloatingActionButton(getBaseContext());
-        carDetailButton.setIconDrawable(getResources().getDrawable(R.drawable.mapviewicon));
+        carDetailButton.setIconDrawable(getResources().getDrawable(R.drawable.attachmenticon));
         carDetailButton.setTitle("Attachment");
 
         tabContentLayout.setVisibility(View.VISIBLE);
@@ -390,6 +388,25 @@ public class HomeActivity  extends AppCompatActivity implements NavigationView.O
                     tabContentLayout.setVisibility(View.VISIBLE);
                     mapContentLayout.setVisibility(View.GONE);
                 }
+            }
+        });
+
+        carDetailButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fabBaseLayout.setBackgroundColor(getResources().getColor(android.R.color.transparent));
+                floatingActionsMenu.toggle();
+
+                gotoCarAttachmentPage();
+            }
+        });
+
+        chatButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fabBaseLayout.setBackgroundColor(getResources().getColor(android.R.color.transparent));
+                floatingActionsMenu.toggle();
+
             }
         });
 
@@ -459,11 +476,12 @@ public class HomeActivity  extends AppCompatActivity implements NavigationView.O
             case 2:
                 // Current Driving
                 if (LogFlag.bLogOn) Log.d(TAG, "ItemSelected 2: "+item.getTitle());
-                gotoCurrentCarViewPage();
+                gotoCurrentCarTrackPage();
                 return true;
             case 3:
                 // Report
                 if (LogFlag.bLogOn) Log.d(TAG, "ItemSelected 3: "+item.getTitle());
+                gotoReportPage();
                 return true;
         }
 
@@ -503,13 +521,36 @@ public class HomeActivity  extends AppCompatActivity implements NavigationView.O
         return true;
     }
 
-    private void gotoCurrentCarViewPage() {
+    private void gotoCurrentCarTrackPage() {
 
-        Intent intent = new Intent(getApplicationContext(), CurrentCarViewActivity_.class);
-        intent.putExtra("SelectedCar","Car Selected");
+        Intent intent = new Intent(getApplicationContext(), CurrentCarTrackActivity_.class);
         startActivity(intent);
         VTools.animation(this);
     }
+
+    private void gotoCurrentCarViewPage() {
+
+        Intent intent = new Intent(getApplicationContext(), CurrentCarViewActivity_.class);
+        startActivity(intent);
+        VTools.animation(this);
+    }
+
+    private void gotoReportPage() {
+
+        Intent intent = new Intent(getApplicationContext(), ReportActivity_.class);
+        startActivity(intent);
+        VTools.animation(this);
+    }
+
+
+    private void gotoCarAttachmentPage() {
+
+        Intent intent = new Intent(getApplicationContext(), CarAttachmentActivity_.class);
+        startActivity(intent);
+        VTools.animation(this);
+    }
+
+
 
 }
 

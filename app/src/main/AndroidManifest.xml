@@ -128,9 +128,25 @@
             />
 
         <activity
+            android:name=".activity.CurrentCarTrackActivity_"
+            android:screenOrientation="portrait"
+            />
+
+        <activity
             android:name=".activity.CurrentCarViewActivity_"
             android:screenOrientation="portrait"
             />
+
+        <activity
+            android:name=".activity.ReportActivity_"
+            android:screenOrientation="portrait"
+            />
+
+        <activity
+            android:name=".activity.CarAttachmentActivity_"
+            android:screenOrientation="portrait"
+            />
+
 
         <!-- Declare SMS Broadcast receiver -->
         <receiver android:name="com.vpage.vcars.tools.IncomingSms">

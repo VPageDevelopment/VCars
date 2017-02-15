@@ -122,7 +122,7 @@ public class PaymentActivity extends AppCompatActivity implements View.OnClickLi
                     return;
                 }
 
-                gotoCurrentCarViewPage();
+                gotoCurrentCarTrackPage();
                 break;
 
             case R.id.cardExpiryDay:
@@ -188,10 +188,16 @@ public class PaymentActivity extends AppCompatActivity implements View.OnClickLi
         errorText.setText(errorMessage);
     }
 
+    private void gotoCurrentCarTrackPage() {
+
+        Intent intent = new Intent(getApplicationContext(), CurrentCarTrackActivity_.class);
+        startActivity(intent);
+        VTools.animation(this);
+    }
+
     private void gotoCurrentCarViewPage() {
 
         Intent intent = new Intent(getApplicationContext(), CurrentCarViewActivity_.class);
-        intent.putExtra("SelectedCar","Car Selected");
         startActivity(intent);
         VTools.animation(this);
     }

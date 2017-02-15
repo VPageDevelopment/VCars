@@ -10,6 +10,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="20dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true">
@@ -25,7 +26,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:text="CONGRATULATION !!!!"
+                android:textSize="18sp"
+                android:textColor="@color/Black"
+                android:text="Currently No Drive"
                 android:id="@+id/congText"
                 android:gravity="center"/>
 
@@ -33,14 +36,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/congImageOne"
-                android:src="@mipmap/congratulationicon"
+                android:src="@drawable/sadsimilyicon"
                 android:layout_alignParentLeft="true"/>
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/congImageTwo"
-                android:src="@mipmap/congratulationicon"
+                android:src="@drawable/sadsimilyicon"
                 android:layout_alignParentRight="true"/>
 
         </RelativeLayout>
@@ -59,73 +62,26 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:text="You are Driving Car Name Of Model"
+                android:textSize="18sp"
+                android:textColor="@color/Black"
+                android:text="You are not Driving any Car,Available many cars did your own "
                 android:id="@+id/messageText"
                 android:gravity="center"/>
 
-            <ProgressBar
-                style="?android:attr/progressBarStyleHorizontal"
-                android:layout_width="wrap_content"
-                android:layout_height="10dp"
-                android:layout_below="@+id/messageText"
-                android:indeterminate="false"
-                android:progressDrawable="@drawable/progressimage"
-                android:layout_alignParentLeft="true"
-                android:id="@+id/progressBar"
-                android:max="200"
-                android:progress="150" />
 
-            <TextView
+
+
+            <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/progressBar"
-                android:layout_margin="10dp"
-                android:text="150 %"
-                android:textSize="10sp"
-                android:id="@+id/progressText"
-                android:gravity="center"/>
-
-            <Button
-                android:layout_width="50dp"
-                android:layout_height="20dp"
                 android:layout_below="@+id/messageText"
-                android:id="@+id/fullViewButton"
-                android:background="@color/common_button_color"
-                android:text="Full View"
-                android:textSize="10sp"
-                android:textAllCaps="false"
-                android:textColor="@color/button_text_color"
-                android:layout_alignParentRight="true"/>
+                android:id="@+id/parkCarImage"
+                android:src="@drawable/carparking"
+                android:layout_centerHorizontal="true"/>
 
-            </RelativeLayout>
 
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@+id/progressLayout"
-            android:id="@+id/mapContentLayout">
 
-            <fragment
-                android:id="@+id/map"
-                android:name="com.google.android.gms.maps.SupportMapFragment"
-                android:layout_width="match_parent"
-                android:layout_gravity="center"
-                android:layout_height="match_parent" />
-
-            <Button
-                android:layout_width="50dp"
-                android:layout_height="20dp"
-                android:layout_margin="10dp"
-                android:visibility="gone"
-                android:id="@+id/halfViewButton"
-                android:background="@color/common_button_color"
-                android:text="Half View"
-                android:textSize="10sp"
-                android:textAllCaps="false"
-                android:textColor="@color/button_text_color"
-                android:layout_gravity="right"/>
-        </FrameLayout>
-
+        </RelativeLayout>
 
     </RelativeLayout>
 
