@@ -14,6 +14,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 import com.vpage.vcars.R;
+import com.vpage.vcars.tools.VTools;
 import com.vpage.vcars.tools.utils.LogFlag;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -120,6 +121,8 @@ public class PaymentActivity extends AppCompatActivity implements View.OnClickLi
                     setErrorMessage( getResources().getString(R.string.nullMessage));
                     return;
                 }
+
+                gotoCurrentCarViewPage();
                 break;
 
             case R.id.cardExpiryDay:
@@ -183,6 +186,14 @@ public class PaymentActivity extends AppCompatActivity implements View.OnClickLi
     void setErrorMessage(String errorMessage) {
         errorText.setVisibility(View.VISIBLE);
         errorText.setText(errorMessage);
+    }
+
+    private void gotoCurrentCarViewPage() {
+
+        Intent intent = new Intent(getApplicationContext(), CurrentCarViewActivity_.class);
+        intent.putExtra("SelectedCar","Car Selected");
+        startActivity(intent);
+        VTools.animation(this);
     }
 
 }

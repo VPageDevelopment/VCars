@@ -346,7 +346,7 @@ public class HomeActivity  extends AppCompatActivity implements NavigationView.O
 
         final FloatingActionButton carDetailButton= new FloatingActionButton(getBaseContext());
         carDetailButton.setIconDrawable(getResources().getDrawable(R.drawable.mapviewicon));
-        carDetailButton.setTitle("Car Detail");
+        carDetailButton.setTitle("Attachment");
 
         tabContentLayout.setVisibility(View.VISIBLE);
 
@@ -383,7 +383,6 @@ public class HomeActivity  extends AppCompatActivity implements NavigationView.O
                     viewStatus.setTitle("List View");
                     mapContentLayout.setVisibility(View.VISIBLE);
                     tabContentLayout.setVisibility(View.GONE);
-
 
                 }else{
                     viewStatus.setIconDrawable(getResources().getDrawable(R.drawable.mapviewicon));

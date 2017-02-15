@@ -12,7 +12,11 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 import android.view.Window;
+import android.widget.Button;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -37,13 +41,11 @@ import com.vpage.vcars.tools.VCarsApplication;
 import com.vpage.vcars.tools.VPreferences;
 import com.vpage.vcars.tools.VTools;
 import com.vpage.vcars.tools.utils.LogFlag;
-
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Fullscreen;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.WindowFeature;
-
 import java.io.IOException;
 import java.util.List;
 
@@ -51,7 +53,7 @@ import java.util.List;
 @WindowFeature({Window.FEATURE_NO_TITLE, Window.FEATURE_ACTION_BAR_OVERLAY})
 @EActivity(R.layout.activity_currentcarview)
 @Fullscreen
-public class CurrentCarViewActivity extends AppCompatActivity implements OnMapReadyCallback,GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
+public class CurrentCarViewActivity extends AppCompatActivity implements OnMapReadyCallback,GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener, View.OnClickListener {
 
     private static final String TAG = CurrentCarViewActivity.class.getName();
 
@@ -59,6 +61,23 @@ public class CurrentCarViewActivity extends AppCompatActivity implements OnMapRe
     @ViewById(R.id.messageText)
     TextView messageText;
 
+    @ViewById(R.id.progressText)
+    TextView progressText;
+
+    @ViewById(R.id.fullViewButton)
+    Button fullViewButton;
+
+    @ViewById(R.id.halfViewButton)
+    Button halfViewButton;
+
+    @ViewById(R.id.progressBar)
+    ProgressBar progressBar;
+
+    @ViewById(R.id.contentLayout)
+    RelativeLayout contentLayout;
+
+    @ViewById(R.id.progressLayout)
+    RelativeLayout progressLayout;
 
     SupportMapFragment mapFragment;
     LocationRequest mLocationRequest;
@@ -75,6 +94,14 @@ public class CurrentCarViewActivity extends AppCompatActivity implements OnMapRe
         mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        setView();
+    }
+
+    void setView(){
+        fullViewButton.setOnClickListener(this);
+        halfViewButton.setOnClickListener(this);
+        progressText.setText(progressBar.getProgress());
 
     }
 
@@ -217,5 +244,22 @@ public class CurrentCarViewActivity extends AppCompatActivity implements OnMapRe
     }
 
 
+    @Override
+    public void onClick(View v) {
+
+        switch (v.getId()) {
+            case R.id.fullViewButton:
+                contentLayout.setVisibility(View.GONE);
+                progressLayout.setVisibility(View.GONE);
+                halfViewButton.setVisibility(View.VISIBLE);
+                break;
+
+            case R.id.halfViewButton:
+                contentLayout.setVisibility(View.VISIBLE);
+                progressLayout.setVisibility(View.VISIBLE);
+                halfViewButton.setVisibility(View.GONE);
+                break;
+        }
+    }
 }
 

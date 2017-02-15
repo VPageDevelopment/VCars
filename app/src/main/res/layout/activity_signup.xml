@@ -196,7 +196,7 @@
                                         android:textSize="14sp"
                                         android:singleLine="true"
                                         android:maxLines="1"
-                                        android:hint="User Name"/>
+                                        android:hint="First Name    Last Name"/>
                                     <Button
                                         android:layout_width="20dp"
                                         android:layout_height="20dp"
@@ -282,20 +282,20 @@
                                     android:layout_alignParentTop="true"
                                     android:layout_toRightOf="@+id/displayNameIconLayout"
                                     android:layout_toEndOf="@+id/displayNameIconLayout">
-                                    <EditText
+
+                                    <TextView
                                         android:layout_width="match_parent"
                                         android:layout_height="fill_parent"
                                         android:layout_marginRight="25dp"
                                         android:background="@android:color/transparent"
-                                        android:textColorHint="@color/LiteGray"
                                         android:id="@+id/displayName"
-                                        android:imeOptions="actionNext"
                                         android:textColor="@color/Gray"
+                                        android:textStyle="bold"
                                         android:gravity="left|center_vertical"
                                         android:textSize="14sp"
-                                        android:singleLine="true"
-                                        android:maxLines="1"
-                                        android:hint="User Display Name"/>
+                                        android:layout_below="@+id/txtNotification"
+                                        android:layout_centerHorizontal="true"
+                                        />
                                     <Button
                                         android:layout_width="20dp"
                                         android:layout_height="20dp"

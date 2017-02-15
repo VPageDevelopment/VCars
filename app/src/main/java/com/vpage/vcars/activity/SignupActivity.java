@@ -40,7 +40,6 @@ import com.vpage.vcars.pojos.request.SignupRequest;
 import com.vpage.vcars.pojos.response.CheckUserResponse;
 import com.vpage.vcars.pojos.response.SignInResponse;
 import com.vpage.vcars.pojos.response.SignupResponse;
-import com.vpage.vcars.tools.ActionEditText;
 import com.vpage.vcars.tools.NetworkUtil;
 import com.vpage.vcars.tools.OnNetworkChangeListener;
 import com.vpage.vcars.tools.VPreferences;
@@ -58,8 +57,6 @@ import org.androidannotations.annotations.Fullscreen;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.WindowFeature;
-
-
 import java.security.NoSuchAlgorithmException;
 
 @WindowFeature({ Window.FEATURE_NO_TITLE, Window.FEATURE_ACTION_BAR_OVERLAY })
@@ -86,7 +83,7 @@ public class SignupActivity extends AppCompatActivity implements   View.OnKeyLis
     EditText userNameEditText;
 
     @ViewById(R.id.displayName)
-    EditText displayName;
+    TextView displayName;
 
     @ViewById(R.id.address)
     EditText address;
@@ -138,6 +135,8 @@ public class SignupActivity extends AppCompatActivity implements   View.OnKeyLis
     CheckUserResponse checkUserResponse;
 
     SignInResponse signInResponse;
+
+    TextWatcher textWatcherAddress,textWatcherDisplayName;
 
 
     @AfterViews
@@ -193,15 +192,16 @@ public class SignupActivity extends AppCompatActivity implements   View.OnKeyLis
 
         licenseNumber.setOnKeyListener(this);
 
+
+
         signInText.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 gotoSignInPage();
             }
         });
 
-        new ActionEditText(this);
 
-        TextWatcher textWatcher = new TextWatcher() {
+        textWatcherAddress = new TextWatcher() {
             public void afterTextChanged(Editable s) {
             }
 
@@ -217,7 +217,32 @@ public class SignupActivity extends AppCompatActivity implements   View.OnKeyLis
             }
         };
 
-        address.addTextChangedListener(textWatcher);
+
+
+        textWatcherDisplayName = new TextWatcher() {
+            public void afterTextChanged(Editable s) {
+            }
+
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                // you can check for enter key here
+            }
+
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                String name = s.toString();
+                if (LogFlag.bLogOn)Log.d(TAG, "name : " + name);
+
+                String firstString = "";
+                if(name.contains(" ")){
+                    firstString= name.substring(0, name.indexOf(" "));
+                }
+
+                if (LogFlag.bLogOn)Log.d(TAG, "firstString : " + firstString);
+                displayName.setText(firstString);
+            }
+        };
+
+        userNameEditText.addTextChangedListener(textWatcherDisplayName);
+        address.addTextChangedListener(textWatcherAddress);
 
     }
 
@@ -379,13 +404,12 @@ public class SignupActivity extends AppCompatActivity implements   View.OnKeyLis
        // confirmPassWord.setOnKeyListener(this);
         userPhoneNumber.setText(userPhoneNumberEntered);
         userPhoneNumberInput = userPhoneNumber.getText().toString();
-
         passWordInput = passWord.getText().toString();
         conformPasswordInput = confirmPassWord.getText().toString();
-        userDisplayName = displayName.getText().toString();
-        useName = userNameEditText.getText().toString();
         userAddress = address.getText().toString();
         drivingLicenseNumber = licenseNumber.getText().toString();
+        useName = userNameEditText.getText().toString();
+        userDisplayName = displayName.getText().toString();
 
 
         validationStatus = ValidationUtils.isValidLoginUserNamePassword(userPhoneNumberInput,userDisplayName, passWordInput);
@@ -430,7 +454,7 @@ public class SignupActivity extends AppCompatActivity implements   View.OnKeyLis
             return;
         }
 
-        if (userPhoneNumber.equals("") || passWord.equals("") ||  useName.equals("")||  displayName.equals("") || confirmPassWord.equals("") ) {
+        if (userPhoneNumber.equals("") || passWord.equals("") ||  useName.equals("")||  userDisplayName.equals("") || confirmPassWord.equals("") ) {
             if (LogFlag.bLogOn)Log.d(TAG, getResources().getString(R.string.nullMessage));
             setErrorMessage( getResources().getString(R.string.nullMessage));
             return;
