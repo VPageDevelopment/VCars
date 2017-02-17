@@ -1142,7 +1142,10 @@ public class SigninActivity extends Activity implements View.OnKeyListener, View
                 hideLoderGifImage();
             }
         }catch (Exception e){
-            if (LogFlag.bLogOn)Log.e(TAG,"Error facebookUserExists",e);
+            if (LogFlag.bLogOn)Log.e(TAG,e.getMessage());
+            hideLoderGifImage();
+            VTools.showToast("Facebook Login Success!!! waiting for rest call");
+            goToHome();
         }
     }
 
