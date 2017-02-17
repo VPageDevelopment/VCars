@@ -101,7 +101,7 @@ public class ValidationUtils {
         validationStatus.setStatus(true);
         validationStatus.setMessage("");
 
-        String USERNAME_PATTERN = "^[a-zA-Z0-9_-]{3,20}$";
+        String USERNAME_PATTERN = "^[a-zA-Z\\s0-9_-]{3,20}$";
         Pattern pattern;
         Matcher matcher;
         pattern = Pattern.compile(USERNAME_PATTERN);

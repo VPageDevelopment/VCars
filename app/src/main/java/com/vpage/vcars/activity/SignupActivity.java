@@ -122,7 +122,7 @@ public class SignupActivity extends AppCompatActivity implements   View.OnKeyLis
     int typedArrayImagePosition = -1;
 
     String userPhoneNumberInput= "",passWordInput= "",conformPasswordInput= "",userDisplayName= ""
-            ,useName= "",userAddress= "",drivingLicenseNumber= "",userPhoneNumberEntered;
+            ,useName= "",userAddress= "",drivingLicenseNumber= "",userPhoneNumberEntered ="";
 
     SignupRequest registerRequest;
     Intent intent;
@@ -402,7 +402,10 @@ public class SignupActivity extends AppCompatActivity implements   View.OnKeyLis
         passWord.setOnKeyListener(this);
         confirmPassWord.setOnKeyListener(this);*/
        // confirmPassWord.setOnKeyListener(this);
-        userPhoneNumber.setText(userPhoneNumberEntered);
+
+        if(!userPhoneNumberEntered.equals("")){
+            userPhoneNumber.setText(userPhoneNumberEntered);
+        }
         userPhoneNumberInput = userPhoneNumber.getText().toString();
         passWordInput = passWord.getText().toString();
         conformPasswordInput = confirmPassWord.getText().toString();
