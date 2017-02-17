@@ -6,10 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.ListView;
-import android.widget.RadioButton;
 import android.widget.TextView;
 import com.vpage.vcars.R;
 import com.vpage.vcars.tools.utils.LogFlag;
@@ -49,7 +46,7 @@ public class CarListAdapter extends BaseAdapter {
     public View getView(final int itemPosition, View convertView, ViewGroup parent) {
         mInflater = (LayoutInflater) activity.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
 
-        convertView = mInflater.inflate(R.layout.listitem_carlist, null);
+        convertView = mInflater.inflate(R.layout.item_car, null);
 
         TextView carName = (TextView) convertView.findViewById(R.id.carName);
         TextView carDistance = (TextView) convertView.findViewById(R.id.carDistance);

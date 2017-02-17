@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.vpage.vcars.R;
 import com.vpage.vcars.activity.CarDetailActivity_;
@@ -26,6 +27,9 @@ public class PrimeFragment extends Fragment {
 
     @ViewById(R.id.listView)
     ListView listView;
+
+    @ViewById(R.id.noDataText)
+    TextView noDataText;
 
     CarListAdapter carListAdapter;
 

@@ -28,6 +28,9 @@ public class MiniFragment extends Fragment {
     @ViewById(R.id.listView)
     ListView listView;
 
+    @ViewById(R.id.noDataText)
+    TextView noDataText;
+
     CarListAdapter carListAdapter;
 
     @AfterViews

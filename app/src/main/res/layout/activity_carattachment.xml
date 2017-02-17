@@ -30,6 +30,7 @@
         <LinearLayout
             android:layout_gravity="center_vertical"
             android:orientation="vertical"
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="10dp"
@@ -44,14 +45,14 @@
                 android:text="No Attachment Available"
                 android:id="@+id/noDataText"
                 android:gravity="center"/>
+            </LinearLayout>
 
            <RelativeLayout
                android:layout_width="wrap_content"
                android:layout_height="wrap_content"
                android:id="@+id/carInformationLayout"
-               android:visibility="gone"
-               android:layout_marginTop="10dp"
-               android:layout_marginBottom="10dp">
+               android:visibility="visible"
+               android:layout_margin="10dp">
                <LinearLayout
                    android:layout_gravity="center_vertical"
                    android:orientation="vertical"
@@ -65,8 +66,8 @@
                    android:layout_marginTop="10dp"
                    android:layout_marginBottom="10dp"
                    android:text="Car Name"
-                   android:id="@+id/carNameText"
-                   android:gravity="center"/>
+                   android:gravity="left"
+                   android:id="@+id/carNameText" />
 
                    <TextView
                        android:layout_width="match_parent"
@@ -75,7 +76,7 @@
                        android:layout_marginBottom="10dp"
                        android:text="Car Model No"
                        android:id="@+id/carModelNoText"
-                       android:gravity="center"/>
+                       android:gravity="left"/>
 
                    <TextView
                        android:layout_width="match_parent"
@@ -84,7 +85,7 @@
                        android:layout_marginBottom="10dp"
                        android:text="Car Color"
                        android:id="@+id/carColorText"
-                       android:gravity="center"/>
+                       android:gravity="left"/>
 
                    <TextView
                        android:layout_width="match_parent"
@@ -93,7 +94,7 @@
                        android:layout_marginBottom="10dp"
                        android:text="Car Manufacture  Year"
                        android:id="@+id/carManufactureYearText"
-                       android:gravity="center"/>
+                       android:gravity="left"/>
 
                    <TextView
                        android:layout_width="match_parent"
@@ -102,12 +103,38 @@
                        android:layout_marginBottom="10dp"
                        android:text="Car Mileage"
                        android:id="@+id/carMileageText"
-                       android:gravity="center"/>
+                       android:gravity="left"/>
+
+                   <TextView
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content"
+                       android:layout_marginTop="10dp"
+                       android:layout_marginBottom="10dp"
+                       android:text="Car Varient"
+                       android:id="@+id/carVarientText"
+                       android:gravity="left"/>
+
+                   <TextView
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content"
+                       android:layout_marginTop="10dp"
+                       android:layout_marginBottom="10dp"
+                       android:text="Car Insurance Number"
+                       android:id="@+id/carInsuranceNoText"
+                       android:gravity="left"/>
+
+                   <TextView
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content"
+                       android:layout_marginTop="10dp"
+                       android:layout_marginBottom="10dp"
+                       android:text="Car Location"
+                       android:id="@+id/carLocationText"
+                       android:gravity="left"/>
                </LinearLayout>
 
            </RelativeLayout>
 
-        </LinearLayout>
     </RelativeLayout>
 
 

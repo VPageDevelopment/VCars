@@ -4,50 +4,76 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="visible">
+        <LinearLayout
+            android:layout_height="50dp"
+            android:layout_width="match_parent"
+            android:id="@+id/topLayout"
+            android:gravity="center_vertical">
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:id="@+id/textCar"
+                android:text="Cars"
+                android:gravity="center" />
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:id="@+id/textDistance"
+                android:text="Distance"
+                android:gravity="center" />
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:id="@+id/textVarient"
+                android:text="Varient"
+                android:gravity="center" />
+
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:text=""
+                android:gravity="center" />
+
+        </LinearLayout>
+
+        <ListView
+            android:id="@+id/listView"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/topLayout"
+            android:divider="@color/LiteGray"
+            android:dividerHeight="1dp"
+            android:choiceMode="singleChoice" />
+
+
+    </RelativeLayout>
+
     <LinearLayout
-        android:layout_height="50dp"
+        android:layout_gravity="center_vertical"
+        android:orientation="vertical"
+        android:visibility="gone"
         android:layout_width="match_parent"
-        android:id="@+id/topLayout"
-        android:gravity="center_vertical">
-        <TextView
-            android:layout_height="wrap_content"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:id="@+id/textCar"
-            android:text="Cars"
-            android:gravity="center" />
-        <TextView
-            android:layout_height="wrap_content"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:id="@+id/textDistance"
-            android:text="Distance"
-            android:gravity="center" />
-        <TextView
         android:layout_height="wrap_content"
-        android:layout_width="0dp"
-        android:layout_weight="1"
-        android:id="@+id/textVarient"
-        android:text="Varient"
-        android:gravity="center" />
+        android:paddingTop="10dp"
+        android:paddingLeft="24dp"
+        android:paddingRight="24dp">
 
         <TextView
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:text=""
-            android:gravity="center" />
-
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:text="No Car Available"
+            android:id="@+id/noDataText"
+            android:gravity="center"/>
     </LinearLayout>
-
-    <ListView
-        android:id="@+id/listView"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/topLayout"
-        android:divider="@color/LiteGray"
-        android:dividerHeight="1dp"
-        android:choiceMode="singleChoice" />
-
 
 </RelativeLayout>
