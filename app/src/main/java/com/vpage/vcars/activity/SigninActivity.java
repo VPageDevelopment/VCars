@@ -28,7 +28,6 @@ import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -70,7 +69,6 @@ import com.vpage.vcars.pojos.response.SignInResponse;
 import com.vpage.vcars.pojos.response.SignupResponse;
 import com.vpage.vcars.tools.LoginType;
 import com.vpage.vcars.tools.NetworkUtil;
-import com.vpage.vcars.tools.OnNetworkChangeListener;
 import com.vpage.vcars.tools.VCarAnalyticsTools;
 import com.vpage.vcars.tools.VCarGooglePlusTools;
 import com.vpage.vcars.tools.VCarRestTools;
@@ -108,8 +106,7 @@ import java.util.TimerTask;
 @Fullscreen
 @EActivity(R.layout.activity_signin)
 public class SigninActivity extends Activity implements View.OnKeyListener, View.OnClickListener, GoogleApiClient.ConnectionCallbacks,
-        ActivityCompat.OnRequestPermissionsResultCallback,
-        GoogleApiClient.OnConnectionFailedListener, OnNetworkChangeListener {
+        GoogleApiClient.OnConnectionFailedListener {
 
     private static final String TAG = SigninActivity.class.getName();
 
@@ -591,7 +588,7 @@ public class SigninActivity extends Activity implements View.OnKeyListener, View
         }
     }
 
-    private String getOustCountryCode() {
+    private String getVcarCountryCode() {
         if (countryCode == null || countryCode.length() == 0) {
             String sLocation = VPreferences.get("CurrentLocation");
             vLocation = VTools.getInstance().getLocationData(sLocation);
@@ -625,7 +622,7 @@ public class SigninActivity extends Activity implements View.OnKeyListener, View
         signInRequest.setPassword(encryptedPassword);
         signInRequest.setClientEncryptedPassword(true);
         signInRequest.setDeviceInfoData(getDeviceInfo());
-        signInRequest.setCountry(getOustCountryCode());
+        signInRequest.setCountry(getVcarCountryCode());
     }
 
     public DeviceInfoData getDeviceInfo() {
@@ -1016,7 +1013,6 @@ public class SigninActivity extends Activity implements View.OnKeyListener, View
             //requestSmsPermission();    //to be used for developing
             callGoLoginPopup(); //for testing only
         }
-
     }
 
 
@@ -1069,7 +1065,7 @@ public class SigninActivity extends Activity implements View.OnKeyListener, View
         checkUserResponse = vCarRestClient.checkStudent(checkUserRequest);
         if (checkUserResponse != null) {
             if (LogFlag.bLogOn)Log.d(TAG, checkUserResponse.toString());
-            checkGoogleStudentProcessFinish();
+            checkGoogleUserProcessFinish();
         }
 
     }
@@ -1137,14 +1133,14 @@ public class SigninActivity extends Activity implements View.OnKeyListener, View
             checkUserResponse = oustRestClient.checkStudent(checkUserRequest);
             if (checkUserResponse != null) {
                 if (LogFlag.bLogOn)Log.d(TAG, checkUserResponse.toString());
-                checkFacebookStudentProcessFinish();
+                checkFacebookUserProcessFinish();
             } else {
                 hideLoderGifImage();
             }
         }catch (Exception e){
             if (LogFlag.bLogOn)Log.e(TAG,e.getMessage());
             hideLoderGifImage();
-            VTools.showToast("Facebook Login Success!!! waiting for rest call");
+            showToastErrorMsg("Facebook Login Success!!! waiting for rest call");
             goToHome();
         }
     }
@@ -1157,8 +1153,8 @@ public class SigninActivity extends Activity implements View.OnKeyListener, View
 
 
     @UiThread
-    public void checkGoogleStudentProcessFinish() {
-        if (LogFlag.bLogOn)Log.d(TAG, "checkGoogleStudentProcessFinish");
+    public void checkGoogleUserProcessFinish() {
+        if (LogFlag.bLogOn)Log.d(TAG, "checkGoogleUserProcessFinish");
         if (LogFlag.bLogOn)Log.d(TAG, checkUserResponse.toString());
         if (checkUserResponse.getExists().equalsIgnoreCase("false")) {
             // register
@@ -1176,8 +1172,8 @@ public class SigninActivity extends Activity implements View.OnKeyListener, View
 
 
     @UiThread
-    public void checkFacebookStudentProcessFinish() {
-        if (LogFlag.bLogOn)Log.d(TAG, "checkFacebookStudentProcessFinish");
+    public void checkFacebookUserProcessFinish() {
+        if (LogFlag.bLogOn)Log.d(TAG, "checkFacebookUserProcessFinish");
         if (LogFlag.bLogOn)Log.d(TAG, checkUserResponse.toString());
 
         if (checkUserResponse.getExists().equalsIgnoreCase("false")) {
@@ -1318,8 +1314,6 @@ public class SigninActivity extends Activity implements View.OnKeyListener, View
             hideLoderGifImage();
             showToastErrorMsg("Registration failed");
         }
-
-
     }
 
     void setGoogleRegisterRequestData() {
@@ -1355,7 +1349,7 @@ public class SigninActivity extends Activity implements View.OnKeyListener, View
         registerRequest.setProfileImage(currentPerson.getImage().getUrl());
         registerRequest.setFname(currentPerson.getName().getGivenName());
         registerRequest.setLname(currentPerson.getName().getFamilyName());
-        registerRequest.setCountry(getOustCountryCode());
+        registerRequest.setCountry(getVcarCountryCode());
         registerRequest.setDeviceInfoData(getDeviceInfo());
 
         String sLocation = VPreferences.get("CurrentLocation");
@@ -1430,7 +1424,7 @@ public class SigninActivity extends Activity implements View.OnKeyListener, View
         registerRequest.setProfileImage(facebookUserprofile.getFacebookImage());
         registerRequest.setFname(facebookUserprofile.getFirst_name());
         registerRequest.setLname(facebookUserprofile.getLast_name());
-        registerRequest.setCountry(getOustCountryCode());
+        registerRequest.setCountry(getVcarCountryCode());
         registerRequest.setDeviceInfoData(getDeviceInfo());
         String sLocation = VPreferences.get("CurrentLocation");
         vLocation = VTools.getInstance().getLocationData(sLocation);
@@ -1477,7 +1471,7 @@ public class SigninActivity extends Activity implements View.OnKeyListener, View
         checkUserRequest.setLoginType("GoogleApp");
         checkUserRequest.setFbTokenId("");
         checkUserRequest.setEmail(googleEmail);
-        checkUserRequest.setCountry(getOustCountryCode());
+        checkUserRequest.setCountry(getVcarCountryCode());
         checkUserRequest.setProfilePic(currentPerson.getImage().getUrl());
         checkUserRequest.setDeviceToken(VPreferences.get("gcmToken"));
         if (LogFlag.bLogOn)Log.d(TAG, checkUserRequest.toString());
@@ -1492,7 +1486,7 @@ public class SigninActivity extends Activity implements View.OnKeyListener, View
         checkUserRequest.setDeviceIdentity(uuid);
         checkUserRequest.setDevicePlatformName("Android");
         checkUserRequest.setLoginType("FacebookApp");
-        checkUserRequest.setCountry(getOustCountryCode());
+        checkUserRequest.setCountry(getVcarCountryCode());
         checkUserRequest.setFbTokenId(facebookUserprofile.getToken_for_business());
         checkUserRequest.setDeviceToken(VPreferences.get("gcmToken"));
         checkUserRequest.setProfilePic(facebookUserprofile.getFacebookImage());
@@ -1577,13 +1571,6 @@ public class SigninActivity extends Activity implements View.OnKeyListener, View
         }catch (Exception e){
             if (LogFlag.bLogOn)Log.e(TAG,"Error onRequestPermissionsResult",e);
         }
-    }
-
-    @Override
-    public void onChange(String status) {
-        if (LogFlag.bLogOn)Log.d(TAG, "Network Availability");
-        if (LogFlag.bLogOn)Log.d(TAG, status);
-
     }
 
     public void networkStatus() {

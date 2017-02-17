@@ -95,6 +95,7 @@
         <activity
             android:name=".activity.HelpScreenActivity_"
             android:screenOrientation="portrait" />
+
         <activity
             android:name=".activity.GenerateOTPActivity_"
             android:screenOrientation="portrait" />

@@ -6,8 +6,6 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.LinearLayout;
 import com.vpage.vcars.R;
 import com.vpage.vcars.tools.NetworkUtil;
@@ -57,7 +55,7 @@ public class SplashActivity extends Activity {
 
        afterSplash();
 
-      //  gotoHomePage();
+        gotoSignUpPage();
 
     }
 
@@ -72,7 +70,7 @@ public class SplashActivity extends Activity {
 
     private void gotoCarRequestPage() {
 
-        Intent intent = new Intent(getApplicationContext(), CarRequestActivity_.class);
+        Intent intent = new Intent(getApplicationContext(), CurrentCarTrackActivity_.class);
         startActivity(intent);
         VTools.animation(this);
     }
@@ -85,7 +83,7 @@ public class SplashActivity extends Activity {
             @Override
             public void run() {
 
-                gotoSignInPage();
+                gotoGoogleSignInPage();
 
           /*      Boolean isAppInstalled = VPreferences.getAppInstallStatus("isInstalled");
 
@@ -175,13 +173,11 @@ public class SplashActivity extends Activity {
 
     private void gotoGoogleSignInPage() {
 
-        Intent intent = new Intent(getApplicationContext(), GoogleSignInActivity.class);
+        Intent intent = new Intent(getApplicationContext(), LoginActivity_.class);
         startActivity(intent);
         VTools.animation(this);
 
     }
-
-
 
     @Override
     protected void onResume() {

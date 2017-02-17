@@ -74,7 +74,7 @@
 
         <android.support.v7.widget.AppCompatButton
             android:id="@+id/buttonNext"
-            android:text="SignUp"
+            android:text="SignIn"
             android:textColor="@color/Black"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
