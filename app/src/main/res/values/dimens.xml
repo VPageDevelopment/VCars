@@ -123,5 +123,7 @@
     <dimen name="loginPopup_btnSignIn_paddingLeft">20dp</dimen>
     <dimen name="loginPopup_btnSignIn_textSize">16sp</dimen>
 
+    <dimen name="spacing">8dp</dimen>
+
 
 </resources>

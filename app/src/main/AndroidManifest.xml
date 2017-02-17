@@ -147,6 +147,20 @@
             android:screenOrientation="portrait"
             />
 
+        <activity
+            android:name="com.vpage.vcars.chat.ChatActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"
+            />
+
+
+        <activity
+            android:name="com.vpage.vcars.chat.JoinChatActivity"
+            android:label="@string/title_activity_login"
+            android:theme="@style/Theme.AppCompat"
+            android:windowSoftInputMode="adjustResize|stateVisible" >
+        </activity>
+
 
         <!-- Declare SMS Broadcast receiver -->
         <receiver android:name="com.vpage.vcars.tools.IncomingSms">

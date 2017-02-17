@@ -18,6 +18,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.vpage.vcars.R;
 import com.vpage.vcars.adapter.HomeFragmentAdapter;
+import com.vpage.vcars.chat.ChatActivity;
 import com.vpage.vcars.pojos.VLocation;
 import com.vpage.vcars.tools.VCarsApplication;
 import com.vpage.vcars.tools.VPreferences;
@@ -382,7 +383,7 @@ public class HomeActivity  extends AppCompatActivity implements NavigationView.O
                     mapContentLayout.setVisibility(View.VISIBLE);
                     tabContentLayout.setVisibility(View.GONE);
 
-                }else{
+                }else if(viewStatus.getTitle().equals("List View")){
                     viewStatus.setIconDrawable(getResources().getDrawable(R.drawable.mapviewicon));
                     viewStatus.setTitle("Map View");
                     tabContentLayout.setVisibility(View.VISIBLE);
@@ -406,7 +407,7 @@ public class HomeActivity  extends AppCompatActivity implements NavigationView.O
             public void onClick(View v) {
                 fabBaseLayout.setBackgroundColor(getResources().getColor(android.R.color.transparent));
                 floatingActionsMenu.toggle();
-
+                gotoChatPage();
             }
         });
 
@@ -550,6 +551,12 @@ public class HomeActivity  extends AppCompatActivity implements NavigationView.O
         VTools.animation(this);
     }
 
+    private void gotoChatPage() {
+
+        Intent intent = new Intent(getApplicationContext(), ChatActivity.class);
+        startActivity(intent);
+        VTools.animation(this);
+    }
 
 
 }

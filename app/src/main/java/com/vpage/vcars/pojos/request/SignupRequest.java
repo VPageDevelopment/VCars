@@ -2,7 +2,6 @@ package com.vpage.vcars.pojos.request;
 
 public class SignupRequest {
 
-
     private String profileImage;
 
     private String devicePlatformName;

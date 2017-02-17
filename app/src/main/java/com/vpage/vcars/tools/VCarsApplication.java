@@ -6,12 +6,17 @@ import android.support.multidex.MultiDexApplication;
 import android.util.Log;
 import com.facebook.FacebookSdk;
 import com.facebook.LoggingBehavior;
+import com.github.nkzawa.socketio.client.IO;
+import com.github.nkzawa.socketio.client.Socket;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.Tracker;
 import com.vpage.vcars.BuildConfig;
 import com.vpage.vcars.R;
+import com.vpage.vcars.chat.Constants;
 import com.vpage.vcars.service.MyLifeCycleHandler;
 import org.androidannotations.annotations.EApplication;
+
+import java.net.URISyntaxException;
 
 
 @EApplication
@@ -69,6 +74,20 @@ public class VCarsApplication extends MultiDexApplication {
 
     public static Context getContext() {
         return mContext;
+    }
+
+
+    private static Socket mSocket;
+    {
+        try {
+            mSocket = IO.socket(Constants.CHAT_SERVER_URL);
+        } catch (URISyntaxException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static Socket getSocket() {
+        return mSocket;
     }
 
 
