@@ -32,6 +32,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
@@ -112,20 +113,9 @@ public class SigninActivity extends Activity implements View.OnKeyListener, View
 
     private static final String TAG = SigninActivity.class.getName();
 
-    /* RequestCode for resolutions involving sign-in */
-    private static final int RC_SIGN_IN = 1;
-
-    /* RequestCode for resolutions to get GET_ACCOUNTS permission on M */
-    private static final int RC_PERM_GET_ACCOUNTS = 2;
-
-    private static final int RC_PERM_GET_LOCATION = 3;
-
-    /* Client used to interact with Google APIs. */
-    private GoogleApiClient mGoogleApiClient;
 
     @ViewById(R.id.loginButton)
     Button loginButton;
-
 
     @ViewById(R.id.gLoginButton)
     Button gLoginButton;
@@ -154,15 +144,46 @@ public class SigninActivity extends Activity implements View.OnKeyListener, View
     @ViewById(R.id.loging_layout)
     LinearLayout loging_layout;
 
-    @ViewById(R.id.homestudy_textview)
-    TextView homestudy_textview;
+    @ViewById(R.id.homestudyTextview)
+    TextView homeStudyText;
 
-    @ViewById(R.id.homerank_textview)
-    TextView homerank_textview;
+    @ViewById(R.id.homerankTextview)
+    TextView homeRankText;
 
+    @ViewById(R.id.fbLoginButton)
+    Button fbLoginButton;
+
+    @ViewById(R.id.appImage)
+    ImageView appImage;
+
+    @Bean
+    VCarAnalyticsTools vCarAnalyticsTools;
+
+    @Bean
+    VCarGooglePlusTools vCarGooglePlusTools;
+
+    // [START resolution_variables]
+    /* Is there a ConnectionResult resolution in progress? */
+    @InstanceState
+    boolean mIsResolving = false;
+
+    /* Should we automatically resolve ConnectionResults when possible? */
+    @InstanceState
+    boolean mShouldResolve = false;
+    // [END resolution_variables]
+
+    /* RequestCode for resolutions involving sign-in */
+    private static final int RC_SIGN_IN = 1;
+
+    /* RequestCode for resolutions to get GET_ACCOUNTS permission on M */
+    private static final int RC_PERM_GET_ACCOUNTS = 2;
+
+    private static final int RC_PERM_GET_LOCATION = 3;
+
+    /* Client used to interact with Google APIs. */
+    private GoogleApiClient mGoogleApiClient;
 
     private String countryCode = "";
-
 
     EditText txtuserName, txtpassWord,userPhoneNumberTxt,userPhoneNumber,userOTP;
 
@@ -189,27 +210,6 @@ public class SigninActivity extends Activity implements View.OnKeyListener, View
     Button btnSignIn,btnOTPGenerate,btnOTPSignIn;
 
     ValidationStatus validationStatus;
-
-
-    @Bean
-    VCarAnalyticsTools vCarAnalyticsTools;
-
-    @Bean
-    VCarGooglePlusTools vCarGooglePlusTools;
-
-
-    // [START resolution_variables]
-    /* Is there a ConnectionResult resolution in progress? */
-    @InstanceState
-    boolean mIsResolving = false;
-
-    /* Should we automatically resolve ConnectionResults when possible? */
-    @InstanceState
-    boolean mShouldResolve = false;
-    // [END resolution_variables]
-
-    @ViewById(R.id.fbLoginButton)
-    Button fbLoginButton;
 
     CallbackManager callbackManager;
 
@@ -242,15 +242,23 @@ public class SigninActivity extends Activity implements View.OnKeyListener, View
 
         generateKeyHash();
         try {
-            homestudy_textview.setTypeface(VTools.getAvenirLTStdHeavy());
-            homerank_textview.setTypeface(VTools.getAvenirLTStdHeavy());
+            homeStudyText.setTypeface(VTools.getAvenirLTStdHeavy());
+            homeRankText.setTypeface(VTools.getAvenirLTStdHeavy());
             loaderGif = (PlayGifView) findViewById(R.id.viewGif);
             loaderGif.setImageResource(R.drawable.loader_gif);
             loaderGif.setVisibility(View.GONE);
             Intent CallingIntent = getIntent();
-            final Animation login_anim = AnimationUtils.loadAnimation(getApplicationContext(),
-                    R.anim.anim_login);
+            final Animation login_anim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.anim_login);
             loging_layout.startAnimation(login_anim);
+
+            final Animation appImage_anim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.splashanim);
+            appImage.startAnimation(appImage_anim);
+
+            final Animation homeStudy_anim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_in_left);
+            homeStudyText.startAnimation(homeStudy_anim);
+
+            final Animation homeRank_anim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_in_right);
+            homeRankText.startAnimation(homeRank_anim);
 
             getCountryCode();
             if (null != termsText) {
