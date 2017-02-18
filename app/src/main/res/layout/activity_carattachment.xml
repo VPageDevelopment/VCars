@@ -65,7 +65,7 @@
                    android:layout_height="wrap_content"
                    android:layout_marginTop="10dp"
                    android:layout_marginBottom="10dp"
-                   android:text="Car Name"
+                   android:text="Name"
                    android:gravity="left"
                    android:id="@+id/carNameText" />
 
@@ -74,7 +74,7 @@
                        android:layout_height="wrap_content"
                        android:layout_marginTop="10dp"
                        android:layout_marginBottom="10dp"
-                       android:text="Car Model No"
+                       android:text="Year"
                        android:id="@+id/carModelNoText"
                        android:gravity="left"/>
 
@@ -83,7 +83,7 @@
                        android:layout_height="wrap_content"
                        android:layout_marginTop="10dp"
                        android:layout_marginBottom="10dp"
-                       android:text="Car Color"
+                       android:text="Color"
                        android:id="@+id/carColorText"
                        android:gravity="left"/>
 
@@ -92,25 +92,7 @@
                        android:layout_height="wrap_content"
                        android:layout_marginTop="10dp"
                        android:layout_marginBottom="10dp"
-                       android:text="Car Manufacture  Year"
-                       android:id="@+id/carManufactureYearText"
-                       android:gravity="left"/>
-
-                   <TextView
-                       android:layout_width="match_parent"
-                       android:layout_height="wrap_content"
-                       android:layout_marginTop="10dp"
-                       android:layout_marginBottom="10dp"
-                       android:text="Car Mileage"
-                       android:id="@+id/carMileageText"
-                       android:gravity="left"/>
-
-                   <TextView
-                       android:layout_width="match_parent"
-                       android:layout_height="wrap_content"
-                       android:layout_marginTop="10dp"
-                       android:layout_marginBottom="10dp"
-                       android:text="Car Varient"
+                       android:text="Varient"
                        android:id="@+id/carVarientText"
                        android:gravity="left"/>
 
@@ -119,7 +101,7 @@
                        android:layout_height="wrap_content"
                        android:layout_marginTop="10dp"
                        android:layout_marginBottom="10dp"
-                       android:text="Car Insurance Number"
+                       android:text="Insurance Number"
                        android:id="@+id/carInsuranceNoText"
                        android:gravity="left"/>
 
@@ -128,7 +110,7 @@
                        android:layout_height="wrap_content"
                        android:layout_marginTop="10dp"
                        android:layout_marginBottom="10dp"
-                       android:text="Car Location"
+                       android:text="Location"
                        android:id="@+id/carLocationText"
                        android:gravity="left"/>
                </LinearLayout>

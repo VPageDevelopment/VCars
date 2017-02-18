@@ -284,7 +284,7 @@ public class SignupActivity extends AppCompatActivity implements   View.OnKeyLis
     }
 
 
-    @Click({R.id.chooseProfile, R.id.createBtn, R.id.signInLayout,R.id.phoneInfoButton,R.id.passWordInfoButton,R.id.cpassWordInfoButton,R.id.displayNameInfoButton,
+    @Click({R.id.chooseProfile, R.id.createBtn, R.id.signInLayout,R.id.phoneInfoButton,R.id.passWordInfoButton,R.id.cpassWordInfoButton,
             R.id.userNameInfoButton,R.id.addressInfoButton})
     public void onButtonClick(View v) {
 
@@ -330,12 +330,6 @@ public class SignupActivity extends AppCompatActivity implements   View.OnKeyLis
                 break;
 
             case R.id.userNameInfoButton:
-                showPopUp = VTools.createPopUp(infoPopUpView);
-                infoClose.setOnClickListener(this);
-                infoText.setText("Starts with alphabet"+"\nCan have numbers, dash, underscore"+"\nMIN 3 and MAX 20 characters");
-                break;
-
-            case R.id.displayNameInfoButton:
                 showPopUp = VTools.createPopUp(infoPopUpView);
                 infoClose.setOnClickListener(this);
                 infoText.setText("Starts with alphabet"+"\nCan have numbers, dash, underscore"+"\nMIN 3 and MAX 20 characters");
@@ -419,7 +413,7 @@ public class SignupActivity extends AppCompatActivity implements   View.OnKeyLis
         confirmPassWord.setOnKeyListener(this);*/
        // confirmPassWord.setOnKeyListener(this);
 
-        if(!userPhoneNumberEntered.equals("")){
+        if(userPhoneNumberEntered == null){
             userPhoneNumber.setText(userPhoneNumberEntered);
         }
         userPhoneNumberInput = userPhoneNumber.getText().toString();
