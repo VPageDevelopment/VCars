@@ -284,8 +284,6 @@ public class SignupActivity extends AppCompatActivity implements   View.OnKeyLis
     }
 
 
-
-
     @Click({R.id.chooseProfile, R.id.createBtn, R.id.signInLayout,R.id.phoneInfoButton,R.id.passWordInfoButton,R.id.cpassWordInfoButton,R.id.displayNameInfoButton,
             R.id.userNameInfoButton,R.id.addressInfoButton})
     public void onButtonClick(View v) {
