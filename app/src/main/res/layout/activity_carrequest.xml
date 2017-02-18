@@ -2,6 +2,7 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fbutton="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     app:theme="@style/AppTheme.NoActionBar"
     android:layout_width="match_parent"
@@ -143,15 +144,26 @@
             android:id="@+id/carRequestDayButton"
             android:layout_margin="10dp"
             android:layout_below="@+id/carRequestDayTitle">
-
-            <Button
+            
+            <info.hoang8f.widget.FButton
+                fbutton:buttonColor="@color/common_button_color"
+                fbutton:shadowColor="@color/LiteGray"
+                fbutton:shadowEnabled="true"
+                fbutton:shadowHeight="3dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/button_text_color"
-                android:background="@color/common_button_color"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
                 android:text=" Pick From Date "
                 android:id="@+id/carRequestFromDay"
-                android:layout_alignParentLeft="true"/>
+                android:layout_alignParentLeft="true"
+                android:layout_margin="10dp"
+                android:textColor="@color/button_text_color"
+                android:background="@android:color/transparent"
+                android:textSize="@dimen/common_button_text_size"
+                android:textAllCaps="true">
+            </info.hoang8f.widget.FButton>
+
 
             <Button
                 android:layout_width="wrap_content"

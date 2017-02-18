@@ -2,6 +2,7 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fbutton="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     app:theme="@style/AppTheme.NoActionBar"
     android:layout_width="match_parent"
@@ -95,17 +96,27 @@
                         android:hint="IFSC Number" />
                 </android.support.design.widget.TextInputLayout>
 
-                <Button
-                    android:layout_width="match_parent"
+                <info.hoang8f.widget.FButton
+                    fbutton:buttonColor="@color/common_button_color"
+                    fbutton:shadowColor="@color/LiteGray"
+                    fbutton:shadowEnabled="true"
+                    fbutton:shadowHeight="3dp"
+                    android:layout_width="150dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="8dp"
-                    android:background="@color/common_button_color"
-                    android:textColor="@color/button_text_color"
-                    android:text="Card Expiry Day "
-                    android:id="@+id/cardExpiryDay"
                     android:layout_below="@+id/carLocalityLayout"
-                    android:layout_centerHorizontal="true"/>
+                    android:layout_gravity="center"
+                    android:text="Card Expiry Day"
+                    android:id="@+id/cardExpiryDay"
+                    android:gravity="center|center_horizontal"
+                    android:textColor="@color/button_text_color"
+                    android:background="@android:color/transparent"
+                    android:textSize="@dimen/common_button_text_size"
+                    android:textAllCaps="true"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp">
+                </info.hoang8f.widget.FButton>
 
                 <TextView
                     android:layout_width="match_parent"
@@ -127,17 +138,25 @@
                     android:gravity="center|center_vertical"
                     android:layout_marginTop="10dp"/>
 
-
-                <android.support.v7.widget.AppCompatButton
-                    android:id="@+id/buttonPayment"
-                    android:text="Payment"
-                    android:textColor="@color/Black"
-                    android:layout_width="fill_parent"
+                <info.hoang8f.widget.FButton
+                    fbutton:buttonColor="@color/common_button_color"
+                    fbutton:shadowColor="@color/LiteGray"
+                    fbutton:shadowEnabled="true"
+                    fbutton:shadowHeight="3dp"
+                    android:layout_width="150dp"
                     android:layout_height="wrap_content"
-                    android:background="@color/colorAccent"
+                    android:layout_gravity="center"
+                    android:text="Payment"
+                    android:id="@+id/buttonPayment"
+                    android:gravity="center|center_horizontal"
+                    android:textColor="@color/button_text_color"
+                    android:background="@android:color/transparent"
+                    android:textSize="@dimen/common_button_text_size"
+                    android:textAllCaps="true"
                     android:layout_marginTop="24dp"
                     android:layout_marginBottom="24dp"
-                    android:padding="12dp" />
+                    android:padding="12dp">
+                </info.hoang8f.widget.FButton>
 
             </LinearLayout>
         </ScrollView>
