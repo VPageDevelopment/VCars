@@ -40,6 +40,7 @@ import com.vpage.vcars.pojos.request.SignupRequest;
 import com.vpage.vcars.pojos.response.CheckUserResponse;
 import com.vpage.vcars.pojos.response.SignInResponse;
 import com.vpage.vcars.pojos.response.SignupResponse;
+import com.vpage.vcars.tools.LoginType;
 import com.vpage.vcars.tools.NetworkUtil;
 import com.vpage.vcars.tools.OnNetworkChangeListener;
 import com.vpage.vcars.tools.VPreferences;
@@ -257,12 +258,29 @@ public class SignupActivity extends AppCompatActivity implements   View.OnKeyLis
 
     private void gotoHomePage() {
 
-        Gson gson = new GsonBuilder().create();
-        Intent intent = new Intent(SignupActivity.this, HomeActivity_.class);
-        intent.putExtra("ActiveUser", gson.toJson(VTools.getInstance().getActiveUser(signInResponse)));
-        startActivity(intent);
-        VTools.animation(this);
-        finish();
+        try {
+            boolean isAppInstalled = VPreferences.getAppInstallStatus("isInstalled");
+
+            if (LogFlag.bLogOn)Log.d(TAG, signInResponse.toString());
+            Gson gson = new GsonBuilder().create();
+            // Keep the login
+            VPreferences.save("userdata", gson.toJson(VTools.getInstance().getActiveUser(signInResponse)));
+            VPreferences.save("isLoggedIn", "true");
+            VPreferences.save("loginType", signInResponse.getLoginType());
+            Intent intent;
+            if ((isAppInstalled)) {
+                intent = new Intent(getApplicationContext(), HomeActivity_.class);
+            } else {
+                VPreferences.saveAppInstallStatus("isInstalled",true);
+                intent = new Intent(getApplicationContext(), HelpScreenActivity_.class);
+            }
+            intent.putExtra("ActiveUser", gson.toJson(VTools.getInstance().getActiveUser(signInResponse)));
+            startActivity(intent);
+            VTools.animation(this);
+            finish();
+        } catch (Exception e) {
+            if (LogFlag.bLogOn)Log.e(TAG,  e.getMessage());
+        }
     }
 
 
@@ -592,7 +610,7 @@ public class SignupActivity extends AppCompatActivity implements   View.OnKeyLis
             signInResponse.setGoogleStore(registerResponse.getGoogleStore());
             signInResponse.setUserId(registerResponse.getUserId());
             signInResponse.setUserDisplayName(registerResponse.getUserDisplayName());
-
+            signInResponse.setLoginType(LoginType.VCars.name());
 
             if (LogFlag.bLogOn)Log.d(TAG, "signInResponse: " + signInResponse.toString());
 

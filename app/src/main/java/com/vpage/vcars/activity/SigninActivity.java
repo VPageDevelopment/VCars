@@ -246,17 +246,20 @@ public class SigninActivity extends Activity implements View.OnKeyListener, View
             loaderGif.setVisibility(View.GONE);
             Intent CallingIntent = getIntent();
             final Animation login_anim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.anim_login);
+            loging_layout.setVisibility(View.VISIBLE);
             loging_layout.startAnimation(login_anim);
 
             final Animation appImage_anim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.splashanim);
+            appImage.setVisibility(View.VISIBLE);
             appImage.startAnimation(appImage_anim);
 
             final Animation homeStudy_anim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_in_left);
+            homeStudyText.setVisibility(View.VISIBLE);
             homeStudyText.startAnimation(homeStudy_anim);
 
             final Animation homeRank_anim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_in_right);
+            homeRankText.setVisibility(View.VISIBLE);
             homeRankText.startAnimation(homeRank_anim);
-
             getCountryCode();
             if (null != termsText) {
                 StringUtils.makeTextViewHyperlink(termsText);
@@ -695,7 +698,6 @@ public class SigninActivity extends Activity implements View.OnKeyListener, View
         try {
             boolean isAppInstalled = VPreferences.getAppInstallStatus("isInstalled");
 
-            if (LogFlag.bLogOn)Log.d(TAG, "goToLanding");
             if (LogFlag.bLogOn)Log.d(TAG, signInResponse.toString());
             gson = new GsonBuilder().create();
             // Keep the login
@@ -706,11 +708,13 @@ public class SigninActivity extends Activity implements View.OnKeyListener, View
             if ((isAppInstalled)) {
                 intent = new Intent(getApplicationContext(), HomeActivity_.class);
             } else {
+                VPreferences.saveAppInstallStatus("isInstalled",true);
                 intent = new Intent(getApplicationContext(), HelpScreenActivity_.class);
             }
             intent.putExtra("ActiveUser", gson.toJson(VTools.getInstance().getActiveUser(signInResponse)));
-            SigninActivity.this.finish();
             startActivity(intent);
+            VTools.animation(this);
+            finish();
         } catch (Exception e) {
             if (LogFlag.bLogOn)Log.e(TAG,  e.getMessage());
         }

@@ -260,12 +260,44 @@ public class VTools {
             activeUser.setDevicePlatformName(signInResponse.getDevicePlatformName());
             activeUser.setEmail(signInResponse.getEmail());
             activeUser.setGoogleStore(signInResponse.getGoogleStore());
+            activeUser.setLoginType(signInResponse.getLoginType());
 
         }catch (Exception e){
             if (LogFlag.bLogOn) Log.e(TAG, e.toString());
         }
         return activeUser;
     }
+
+    public ActiveUser getActiveUserData(String jsonString) {
+        //    if (LogFlag.bLogOn) Log.d(TAG, jsonString);
+        Gson gson = new GsonBuilder().create();
+        ActiveUser activeUser = gson.fromJson(jsonString, ActiveUser.class);
+        return activeUser;
+    }
+
+
+    public static ActiveUser getActiveUserFromUserData(String userData) {
+
+        ActiveUser  userDataValues = VTools.getInstance().getActiveUserData(userData);
+        ActiveUser activeUser = new ActiveUser();
+
+        activeUser.setUserId(userDataValues.getUserId());
+        activeUser.setUserDisplayName(userDataValues.getUserDisplayName());
+        if(userDataValues.getLoginType()!=null) {
+            if (userDataValues.getLoginType().equalsIgnoreCase(LoginType.VCars.name())) {
+                activeUser.setProfileImage(userDataValues.getProfileImage());
+            }
+            activeUser.setLoginType(userDataValues.getLoginType());
+        }
+        activeUser.setDeviceIdentity(userDataValues.getDeviceIdentity());
+        activeUser.setDevicePlatformName(userDataValues.getDevicePlatformName());
+        activeUser.setEmail(userDataValues.getEmail());
+        activeUser.setGoogleStore(userDataValues.getGoogleStore());
+        activeUser.setLoginType(userDataValues.getLoginType());
+
+        return activeUser;
+    }
+
 
 
     public VLocation getLocationData(String jsonString) {

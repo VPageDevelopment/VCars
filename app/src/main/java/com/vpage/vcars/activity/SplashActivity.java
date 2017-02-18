@@ -7,15 +7,17 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.LinearLayout;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.vpage.vcars.R;
+import com.vpage.vcars.pojos.response.SignInResponse;
 import com.vpage.vcars.tools.NetworkUtil;
 import com.vpage.vcars.tools.VPreferences;
 import com.vpage.vcars.tools.VTools;
 import com.vpage.vcars.tools.utils.LogFlag;
 import com.vpage.vcars.service.GCMClientManager;
-
 import com.vpage.vcars.view.PlayGifView;
-
 import org.androidannotations.annotations.*;
 
 
@@ -29,7 +31,7 @@ public class SplashActivity extends Activity {
     private GCMClientManager pushClientManager;
     String PROJECT_NUMBER = "";
 
-    int delay = 1500;
+    int delay = 2000;
 
    /* @ViewById(R.id.splash_textV)
     TextView splash_textView;
@@ -53,9 +55,9 @@ public class SplashActivity extends Activity {
         setAnimStyle();
 
 
-       afterSplash();
+        afterSplash();
 
-        gotoSignUpPage();
+        //gotoGoogleSignInPage();
 
     }
 
@@ -83,7 +85,9 @@ public class SplashActivity extends Activity {
             @Override
             public void run() {
 
-                gotoGoogleSignInPage();
+
+                goToHome();
+
 
           /*      Boolean isAppInstalled = VPreferences.getAppInstallStatus("isInstalled");
 
@@ -98,6 +102,28 @@ public class SplashActivity extends Activity {
                 }*/
             }
         }, delay);
+    }
+
+    private void goToHome() {
+        try {
+            String isLoggedIn = VPreferences.get("isLoggedIn");
+            String userdata  = VPreferences.get("userdata");
+
+            if (isLoggedIn == null || isLoggedIn.isEmpty() || null == userdata || userdata.isEmpty()) {
+                gotoGoogleSignInPage();
+            } else {
+
+                Gson gson = new GsonBuilder().create();
+                VPreferences.save("activeUser", gson.toJson(userdata));
+                Intent intent = new Intent(getApplicationContext(), HomeActivity_.class);
+                intent.putExtra("ActiveUser", gson.toJson(VTools.getActiveUserFromUserData(userdata)));
+                startActivity(intent);
+                VTools.animation(this);
+                finish();
+            }
+        } catch (Exception e) {
+            if (LogFlag.bLogOn)Log.e(TAG,  e.getMessage());
+        }
     }
 
 
@@ -176,6 +202,7 @@ public class SplashActivity extends Activity {
         Intent intent = new Intent(getApplicationContext(), LoginActivity_.class);
         startActivity(intent);
         VTools.animation(this);
+        finish();
 
     }
 

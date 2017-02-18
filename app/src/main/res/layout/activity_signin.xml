@@ -22,7 +22,7 @@
                 android:id="@+id/appImage"
                 android:src="@mipmap/appicon"
                 android:layout_marginBottom="@dimen/splashScreen_splash_oustboy_marginBottom"
-                android:visibility="visible"
+                android:visibility="gone"
                 android:layout_centerVertical="true"
                 android:layout_centerHorizontal="true"/>
 
@@ -33,7 +33,7 @@
                 android:layout_below="@id/appImage"
                 android:text="@string/vCarText"
                 android:id="@+id/homestudyTextview"
-                android:visibility="visible"
+                android:visibility="gone"
                 android:textStyle="bold"
                 android:textColor="@color/Black"
                 android:layout_marginRight="@dimen/splashScreen_study_textview_marginRight"
@@ -47,7 +47,7 @@
                 android:text="@string/vCarNextText"
                 android:textStyle="bold"
                 android:id="@+id/homerankTextview"
-                android:visibility="visible"
+                android:visibility="gone"
                 android:textColor="@color/Black"
                 android:layout_marginLeft="@dimen/splashScreen_rank_textview_marginLeft"
                 android:layout_marginBottom="@dimen/splashScreen_rank_textview_marginBottom"
@@ -55,16 +55,14 @@
         </RelativeLayout>
 
     </RelativeLayout>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@android:color/transparent"
+        android:id="@+id/relativeLayout8"
         android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:layout_margin="15dp"
-        android:id="@+id/relativeLayout8" >
+        android:layout_centerHorizontal="true">
         <RelativeLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
@@ -84,6 +82,7 @@
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
+                android:visibility="gone"
                 android:id="@+id/loging_layout"
                 android:layout_height="match_parent"
                 android:weightSum="4"
@@ -155,6 +154,7 @@
                                 android:orientation="horizontal"
                                 android:layout_width="fill_parent"
                                 android:layout_height="fill_parent">
+
                                 <Button
                                     android:layout_width="fill_parent"
                                     android:layout_height="fill_parent"
@@ -182,8 +182,10 @@
                         <Button
                             android:layout_width="fill_parent"
                             android:layout_height="fill_parent"
+                            android:gravity="center|center_vertical"
                             android:background="@color/colorAccent"
                             android:textColor="@color/button_text_color"
+                            android:textAllCaps="false"
                             android:textSize="14sp"
                             android:text="@string/login"
                             android:id="@+id/loginButton" />

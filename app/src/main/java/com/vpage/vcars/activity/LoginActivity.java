@@ -73,6 +73,7 @@ import com.vpage.vcars.pojos.response.SignupResponse;
 import com.vpage.vcars.tools.LoginType;
 import com.vpage.vcars.tools.NetworkUtil;
 import com.vpage.vcars.tools.VCarAnalyticsTools;
+import com.vpage.vcars.tools.VCarGooglePlusTools;
 import com.vpage.vcars.tools.VCarRestTools;
 import com.vpage.vcars.tools.VCarsApplication;
 import com.vpage.vcars.tools.VPreferences;
@@ -154,6 +155,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnKeyListen
     @Bean
     VCarAnalyticsTools vCarAnalyticsTools;
 
+    @Bean
+    VCarGooglePlusTools vCarGooglePlusTools;
+
     GoogleSignInAccount googleSignInAccount;
 
     // [START resolution_variables]
@@ -234,15 +238,19 @@ public class LoginActivity extends AppCompatActivity implements View.OnKeyListen
             loaderGif.setVisibility(View.GONE);
             Intent CallingIntent = getIntent();
             final Animation login_anim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.anim_login);
+            loging_layout.setVisibility(View.VISIBLE);
             loging_layout.startAnimation(login_anim);
 
             final Animation appImage_anim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.splashanim);
+            appImage.setVisibility(View.VISIBLE);
             appImage.startAnimation(appImage_anim);
 
             final Animation homeStudy_anim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_in_left);
+            homeStudyText.setVisibility(View.VISIBLE);
             homeStudyText.startAnimation(homeStudy_anim);
 
             final Animation homeRank_anim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_in_right);
+            homeRankText.setVisibility(View.VISIBLE);
             homeRankText.startAnimation(homeRank_anim);
 
             getCountryCode();
@@ -254,6 +262,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnKeyListen
                 StringUtils.makeTextViewHyperlink(privacyText);
             }
 
+            callbackManager = CallbackManager.Factory.create();
 
             GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                     .requestEmail()
@@ -266,8 +275,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnKeyListen
                     .addOnConnectionFailedListener(this)
                     .build();
 
-
-            callbackManager = CallbackManager.Factory.create();
+            vCarGooglePlusTools.setmGoogleApiClient(mGoogleApiClient);
 
             setTypeFace();
 
@@ -1064,7 +1072,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnKeyListen
         try {
             boolean isAppInstalled = VPreferences.getAppInstallStatus("isInstalled");
 
-            if (LogFlag.bLogOn)Log.d(TAG, "goToLanding");
             if (LogFlag.bLogOn)Log.d(TAG, signInResponse.toString());
             gson = new GsonBuilder().create();
             // Keep the login
@@ -1075,11 +1082,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnKeyListen
             if ((isAppInstalled)) {
                 intent = new Intent(getApplicationContext(), HomeActivity_.class);
             } else {
+                VPreferences.saveAppInstallStatus("isInstalled",true);
                 intent = new Intent(getApplicationContext(), HelpScreenActivity_.class);
             }
             intent.putExtra("ActiveUser", gson.toJson(VTools.getInstance().getActiveUser(signInResponse)));
-            LoginActivity.this.finish();
             startActivity(intent);
+            VTools.animation(this);
+            finish();
         } catch (Exception e) {
             if (LogFlag.bLogOn)Log.e(TAG,  e.getMessage());
         }

@@ -1,7 +1,11 @@
 package com.vpage.vcars.activity;
 
+import com.facebook.login.LoginManager;
+import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
@@ -14,17 +18,21 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.plus.Plus;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.vpage.vcars.R;
 import com.vpage.vcars.adapter.HomeFragmentAdapter;
 import com.vpage.vcars.chat.ChatActivity;
 import com.vpage.vcars.pojos.VLocation;
+import com.vpage.vcars.tools.LoginType;
+import com.vpage.vcars.tools.VCarGooglePlusTools;
 import com.vpage.vcars.tools.VCarsApplication;
 import com.vpage.vcars.tools.VPreferences;
 import com.vpage.vcars.tools.VTools;
 import com.vpage.vcars.tools.fab.FloatingActionsMenu;
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Fullscreen;
 import org.androidannotations.annotations.ViewById;
@@ -93,6 +101,9 @@ public class HomeActivity  extends AppCompatActivity implements NavigationView.O
 
     @ViewById(R.id.multiple_actions)
     FloatingActionsMenu floatingActionsMenu;
+
+    @Bean
+    VCarGooglePlusTools vCarGooglePlusTools;
 
     SupportMapFragment mapFragment;
     LocationRequest mLocationRequest;
@@ -503,23 +514,63 @@ public class HomeActivity  extends AppCompatActivity implements NavigationView.O
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
+        switch (id) {
+            case R.id.nav_camera:
+                break;
+            case R.id.nav_gallery:
+                break;
+            case R.id.nav_manage:
+                break;
+            case R.id.nav_share:
+                break;
+            case R.id.nav_send:
+                break;
+            case R.id.nav_logout:
+                onLogout();
+                break;
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void onLogout(){
+        String loginType = VPreferences.get("loginType");
+
+        if (loginType.equalsIgnoreCase("GoogleApp") && vCarGooglePlusTools.getmGoogleApiClient().isConnected()) {
+            Log.d(TAG, "Logout from google");
+            Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
+                    new ResultCallback<Status>() {
+                        @Override
+                        public void onResult(Status status) {
+
+                        }
+                    });
+            Plus.AccountApi.clearDefaultAccount(vCarGooglePlusTools.getmGoogleApiClient());
+            vCarGooglePlusTools.getmGoogleApiClient().disconnect();
+
+        }
+        if (loginType.equalsIgnoreCase("FacebookApp")) {
+            Log.d(TAG, "Logout from facebook");
+            LoginManager.getInstance().logOut();
+        }
+
+        if (loginType.equalsIgnoreCase("VCars")) {
+            Log.d(TAG, "Logout from VCars");
+            VPreferences.clearAll();
+        }
+        VPreferences.save("isLoggedIn", "false");
+        gotoLoginInPage();
+    }
+
+
+    private void gotoLoginInPage() {
+
+        Intent intent = new Intent(getApplicationContext(), LoginActivity_.class);
+        startActivity(intent);
+        VTools.animation(this);
+
     }
 
     private void gotoCurrentCarTrackPage() {
