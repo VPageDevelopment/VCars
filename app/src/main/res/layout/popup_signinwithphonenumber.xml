@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fbutton="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
@@ -230,9 +232,7 @@
                 android:layout_height="@dimen/loginPopup_forgotPasswordLayout_height"
                 android:layout_gravity="center_horizontal"
                 android:id="@+id/forgotPasswordLayout"
-                android:layout_marginTop="@dimen/loginPopup_forgotPasswordLayout_marginTop"
-                android:paddingLeft="@dimen/loginPopup_forgotPasswordLayout_paddingLeft"
-                android:paddingRight="@dimen/loginPopup_forgotPasswordLayout_paddingRight">
+                android:layout_marginTop="@dimen/loginPopup_forgotPasswordLayout_marginTop">
 
             </LinearLayout>
             <LinearLayout
@@ -242,19 +242,24 @@
                 android:layout_gravity="center_horizontal"
                 android:id="@+id/signInLayout"
                 android:layout_marginTop="@dimen/loginPopup_signInLayout_marginTop"
-                android:layout_marginLeft="@dimen/loginPopup_signInLayout_marginLeft"
-                android:layout_marginRight="@dimen/loginopup_signInLayout_marginRight"
                 android:layout_marginBottom="@dimen/loginPopup_signInLayout_marginBottom">
-                <Button
-                    android:layout_width="fill_parent"
+
+
+                <info.hoang8f.widget.FButton
+                    fbutton:buttonColor="@color/common_button_color"
+                    fbutton:shadowColor="@color/LiteGray"
+                    fbutton:shadowEnabled="true"
+                    fbutton:shadowHeight="3dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="fill_parent"
+                    android:layout_gravity="center_horizontal"
                     android:text="@string/txtsignIn"
                     android:id="@+id/btnOTPSignIn"
-                    android:background="@color/colorAccent"
-                    android:textSize="@dimen/loginPopup_btnSignIn_textSize"
-                    android:textColor="@color/White"
-                    android:paddingRight="@dimen/loginPopup_btnSignIn_paddingRight"
-                    android:paddingLeft="@dimen/loginPopup_btnSignIn_paddingLeft"/>
+                    android:textColor="@color/button_text_color"
+                    android:background="@android:color/transparent"
+                    android:textSize="@dimen/common_button_text_size"
+                    android:textAllCaps="true">
+                </info.hoang8f.widget.FButton>
             </LinearLayout>
 
         </LinearLayout>

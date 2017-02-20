@@ -2,6 +2,7 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fbutton="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     app:theme="@style/AppTheme.NoActionBar"
     android:layout_width="match_parent"
@@ -57,8 +58,7 @@
                    android:layout_gravity="center_vertical"
                    android:orientation="vertical"
                    android:layout_width="match_parent"
-                   android:layout_height="wrap_content"
-                   >
+                   android:layout_height="wrap_content">
 
                <TextView
                    android:layout_width="match_parent"
@@ -113,6 +113,55 @@
                        android:text="Location"
                        android:id="@+id/carLocationText"
                        android:gravity="left"/>
+
+                   <Spinner
+                       android:id="@+id/spinnerFeature"
+                       android:layout_width="fill_parent"
+                       android:layout_height="wrap_content"
+                       android:textColor="@color/button_text_color"
+                       android:textSize="@dimen/common_button_text_size"
+                       android:layout_marginTop="10dp"
+                       android:layout_marginBottom="10dp"
+                       />
+
+                   <RelativeLayout
+                       android:layout_width="match_parent"
+                       android:layout_height="50dp"
+                       android:layout_marginTop="10dp"
+                       android:layout_marginBottom="10dp">
+
+                       <android.support.design.widget.TextInputLayout
+                           android:layout_width="200dp"
+                           android:layout_height="match_parent"
+                           android:id="@+id/editTextLayout">
+                           <EditText
+                               android:id="@+id/editTextFeature"
+                               android:layout_width="match_parent"
+                               android:layout_height="wrap_content"
+                               android:imeOptions="actionDone"
+                               android:inputType="text"
+                               android:hint="Feature"/>
+                       </android.support.design.widget.TextInputLayout>
+
+
+                       <info.hoang8f.widget.FButton
+                           fbutton:buttonColor="@color/common_button_color"
+                           fbutton:shadowColor="@color/LiteGray"
+                           fbutton:shadowEnabled="true"
+                           fbutton:shadowHeight="3dp"
+                           android:layout_width="wrap_content"
+                           android:layout_height="match_parent"
+                           android:text="Add"
+                           android:id="@+id/buttonAdd"
+                           android:layout_alignParentRight="true"
+                           android:textColor="@color/button_text_color"
+                           android:background="@android:color/transparent"
+                           android:textSize="@dimen/common_button_text_size"
+                           android:textAllCaps="true">
+                       </info.hoang8f.widget.FButton>
+
+                   </RelativeLayout>
+
                </LinearLayout>
 
            </RelativeLayout>

@@ -144,7 +144,7 @@
             android:id="@+id/carRequestDayButton"
             android:layout_margin="10dp"
             android:layout_below="@+id/carRequestDayTitle">
-            
+
             <info.hoang8f.widget.FButton
                 fbutton:buttonColor="@color/common_button_color"
                 fbutton:shadowColor="@color/LiteGray"
@@ -165,14 +165,25 @@
             </info.hoang8f.widget.FButton>
 
 
-            <Button
+            <info.hoang8f.widget.FButton
+                fbutton:buttonColor="@color/common_button_color"
+                fbutton:shadowColor="@color/LiteGray"
+                fbutton:shadowEnabled="true"
+                fbutton:shadowHeight="3dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/button_text_color"
-                android:background="@color/common_button_color"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
                 android:text=" Pick To Date "
                 android:id="@+id/carRequestToDay"
-                android:layout_alignParentRight="true"/>
+                android:layout_alignParentRight="true"
+                android:textColor="@color/button_text_color"
+                android:background="@android:color/transparent"
+                android:textSize="@dimen/common_button_text_size"
+                android:textAllCaps="true">
+            </info.hoang8f.widget.FButton>
+
+
 
         </RelativeLayout>
 
@@ -226,20 +237,25 @@
             android:gravity="center|center_vertical"
             android:layout_marginTop="10dp"/>
 
-        <Button
+
+        <info.hoang8f.widget.FButton
+            fbutton:buttonColor="@color/common_button_color"
+            fbutton:shadowColor="@color/LiteGray"
+            fbutton:shadowEnabled="true"
+            fbutton:shadowHeight="3dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:drawableRight="@drawable/keyicon"
-            android:background="@color/common_button_color"
-            android:textColor="@color/button_text_color"
+            android:drawablePadding="10dp"
             android:text="Pick"
             android:id="@+id/buttonPick"
-            android:layout_below="@+id/errorText"
             android:layout_centerHorizontal="true"
-            android:drawablePadding="10dp" />
-
-
-
+            android:layout_below="@+id/errorText"
+            android:textColor="@color/button_text_color"
+            android:background="@android:color/transparent"
+            android:textSize="@dimen/common_button_text_size"
+            android:textAllCaps="true">
+        </info.hoang8f.widget.FButton>
     </RelativeLayout>
 
 </RelativeLayout>

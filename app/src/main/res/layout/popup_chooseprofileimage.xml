@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fbutton="http://schemas.android.com/apk/res-auto"
                 android:orientation="vertical"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
@@ -45,11 +47,6 @@
                             android:layout_height="fill_parent"
                             android:text="@string/chooseTitle"
                             android:id="@+id/txtTitle"
-                            android:layout_alignParentTop="false"
-                            android:layout_alignParentLeft="false"
-                            android:layout_alignParentStart="true"
-                            android:layout_alignWithParentIfMissing="false"
-                            android:layout_centerInParent="true"
                             android:gravity="center|center_vertical"
                             android:textStyle="bold"
                             android:textColor="@color/Black"
@@ -69,7 +66,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:drawSelectorOnTop="true"
-                            android:layout_below="@+id/avatarTitle"
                             android:id="@+id/avatarGrid"
                             android:numColumns="3"
                             android:paddingLeft="20dp"
@@ -82,23 +78,25 @@
                     android:orientation="vertical"
                     android:layout_width="fill_parent"
                     android:layout_height="50dp"
-                    android:layout_below="@+id/relativeLayout8"
-                    android:layout_alignLeft="@+id/relativeLayout8"
-                    android:layout_alignStart="@+id/relativeLayout8"
-                    android:layout_alignRight="@+id/relativeLayout8"
-                    android:layout_alignEnd="@+id/relativeLayout8"
-                    android:background="@color/colorAccent"
                     android:layout_margin="20dp">
-                <Button
-                        android:layout_width="fill_parent"
-                        android:layout_height="fill_parent"
-                        android:text="@string/confirm"
-                        android:id="@+id/confirmButton"
-                        android:background="@android:color/transparent"
-                        android:textSize="14sp"
-                        android:textColor="@color/White"
-                        android:textStyle="bold"
-                        />
+
+
+                <info.hoang8f.widget.FButton
+                    fbutton:buttonColor="@color/common_button_color"
+                    fbutton:shadowColor="@color/LiteGray"
+                    fbutton:shadowEnabled="true"
+                    fbutton:shadowHeight="3dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:text="@string/confirm"
+                    android:id="@+id/confirmButton"
+                    android:textStyle="bold"
+                    android:textColor="@color/button_text_color"
+                    android:background="@android:color/transparent"
+                    android:textSize="@dimen/common_button_text_size"
+                    android:textAllCaps="false">
+                </info.hoang8f.widget.FButton>
             </LinearLayout>
         </LinearLayout>
     </RelativeLayout>

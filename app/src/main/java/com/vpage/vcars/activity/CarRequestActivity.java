@@ -12,22 +12,17 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-
-import com.squareup.picasso.Picasso;
 import com.vpage.vcars.R;
 import com.vpage.vcars.pojos.VLocation;
 import com.vpage.vcars.tools.VTools;
 import com.vpage.vcars.tools.utils.LogFlag;
-
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Fullscreen;
 import org.androidannotations.annotations.ViewById;
-
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;

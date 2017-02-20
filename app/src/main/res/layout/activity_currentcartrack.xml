@@ -2,6 +2,7 @@
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fbutton="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     app:theme="@style/AppTheme.NoActionBar"
     android:layout_width="match_parent"
@@ -90,17 +91,22 @@
                 android:id="@+id/progressText"
                 android:gravity="center"/>
 
-            <Button
+            <info.hoang8f.widget.FButton
+                fbutton:buttonColor="@color/common_button_color"
+                fbutton:shadowColor="@color/LiteGray"
+                fbutton:shadowEnabled="true"
+                fbutton:shadowHeight="3dp"
                 android:layout_width="50dp"
                 android:layout_height="20dp"
-                android:layout_below="@+id/messageText"
-                android:id="@+id/fullViewButton"
-                android:background="@color/common_button_color"
                 android:text="Full View"
-                android:textSize="10sp"
-                android:textAllCaps="false"
+                android:id="@+id/fullViewButton"
+                android:layout_below="@+id/messageText"
+                android:layout_alignParentRight="true"
                 android:textColor="@color/button_text_color"
-                android:layout_alignParentRight="true"/>
+                android:background="@android:color/transparent"
+                android:textSize="@dimen/common_button_text_size"
+                android:textAllCaps="true">
+            </info.hoang8f.widget.FButton>
 
             </RelativeLayout>
 
@@ -117,18 +123,23 @@
                 android:layout_gravity="center"
                 android:layout_height="match_parent" />
 
-            <Button
+            <info.hoang8f.widget.FButton
+                fbutton:buttonColor="@color/common_button_color"
+                fbutton:shadowColor="@color/LiteGray"
+                fbutton:shadowEnabled="true"
+                fbutton:shadowHeight="3dp"
                 android:layout_width="50dp"
                 android:layout_height="20dp"
-                android:layout_margin="10dp"
                 android:visibility="gone"
-                android:id="@+id/halfViewButton"
-                android:background="@color/common_button_color"
+                android:layout_margin="10dp"
                 android:text="Half View"
-                android:textSize="10sp"
-                android:textAllCaps="false"
+                android:id="@+id/halfViewButton"
+                android:layout_gravity="right"
                 android:textColor="@color/button_text_color"
-                android:layout_gravity="right"/>
+                android:background="@android:color/transparent"
+                android:textSize="@dimen/common_button_text_size"
+                android:textAllCaps="false">
+            </info.hoang8f.widget.FButton>
         </FrameLayout>
 
 

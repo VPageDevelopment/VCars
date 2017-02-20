@@ -2,6 +2,7 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fbutton="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     app:theme="@style/AppTheme.NoActionBar"
     android:layout_width="match_parent"
@@ -75,15 +76,22 @@
             android:layout_below="@+id/carVarient"
             android:gravity="left"/>
 
-        <Button
+        <info.hoang8f.widget.FButton
+            fbutton:buttonColor="@color/common_button_color"
+            fbutton:shadowColor="@color/LiteGray"
+            fbutton:shadowEnabled="true"
+            fbutton:shadowHeight="3dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/common_button_color"
-            android:textColor="@color/button_text_color"
             android:text="ENTER"
             android:id="@+id/buttonEnter"
             android:layout_below="@+id/carModelNumber"
-            android:layout_centerHorizontal="true"/>
+            android:layout_centerHorizontal="true"
+            android:textColor="@color/button_text_color"
+            android:background="@android:color/transparent"
+            android:textSize="@dimen/common_button_text_size"
+            android:textAllCaps="true">
+        </info.hoang8f.widget.FButton>
 
     </RelativeLayout>
 
