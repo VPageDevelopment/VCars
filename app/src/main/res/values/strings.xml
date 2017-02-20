@@ -143,4 +143,8 @@
 
     <string name="error_field_required">This field is required</string>
 
+    <!-- Strings RoutDetector -->
+    <string name="AlertMessage">Network Error</string>
+
+
 </resources>

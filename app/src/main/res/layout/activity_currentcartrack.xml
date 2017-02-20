@@ -96,8 +96,8 @@
                 fbutton:shadowColor="@color/LiteGray"
                 fbutton:shadowEnabled="true"
                 fbutton:shadowHeight="3dp"
-                android:layout_width="50dp"
-                android:layout_height="20dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:text="Full View"
                 android:id="@+id/fullViewButton"
                 android:layout_below="@+id/messageText"
@@ -105,7 +105,7 @@
                 android:textColor="@color/button_text_color"
                 android:background="@android:color/transparent"
                 android:textSize="@dimen/common_button_text_size"
-                android:textAllCaps="true">
+                android:textAllCaps="false">
             </info.hoang8f.widget.FButton>
 
             </RelativeLayout>
@@ -128,8 +128,8 @@
                 fbutton:shadowColor="@color/LiteGray"
                 fbutton:shadowEnabled="true"
                 fbutton:shadowHeight="3dp"
-                android:layout_width="50dp"
-                android:layout_height="20dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:visibility="gone"
                 android:layout_margin="10dp"
                 android:text="Half View"

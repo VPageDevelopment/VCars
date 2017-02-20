@@ -18,6 +18,7 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.plus.Plus;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -25,16 +26,18 @@ import com.vpage.vcars.R;
 import com.vpage.vcars.adapter.HomeFragmentAdapter;
 import com.vpage.vcars.chat.ChatActivity;
 import com.vpage.vcars.pojos.VLocation;
-import com.vpage.vcars.tools.LoginType;
+import com.vpage.vcars.tools.RoutDetector;
 import com.vpage.vcars.tools.VCarGooglePlusTools;
 import com.vpage.vcars.tools.VCarsApplication;
 import com.vpage.vcars.tools.VPreferences;
 import com.vpage.vcars.tools.VTools;
 import com.vpage.vcars.tools.fab.FloatingActionsMenu;
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Fullscreen;
+import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -66,6 +69,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.RelativeLayout;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @EActivity(R.layout.activity_home)
@@ -115,8 +119,11 @@ public class HomeActivity  extends AppCompatActivity implements NavigationView.O
     Marker currLocationMarker;
 
     String[] tabItems;
+    LatLng sourceLocation,currentLocation;
 
+    RoutDetector routDetector;
 
+    PolylineOptions polylines;
 
     @AfterViews
     public void onInitHome() {
@@ -186,6 +193,7 @@ public class HomeActivity  extends AppCompatActivity implements NavigationView.O
         }
         Location mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
         updateLocation(mLastLocation);
+        sourceLocation =  new LatLng(mLastLocation.getLatitude(),mLastLocation.getLongitude());
 
 
         mLocationRequest = new LocationRequest();
@@ -214,6 +222,7 @@ public class HomeActivity  extends AppCompatActivity implements NavigationView.O
     public void onLocationChanged(Location location) {
 
         updateLocation(location);
+        currentLocation =  new LatLng(location.getLatitude(),location.getLongitude());
 
         latLng = new LatLng(location.getLatitude(), location.getLongitude());
 
@@ -342,8 +351,6 @@ public class HomeActivity  extends AppCompatActivity implements NavigationView.O
     }
 
 
-
-
     private void SetFABButton() {
 
         final FloatingActionButton viewStatus= new FloatingActionButton(getBaseContext());
@@ -391,8 +398,7 @@ public class HomeActivity  extends AppCompatActivity implements NavigationView.O
                 if(viewStatus.getTitle().equals("Map View")){
                     viewStatus.setIconDrawable(getResources().getDrawable(R.drawable.listviewicon));
                     viewStatus.setTitle("List View");
-                    mapContentLayout.setVisibility(View.VISIBLE);
-                    tabContentLayout.setVisibility(View.GONE);
+                            callRouteDetector();
 
                 }else if(viewStatus.getTitle().equals("List View")){
                     viewStatus.setIconDrawable(getResources().getDrawable(R.drawable.mapviewicon));
@@ -423,6 +429,23 @@ public class HomeActivity  extends AppCompatActivity implements NavigationView.O
         });
 
     }
+
+    @Background
+    public void callRouteDetector(){
+       routDetector = new RoutDetector(HomeActivity.this,mMap,sourceLocation,currentLocation);
+       polylines =routDetector.showRoute();
+        if(null != polylines){
+            callRouteDetectorFinish();
+        }
+    }
+
+    @UiThread
+    public void callRouteDetectorFinish(){
+        mapContentLayout.setVisibility(View.VISIBLE);
+        tabContentLayout.setVisibility(View.GONE);
+        mMap.addPolyline(polylines);
+    }
+
 
 
     @Override
