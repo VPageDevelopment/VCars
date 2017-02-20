@@ -55,9 +55,9 @@ public class SplashActivity extends Activity {
         setAnimStyle();
 
 
-       // afterSplash();
+        afterSplash();
 
-        gotoHomePage();
+      //  gotoHomePage();
 
     }
 
