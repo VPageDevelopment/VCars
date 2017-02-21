@@ -23,29 +23,36 @@ import java.util.List;
 public class RoutDetector {
 
     private static String TAG = RoutDetector.class.getName();
+
     private Activity activity;
-    private GoogleMap gMap;
     private LatLng start;
     private LatLng end;
 
-    public RoutDetector(Activity activity, GoogleMap gMap, LatLng start, LatLng end) {
+    public RoutDetector(Activity activity, LatLng start, LatLng end) {
         this.activity = activity;
-        this.gMap = gMap;
         this.start = start;
         this.end = end;
     }
 
-    private final List<LatLng> lstLatLng = new ArrayList<LatLng>();
+    private final List<LatLng> lstLatLng = new ArrayList<>();
 
     public PolylineOptions showRoute() {
 
         try {
-
+            String source = start.latitude + "," + start.longitude;
+            String destination =end.latitude + "," + end.longitude;
+/*
             final StringBuilder url = new StringBuilder("http://maps.googleapis.com/maps/api/directions/xml?origin=" + start.latitude +
                     "," + start.longitude + "&destination=" + end.latitude + "," + end.longitude + "&sensor=false&units=metric&mode=driving");
+            final InputStream stream = new URL(url.toString()).openStream();*/
 
 
-            final InputStream stream = new URL(url.toString()).openStream();
+
+             String path_tracking_url = activity.getResources().getString(R.string.path_tracking_url);
+
+             path_tracking_url = path_tracking_url.replace("{startlat,startlng}",source);
+             path_tracking_url = path_tracking_url.replace("{endlat,endlng}",destination);
+            final InputStream stream = new URL(path_tracking_url).openStream();
 
 
             final DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
@@ -77,20 +84,6 @@ public class RoutDetector {
                 }
             }
 
-
-            NodeList mainNodeList = document.getElementsByTagName("distance");
-            Node mainNode = mainNodeList.item(length);
-            NodeList childNodeList = mainNode.getChildNodes();
-            final Node childNodeDistance = childNodeList.item(getNodeIndex(childNodeList, "text"));
-            if (LogFlag.bLogOn)Log.d(TAG, "DistanceText" + childNodeDistance.getTextContent());
-
-            NodeList mainNodeLists = document.getElementsByTagName("duration");
-            Node mainNodes = mainNodeLists.item(length);
-            NodeList childNodeLists = mainNodes.getChildNodes();
-            final Node childNodeDuration = childNodeLists.item(getNodeIndex(childNodeLists, "text"));
-            if (LogFlag.bLogOn)Log.d(TAG, "DurationText" + childNodeDuration.getTextContent());
-
-
         } catch (Exception e) {
             activity.runOnUiThread(new Runnable() {
                 public void run() {
@@ -110,7 +103,6 @@ public class RoutDetector {
         {
             polylines.add(latLng);
         }
-        //gMap.addPolyline(polylines);
 
         return polylines;
     }

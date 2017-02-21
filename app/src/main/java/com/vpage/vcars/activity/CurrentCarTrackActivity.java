@@ -353,7 +353,7 @@ public class CurrentCarTrackActivity extends AppCompatActivity implements OnMapR
         LatLng sourceLocation = new LatLng(vLocationTrackList.get(0).getLatitude(),vLocationTrackList.get(0).getLongitude());
         LatLng currentLocation = new LatLng(vLocationTrackList.get((vLocationTrackList.size()-1)).getLatitude(),vLocationTrackList.get((vLocationTrackList.size()-1)).getLongitude());
 
-        routDetector = new RoutDetector(CurrentCarTrackActivity.this, googleMap,sourceLocation,currentLocation);
+        routDetector = new RoutDetector(CurrentCarTrackActivity.this,sourceLocation,currentLocation);
         polyLines =routDetector.showRoute();
         if(null != polyLines){
             callRouteTrackFinish();
