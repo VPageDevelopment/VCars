@@ -185,6 +185,12 @@
             android:name="com.facebook.FacebookContentProvider"
             android:authorities="com.facebook.app.FacebookContentProvider215382688933698"
             android:exported="true" />
+
+
+        <provider
+            android:name="com.vpage.vcars.tools.LocationsContentProvider"
+            android:authorities="com.vpage.vcars.locations"
+            android:exported="false" />
     </application>
 
 

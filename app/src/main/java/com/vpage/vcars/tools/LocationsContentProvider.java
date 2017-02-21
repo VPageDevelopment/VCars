@@ -16,7 +16,7 @@ import com.vpage.vcars.tools.utils.LogFlag;
 public class LocationsContentProvider extends ContentProvider{
 	 private static final String TAG = LocationsContentProvider.class.getName();
 	
-	public static final String PROVIDER_NAME = "vcar.locationmarkersqlite.locations";
+	public static final String PROVIDER_NAME = "com.vpage.vcars.locations";
 	
 	/** A uri to do operations on locations table. A content provider is identified by its uri */
 	public static final Uri CONTENT_URI = Uri.parse("content://" + PROVIDER_NAME + "/locations" );
@@ -80,6 +80,7 @@ public class LocationsContentProvider extends ContentProvider{
 	public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {	
 		
 		if(uriMatcher.match(uri)==LOCATIONS){
+			if (LogFlag.bLogOn) Log.d(TAG, "LocationsContentProvider: "+mLocationsDB.getAllLocations());
 			return mLocationsDB.getAllLocations();
 		}
 		return null;

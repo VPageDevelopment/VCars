@@ -18,6 +18,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -35,16 +36,21 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.vpage.vcars.R;
 import com.vpage.vcars.pojos.VLocation;
+import com.vpage.vcars.pojos.VLocationTrack;
 import com.vpage.vcars.tools.LocationsContentProvider;
 import com.vpage.vcars.tools.LocationsDB;
+import com.vpage.vcars.tools.RoutDetector;
 import com.vpage.vcars.tools.VCarsApplication;
 import com.vpage.vcars.tools.VPreferences;
 import com.vpage.vcars.tools.VTools;
 import com.vpage.vcars.tools.utils.LogFlag;
+import com.vpage.vcars.view.PlayGifView;
+
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.EActivity;
@@ -53,16 +59,16 @@ import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.WindowFeature;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 
 @WindowFeature({Window.FEATURE_NO_TITLE, Window.FEATURE_ACTION_BAR_OVERLAY})
 @EActivity(R.layout.activity_currentcartrack)
 @Fullscreen
-public class CurrentCarTrackActivity extends AppCompatActivity implements OnMapReadyCallback,GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener, View.OnClickListener,LoaderManager.LoaderCallbacks<Cursor>, GoogleMap.OnMapClickListener, GoogleMap.OnMapLongClickListener {
+public class CurrentCarTrackActivity extends AppCompatActivity implements OnMapReadyCallback,GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener, View.OnClickListener,LoaderManager.LoaderCallbacks<Cursor> {
 
     private static final String TAG = CurrentCarTrackActivity.class.getName();
-
 
     @ViewById(R.id.messageText)
     TextView messageText;
@@ -85,14 +91,24 @@ public class CurrentCarTrackActivity extends AppCompatActivity implements OnMapR
     @ViewById(R.id.progressLayout)
     RelativeLayout progressLayout;
 
+    @ViewById(R.id.mapContentLayout)
+    FrameLayout mapContentLayout;
+
+    @ViewById(R.id.viewGif)
+    PlayGifView loaderGif;
+
     SupportMapFragment mapFragment;
     LocationRequest mLocationRequest;
     GoogleApiClient mGoogleApiClient;
     LatLng latLng;
 
-    private GoogleMap mMap;
+    private GoogleMap googleMap;
 
     Marker currLocationMarker;
+
+    RoutDetector routDetector;
+
+    PolylineOptions polyLines;
 
     @AfterViews
     public void onInitView() {
@@ -111,28 +127,26 @@ public class CurrentCarTrackActivity extends AppCompatActivity implements OnMapR
 
         // Invoke LoaderCallbacks to retrieve and draw already saved locations in map
         getSupportLoaderManager().initLoader(0, null, this);
+        loaderGif.setImageResource(R.drawable.loader_gif);
+        loaderGif.setVisibility(View.VISIBLE);
 
     }
 
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
+        this.googleMap = googleMap;
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
             return;
         }
-        mMap.setMyLocationEnabled(true);
+        this.googleMap.setMyLocationEnabled(true);
 
         Boolean isInternetPresent = VTools.checkNetworkConnection(CurrentCarTrackActivity.this);
         if (isInternetPresent) {
             buildGoogleApiClient();
-
             mGoogleApiClient.connect();
         }
-
-        mMap.setOnMapClickListener(this);
-        mMap.setOnMapLongClickListener(this);
 
     }
 
@@ -164,8 +178,6 @@ public class CurrentCarTrackActivity extends AppCompatActivity implements OnMapR
 
         LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
 
-
-
     }
 
     @Override
@@ -185,17 +197,16 @@ public class CurrentCarTrackActivity extends AppCompatActivity implements OnMapR
 
         latLng = new LatLng(location.getLatitude(), location.getLongitude());
 
-        //zoom to current position:
-        CameraPosition cameraPosition = new CameraPosition.Builder().target(latLng).zoom(20).build();
+       //zoom to current position:
+        CameraPosition cameraPosition = new CameraPosition.Builder().target(latLng).zoom(8).build();
 
-        mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+        googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
 
     }
 
     void updateLocation(Location location){
 
         if (location != null) {
-
             VLocation vLocation = new VLocation();
             double latitude = location.getLatitude();
             double longitude = location.getLongitude();
@@ -235,25 +246,38 @@ public class CurrentCarTrackActivity extends AppCompatActivity implements OnMapR
             markerOptions.position(latLng);
             markerOptions.title(vLocation.getAddress());
             markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
-            currLocationMarker = mMap.addMarker(markerOptions);
+            currLocationMarker = googleMap.addMarker(markerOptions);
 
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss a");
+            String formattedDate = simpleDateFormat.format(location.getTime());
 
+            if (LogFlag.bLogOn) Log.d(TAG, "getTime: "+formattedDate);
+            if (LogFlag.bLogOn) Log.d(TAG, "location: "+vLocation.getLocation());
+
+            // Creating an instance of ContentValues
+            ContentValues contentValues = new ContentValues();
+
+            // Setting latitude in ContentValues
+            contentValues.put(LocationsDB.FIELD_LAT, latLng.latitude );
+
+            // Setting longitude in ContentValues
+            contentValues.put(LocationsDB.FIELD_LNG, latLng.longitude);
+
+            // Setting longitude in ContentValues
+            contentValues.put(LocationsDB.FIELD_TIME, formattedDate);
+
+            // Setting longitude in ContentValues
+            contentValues.put(LocationsDB.FIELD_LOCATION, vLocation.getLocation());
+
+            // Setting zoom in ContentValues
+            contentValues.put(LocationsDB.FIELD_ZOOM, googleMap.getCameraPosition().zoom);
+
+            callRouteDetector(contentValues);
 
         }else {
             if (LogFlag.bLogOn) Log.i(TAG, "Not able to get Location");
         }
 
-        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener()
-        {
-
-            @Override
-            public boolean onMarkerClick(Marker arg0) {
-                //  if(arg0.getTitle().equals("MyHome")) // if marker source is clicked
-
-                return true;
-            }
-
-        });
     }
 
 
@@ -294,33 +318,6 @@ public class CurrentCarTrackActivity extends AppCompatActivity implements OnMapR
 
     }
 
-    @Override
-    public void onMapClick(LatLng latLng) {
-        // Creating an instance of ContentValues
-        ContentValues contentValues = new ContentValues();
-
-        // Setting latitude in ContentValues
-        contentValues.put(LocationsDB.FIELD_LAT, latLng.latitude );
-
-        // Setting longitude in ContentValues
-        contentValues.put(LocationsDB.FIELD_LNG, latLng.longitude);
-
-        // Setting zoom in ContentValues
-        contentValues.put(LocationsDB.FIELD_ZOOM, mMap.getCameraPosition().zoom);
-
-        callRouteDetector(contentValues);
-    }
-
-    @Override
-    public void onMapLongClick(LatLng latLng) {
-
-        // Removing all markers from the Google Map
-        mMap.clear();
-
-        callRouteDetectorDelete();
-
-    }
-
     @Background
     public void callRouteDetector(ContentValues contentValues){
 
@@ -330,20 +327,45 @@ public class CurrentCarTrackActivity extends AppCompatActivity implements OnMapR
     }
 
     @UiThread
-    public void callRouteDetectorFinish(ContentValues contentValues){
+    public void callRouteDetectorFinish(ContentValues... contentValues){
         /** Setting up values to insert the clicked location into SQLite database */
         getContentResolver().insert(LocationsContentProvider.CONTENT_URI, contentValues[0]);
+        callRouteDetectorSelect();
     }
 
     @Background
-    public void callRouteDetectorDelete(){
-        callRouteDetectorFinishDelete();
+    public void callRouteDetectorSelect(){
+        LocationsDB locationsDB = new LocationsDB(CurrentCarTrackActivity.this);
+        List<VLocationTrack> vLocationTrackList = locationsDB.select();
+        if(null != vLocationTrackList){
+            callRouteDetectorSelectFinish(vLocationTrackList);
+        }
     }
 
     @UiThread
-    public void callRouteDetectorFinishDelete(){
-        /** Deleting all the locations stored in SQLite database */
-        getContentResolver().delete(LocationsContentProvider.CONTENT_URI, null, null);
+    public void callRouteDetectorSelectFinish(List<VLocationTrack> vLocationTrackList){
+        callRouteTrack(vLocationTrackList);
+    }
+
+    @Background
+    public void callRouteTrack(List<VLocationTrack> vLocationTrackList){
+
+        LatLng sourceLocation = new LatLng(vLocationTrackList.get(0).getLatitude(),vLocationTrackList.get(0).getLongitude());
+        LatLng currentLocation = new LatLng(vLocationTrackList.get((vLocationTrackList.size()-1)).getLatitude(),vLocationTrackList.get((vLocationTrackList.size()-1)).getLongitude());
+
+        routDetector = new RoutDetector(CurrentCarTrackActivity.this, googleMap,sourceLocation,currentLocation);
+        polyLines =routDetector.showRoute();
+        if(null != polyLines){
+            callRouteTrackFinish();
+        }
+    }
+
+    @UiThread
+    public void callRouteTrackFinish(){
+        googleMap.addPolyline(polyLines);
+        loaderGif.setVisibility(View.GONE);
+        mapContentLayout.setVisibility(View.VISIBLE);
+
     }
 }
 
