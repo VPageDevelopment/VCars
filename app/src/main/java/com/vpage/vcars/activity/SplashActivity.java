@@ -54,9 +54,9 @@ public class SplashActivity extends Activity {
         getGcmDeviceToken();
         setAnimStyle();
 
-       afterSplash();
+      // afterSplash();
 
-       //gotoHomePage();
+       gotoHomePage();
 
     }
 
@@ -237,6 +237,4 @@ public class SplashActivity extends Activity {
             if (LogFlag.bLogOn) Log.e(TAG, e.getMessage());
         }
     }
-
-
 }

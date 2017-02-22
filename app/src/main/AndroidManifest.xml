@@ -32,10 +32,10 @@
     <!-- optional permission -->
     <uses-permission
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
-        android:required="false" />
+        android:required="true" />
     <uses-permission
         android:name="android.permission.READ_EXTERNAL_STORAGE"
-        android:required="false" />
+        android:required="true" />
     <uses-permission android:name="android.permission.USE_CREDENTIALS" />
     <uses-permission
         android:name="android.permission.READ_CONTACTS"
@@ -187,10 +187,7 @@
             android:exported="true" />
 
 
-        <provider
-            android:name="com.vpage.vcars.tools.LocationsContentProvider"
-            android:authorities="com.vpage.vcars.locations"
-            android:exported="false" />
+
     </application>
 
 

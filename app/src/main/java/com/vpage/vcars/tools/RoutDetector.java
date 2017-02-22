@@ -41,19 +41,13 @@ public class RoutDetector {
         try {
             String source = start.latitude + "," + start.longitude;
             String destination =end.latitude + "," + end.longitude;
-/*
-            final StringBuilder url = new StringBuilder("http://maps.googleapis.com/maps/api/directions/xml?origin=" + start.latitude +
-                    "," + start.longitude + "&destination=" + end.latitude + "," + end.longitude + "&sensor=false&units=metric&mode=driving");
-            final InputStream stream = new URL(url.toString()).openStream();*/
-
-
 
              String path_tracking_url = activity.getResources().getString(R.string.path_tracking_url);
 
              path_tracking_url = path_tracking_url.replace("{startlat,startlng}",source);
              path_tracking_url = path_tracking_url.replace("{endlat,endlng}",destination);
+            if (LogFlag.bLogOn) Log.d(TAG, "path_tracking_url: "+ path_tracking_url);
             final InputStream stream = new URL(path_tracking_url).openStream();
-
 
             final DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
             documentBuilderFactory.setIgnoringComments(true);
@@ -88,7 +82,7 @@ public class RoutDetector {
             activity.runOnUiThread(new Runnable() {
                 public void run() {
                     String message = activity.getResources().getString(R.string.AlertMessage);
-                    VTools.showAlertDialog(activity,message);
+                 //   VTools.showAlertDialog(activity,message);
                 }
             });
         }

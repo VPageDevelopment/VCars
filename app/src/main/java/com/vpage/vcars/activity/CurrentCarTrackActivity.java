@@ -1,18 +1,12 @@
 package com.vpage.vcars.activity;
 
 import android.Manifest;
-import android.content.ContentValues;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.CursorLoader;
-import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -42,7 +36,6 @@ import com.google.gson.GsonBuilder;
 import com.vpage.vcars.R;
 import com.vpage.vcars.pojos.VLocation;
 import com.vpage.vcars.pojos.VLocationTrack;
-import com.vpage.vcars.tools.LocationsContentProvider;
 import com.vpage.vcars.tools.LocationsDB;
 import com.vpage.vcars.tools.RoutDetector;
 import com.vpage.vcars.tools.VCarsApplication;
@@ -50,7 +43,6 @@ import com.vpage.vcars.tools.VPreferences;
 import com.vpage.vcars.tools.VTools;
 import com.vpage.vcars.tools.utils.LogFlag;
 import com.vpage.vcars.view.PlayGifView;
-
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.EActivity;
@@ -59,6 +51,7 @@ import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.WindowFeature;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
@@ -66,7 +59,7 @@ import java.util.List;
 @WindowFeature({Window.FEATURE_NO_TITLE, Window.FEATURE_ACTION_BAR_OVERLAY})
 @EActivity(R.layout.activity_currentcartrack)
 @Fullscreen
-public class CurrentCarTrackActivity extends AppCompatActivity implements OnMapReadyCallback,GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener, View.OnClickListener,LoaderManager.LoaderCallbacks<Cursor> {
+public class CurrentCarTrackActivity extends AppCompatActivity implements OnMapReadyCallback,GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener, View.OnClickListener{
 
     private static final String TAG = CurrentCarTrackActivity.class.getName();
 
@@ -109,6 +102,10 @@ public class CurrentCarTrackActivity extends AppCompatActivity implements OnMapR
     RoutDetector routDetector;
 
     PolylineOptions polyLines;
+    LocationsDB locationsDB;
+
+    VLocationTrack vLocationTrack = new VLocationTrack();
+
 
     @AfterViews
     public void onInitView() {
@@ -125,10 +122,11 @@ public class CurrentCarTrackActivity extends AppCompatActivity implements OnMapR
         halfViewButton.setOnClickListener(this);
       //  progressText.setText(" ");
 
-        // Invoke LoaderCallbacks to retrieve and draw already saved locations in map
-        getSupportLoaderManager().initLoader(0, null, this);
         loaderGif.setImageResource(R.drawable.loader_gif);
         loaderGif.setVisibility(View.VISIBLE);
+
+        locationsDB = new LocationsDB(CurrentCarTrackActivity.this);
+        locationsDB.createDataBase();
 
     }
 
@@ -182,12 +180,10 @@ public class CurrentCarTrackActivity extends AppCompatActivity implements OnMapR
 
     @Override
     public void onConnectionSuspended(int i) {
-        // Toast.makeText(this,"onConnectionSuspended",Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
-        // Toast.makeText(this,"onConnectionFailed",Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -235,9 +231,6 @@ public class CurrentCarTrackActivity extends AppCompatActivity implements OnMapR
                 vLocation.setLocation(null);
             }
 
-
-            //place marker at current position
-            //mGoogleMap.clear();
             if (currLocationMarker != null) {
                 currLocationMarker.remove();
             }
@@ -254,25 +247,12 @@ public class CurrentCarTrackActivity extends AppCompatActivity implements OnMapR
             if (LogFlag.bLogOn) Log.d(TAG, "getTime: "+formattedDate);
             if (LogFlag.bLogOn) Log.d(TAG, "location: "+vLocation.getLocation());
 
-            // Creating an instance of ContentValues
-            ContentValues contentValues = new ContentValues();
+            vLocationTrack.setLongitude(latLng.longitude);
+            vLocationTrack.setLatitude(latLng.latitude);
+            vLocationTrack.setDateTime(formattedDate);
+            vLocationTrack.setLocation(vLocation.getLocation());
 
-            // Setting latitude in ContentValues
-            contentValues.put(LocationsDB.FIELD_LAT, latLng.latitude );
-
-            // Setting longitude in ContentValues
-            contentValues.put(LocationsDB.FIELD_LNG, latLng.longitude);
-
-            // Setting longitude in ContentValues
-            contentValues.put(LocationsDB.FIELD_TIME, formattedDate);
-
-            // Setting longitude in ContentValues
-            contentValues.put(LocationsDB.FIELD_LOCATION, vLocation.getLocation());
-
-            // Setting zoom in ContentValues
-            contentValues.put(LocationsDB.FIELD_ZOOM, googleMap.getCameraPosition().zoom);
-
-            callRouteDetector(contentValues);
+            callRouteDetector(vLocationTrack);
 
         }else {
             if (LogFlag.bLogOn) Log.i(TAG, "Not able to get Location");
@@ -299,44 +279,15 @@ public class CurrentCarTrackActivity extends AppCompatActivity implements OnMapR
         }
     }
 
-    @Override
-    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        // Uri to the content provider LocationsContentProvider
-        Uri uri = LocationsContentProvider.CONTENT_URI;
-
-        // Fetches all the rows from locations table
-        return new CursorLoader(this, uri, null, null, null, null);
-    }
-
-    @Override
-    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-
-    }
-
-    @Override
-    public void onLoaderReset(Loader<Cursor> loader) {
-
-    }
-
     @Background
-    public void callRouteDetector(ContentValues contentValues){
-
-        if(null != contentValues){
-            callRouteDetectorFinish(contentValues);
+    public void callRouteDetector(VLocationTrack vLocationTrack){
+        List<VLocationTrack> vLocationTrackList = null;
+        try {
+            vLocationTrackList = locationsDB.openDataBaseData(vLocationTrack);
+        } catch (SQLException e) {
+            if (LogFlag.bLogOn) Log.e(TAG, e.getMessage(), e);
         }
-    }
 
-    @UiThread
-    public void callRouteDetectorFinish(ContentValues... contentValues){
-        /** Setting up values to insert the clicked location into SQLite database */
-        getContentResolver().insert(LocationsContentProvider.CONTENT_URI, contentValues[0]);
-        callRouteDetectorSelect();
-    }
-
-    @Background
-    public void callRouteDetectorSelect(){
-        LocationsDB locationsDB = new LocationsDB(CurrentCarTrackActivity.this);
-        List<VLocationTrack> vLocationTrackList = locationsDB.select();
         if(null != vLocationTrackList){
             callRouteDetectorSelectFinish(vLocationTrackList);
         }
@@ -362,6 +313,7 @@ public class CurrentCarTrackActivity extends AppCompatActivity implements OnMapR
 
     @UiThread
     public void callRouteTrackFinish(){
+        if (LogFlag.bLogOn) Log.d(TAG, "callRouteTrackFinish");
         googleMap.addPolyline(polyLines);
         loaderGif.setVisibility(View.GONE);
         mapContentLayout.setVisibility(View.VISIBLE);
