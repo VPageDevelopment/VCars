@@ -706,6 +706,8 @@
                             fbutton:shadowHeight="3dp"
                             android:layout_width="wrap_content"
                             android:layout_height="40dp"
+                            android:paddingRight="10dp"
+                            android:paddingLeft="10dp"
                             android:layout_marginTop="20dp"
                             android:layout_gravity="center"
                             android:text="CREATE"
@@ -714,7 +716,7 @@
                             android:textColor="@color/button_text_color"
                             android:background="@android:color/transparent"
                             android:textSize="@dimen/common_button_text_size"
-                            android:textAllCaps="true"
+                            android:textAllCaps="false"
                             android:layout_marginLeft="20dp"
                             android:layout_marginRight="20dp">
                         </info.hoang8f.widget.FButton>

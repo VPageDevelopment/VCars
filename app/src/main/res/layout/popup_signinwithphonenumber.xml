@@ -252,13 +252,15 @@
                     fbutton:shadowHeight="3dp"
                     android:layout_width="wrap_content"
                     android:layout_height="fill_parent"
+                    android:paddingRight="10dp"
+                    android:paddingLeft="10dp"
                     android:layout_gravity="center_horizontal"
                     android:text="@string/txtsignIn"
                     android:id="@+id/btnOTPSignIn"
                     android:textColor="@color/button_text_color"
                     android:background="@android:color/transparent"
                     android:textSize="@dimen/common_button_text_size"
-                    android:textAllCaps="true">
+                    android:textAllCaps="false">
                 </info.hoang8f.widget.FButton>
             </LinearLayout>
 

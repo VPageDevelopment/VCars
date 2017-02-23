@@ -103,8 +103,8 @@
                     fbutton:shadowHeight="3dp"
                     android:layout_width="150dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="8dp"
+                    android:paddingRight="10dp"
+                    android:paddingLeft="10dp"
                     android:layout_below="@+id/carLocalityLayout"
                     android:layout_gravity="center"
                     android:text="Card Expiry Day"
@@ -113,7 +113,7 @@
                     android:textColor="@color/button_text_color"
                     android:background="@android:color/transparent"
                     android:textSize="@dimen/common_button_text_size"
-                    android:textAllCaps="true"
+                    android:textAllCaps="false"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp">
                 </info.hoang8f.widget.FButton>
@@ -145,6 +145,8 @@
                     fbutton:shadowHeight="3dp"
                     android:layout_width="150dp"
                     android:layout_height="wrap_content"
+                    android:paddingRight="10dp"
+                    android:paddingLeft="10dp"
                     android:layout_gravity="center"
                     android:text="Payment"
                     android:id="@+id/buttonPayment"
@@ -152,7 +154,7 @@
                     android:textColor="@color/button_text_color"
                     android:background="@android:color/transparent"
                     android:textSize="@dimen/common_button_text_size"
-                    android:textAllCaps="true"
+                    android:textAllCaps="false"
                     android:layout_marginTop="24dp"
                     android:layout_marginBottom="24dp"
                     android:padding="12dp">

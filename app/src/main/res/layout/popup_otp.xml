@@ -190,6 +190,8 @@
                     fbutton:shadowHeight="3dp"
                     android:layout_width="wrap_content"
                     android:layout_height="fill_parent"
+                    android:paddingRight="10dp"
+                    android:paddingLeft="10dp"
                     android:layout_gravity="center_horizontal"
                     android:text="@string/txtOTP"
                     android:id="@+id/btnOTPGenerate"

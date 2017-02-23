@@ -152,16 +152,15 @@
                 fbutton:shadowHeight="3dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
+                android:paddingRight="10dp"
+                android:paddingLeft="10dp"
                 android:text=" Pick From Date "
                 android:id="@+id/carRequestFromDay"
                 android:layout_alignParentLeft="true"
-                android:layout_margin="10dp"
                 android:textColor="@color/button_text_color"
                 android:background="@android:color/transparent"
                 android:textSize="@dimen/common_button_text_size"
-                android:textAllCaps="true">
+                android:textAllCaps="false">
             </info.hoang8f.widget.FButton>
 
 
@@ -172,15 +171,15 @@
                 fbutton:shadowHeight="3dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
+                android:paddingRight="10dp"
+                android:paddingLeft="10dp"
                 android:text=" Pick To Date "
                 android:id="@+id/carRequestToDay"
                 android:layout_alignParentRight="true"
                 android:textColor="@color/button_text_color"
                 android:background="@android:color/transparent"
                 android:textSize="@dimen/common_button_text_size"
-                android:textAllCaps="true">
+                android:textAllCaps="false">
             </info.hoang8f.widget.FButton>
 
 
@@ -247,6 +246,7 @@
             android:layout_height="wrap_content"
             android:drawableRight="@drawable/key"
             android:paddingRight="10dp"
+            android:paddingLeft="10dp"
             android:text="Pick"
             android:id="@+id/buttonPick"
             android:layout_centerHorizontal="true"
@@ -254,7 +254,7 @@
             android:textColor="@color/button_text_color"
             android:background="@android:color/transparent"
             android:textSize="@dimen/common_button_text_size"
-            android:textAllCaps="true">
+            android:textAllCaps="false">
         </info.hoang8f.widget.FButton>
     </RelativeLayout>
 
