@@ -144,7 +144,7 @@ public class SignupActivity extends AppCompatActivity implements   View.OnKeyLis
     public void initSignUp() {
 
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         title.setText(R.string.signUpTitle);
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
@@ -700,9 +700,7 @@ public class SignupActivity extends AppCompatActivity implements   View.OnKeyLis
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case android.R.id.home:
-                onBackPressed();
-                return true;
+
             default:
                 return super.onOptionsItemSelected(item);
         }

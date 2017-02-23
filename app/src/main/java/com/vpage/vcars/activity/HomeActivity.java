@@ -36,6 +36,9 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Fullscreen;
 import org.androidannotations.annotations.ViewById;
 import android.Manifest;
+import android.animation.Animator;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import com.vpage.vcars.tools.fab.FloatingActionButton;
@@ -63,6 +66,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.DecelerateInterpolator;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import java.io.IOException;
 import java.util.List;
@@ -101,6 +106,9 @@ public class HomeActivity  extends AppCompatActivity implements NavigationView.O
     @ViewById(R.id.multiple_actions)
     FloatingActionsMenu floatingActionsMenu;
 
+    @ViewById(R.id.container_app_bar)
+    LinearLayout mContainerToolbar;
+
     @Bean
     VCarGooglePlusTools vCarGooglePlusTools;
 
@@ -117,6 +125,7 @@ public class HomeActivity  extends AppCompatActivity implements NavigationView.O
 
     @AfterViews
     public void onInitHome() {
+        animateToolbarDroppingDown(mContainerToolbar);
         setActionBarSupport();
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -599,6 +608,20 @@ public class HomeActivity  extends AppCompatActivity implements NavigationView.O
         Intent intent = new Intent(getApplicationContext(), ChatActivity.class);
         startActivity(intent);
         VTools.animation(this);
+    }
+
+    public static void animateToolbarDroppingDown(View containerToolbar) {
+
+        containerToolbar.setRotationX(-90);
+        containerToolbar.setAlpha(0.2F);
+        containerToolbar.setPivotX(0.0F);
+        containerToolbar.setPivotY(0.0F);
+        Animator alpha = ObjectAnimator.ofFloat(containerToolbar, "alpha", 0.2F, 0.4F, 0.6F, 0.8F, 1.0F).setDuration(4000);
+        Animator rotationX = ObjectAnimator.ofFloat(containerToolbar, "rotationX", -90, 60, -45, 45, -10, 30, 0, 20, 0, 5, 0).setDuration(8000);
+        AnimatorSet animatorSet = new AnimatorSet();
+        animatorSet.setInterpolator(new DecelerateInterpolator());
+        animatorSet.playTogether(alpha, rotationX);
+        animatorSet.start();
     }
 
 

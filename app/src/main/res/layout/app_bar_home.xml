@@ -10,10 +10,17 @@
     android:fitsSystemWindows="true"
     tools:context="com.vpage.vcars.activity.HomeActivity">
 
-    <android.support.design.widget.AppBarLayout
+
+    <LinearLayout
+        android:id="@+id/container_app_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
+        >
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <android.support.v7.widget.Toolbar
@@ -24,7 +31,9 @@
             app:popupTheme="@style/AppTheme.PopupOverlay"
             app:titleTextAppearance="@style/Toolbar.TitleText" />
 
+
     </android.support.design.widget.AppBarLayout>
+    </LinearLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
