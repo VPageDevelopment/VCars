@@ -10,9 +10,11 @@ import com.loopj.android.http.RequestParams;
 import com.vpage.vcars.R;
 import com.vpage.vcars.pojos.request.CheckUserRequest;
 import com.vpage.vcars.pojos.request.SignupRequest;
+import com.vpage.vcars.pojos.request.VLocationTrackRequest;
 import com.vpage.vcars.pojos.response.CheckUserResponse;
 import com.vpage.vcars.pojos.response.SignInResponse;
 import com.vpage.vcars.pojos.response.SignupResponse;
+import com.vpage.vcars.pojos.response.VLocationTrack.VLocationTrackResponse;
 import com.vpage.vcars.tools.VCarsApplication;
 import com.vpage.vcars.tools.VCarRestTools;
 import com.vpage.vcars.tools.VTools;
@@ -50,7 +52,8 @@ public class VCarRestClient {
             Gson gson = new GsonBuilder().create();
             String jsonParams = gson.toJson(signInRequest);
             if (LogFlag.bLogOn)Log.d(TAG, jsonParams);
-            parsedJsonParams = new StringEntity(VTools.getRequestWithAppVersion(jsonParams));
+          //  parsedJsonParams = new StringEntity(VTools.getRequestWithAppVersion(jsonParams));
+            parsedJsonParams = new StringEntity(jsonParams);
 
 
         } catch (UnsupportedEncodingException e) {
@@ -201,6 +204,64 @@ public class VCarRestClient {
             });
         }
         return response[0];
+    }
+
+
+    public void locationStore(VLocationTrackRequest vLocationTrackRequest) {
+
+        String locationStoreUrl = VCarsApplication.getContext().getResources().getString(R.string.store_location);
+
+        locationStoreUrl = locationStoreUrl.replace("{user}", vLocationTrackRequest.getUser());
+        locationStoreUrl = locationStoreUrl.replace("{lat}", vLocationTrackRequest.getLatitude()+"");
+        locationStoreUrl = locationStoreUrl.replace("{lng}", vLocationTrackRequest.getLongitude()+"");
+        locationStoreUrl = locationStoreUrl.replace("{location}",vLocationTrackRequest.getLocation());
+
+        if (LogFlag.bLogOn)Log.d(TAG,"locationStoreUrl: "+locationStoreUrl);
+
+        HttpManager.post(locationStoreUrl,null, new JsonHttpResponseHandler() {
+
+
+            public void onSuccess(int statusCode, Header[] headers, JSONObject resultData) {
+
+                if (LogFlag.bLogOn)Log.d(TAG,"resultData: "+ resultData.toString());
+            }
+
+
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                if (LogFlag.bLogOn)Log.d(TAG, "Error " + statusCode);
+
+            }
+
+        });
+    }
+
+
+    public VLocationTrackResponse locationTrack(String user) {
+
+        String locationTrackUrl = VCarsApplication.getContext().getResources().getString(R.string.track_location);
+
+        locationTrackUrl = locationTrackUrl.replace("{user}",user);
+
+        if (LogFlag.bLogOn)Log.d(TAG, locationTrackUrl);
+        final VLocationTrackResponse[] vLocationTrackResponses = {null};
+
+        HttpManager.post(locationTrackUrl,null, new JsonHttpResponseHandler() {
+
+
+            public void onSuccess(int statusCode, Header[] headers, JSONObject resultData) {
+
+                vLocationTrackResponses[0] = VCarRestTools.getInstance().getLocationTrackData(resultData.toString());
+                if (LogFlag.bLogOn)Log.d(TAG,"vLocationTrackResponses: "+ vLocationTrackResponses[0].toString());
+            }
+
+
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                if (LogFlag.bLogOn)Log.d(TAG, "Error " + statusCode);
+                vLocationTrackResponses[0] = null;
+            }
+
+        });
+        return vLocationTrackResponses[0];
     }
 
 

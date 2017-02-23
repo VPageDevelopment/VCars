@@ -7,11 +7,9 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.LinearLayout;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.vpage.vcars.R;
-import com.vpage.vcars.pojos.response.SignInResponse;
 import com.vpage.vcars.tools.NetworkUtil;
 import com.vpage.vcars.tools.VPreferences;
 import com.vpage.vcars.tools.VTools;
@@ -19,7 +17,6 @@ import com.vpage.vcars.tools.utils.LogFlag;
 import com.vpage.vcars.service.GCMClientManager;
 import com.vpage.vcars.view.PlayGifView;
 import org.androidannotations.annotations.*;
-
 
 @WindowFeature({Window.FEATURE_NO_TITLE, Window.FEATURE_ACTION_BAR_OVERLAY})
 @Fullscreen

@@ -16,11 +16,11 @@ import javax.net.ssl.X509TrustManager;
 
 import cz.msebera.android.httpclient.conn.ssl.SSLSocketFactory;
 
-public class OustSSLSocketFactory extends SSLSocketFactory {
+public class VcarSSLSocketFactory extends SSLSocketFactory {
     private static final String TAG = HttpManager.class.getName();
     SSLContext sslContext = SSLContext.getInstance("TLS");
 
-    public OustSSLSocketFactory(KeyStore truststore) throws NoSuchAlgorithmException, KeyManagementException,
+    public VcarSSLSocketFactory(KeyStore truststore) throws NoSuchAlgorithmException, KeyManagementException,
             KeyStoreException, UnrecoverableKeyException {
         super(truststore);
 

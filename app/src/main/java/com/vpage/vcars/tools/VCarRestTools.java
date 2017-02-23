@@ -6,6 +6,7 @@ import com.vpage.vcars.pojos.FacebookUserprofile;
 import com.vpage.vcars.pojos.response.CheckUserResponse;
 import com.vpage.vcars.pojos.response.SignInResponse;
 import com.vpage.vcars.pojos.response.SignupResponse;
+import com.vpage.vcars.pojos.response.VLocationTrack.VLocationTrackResponse;
 
 
 public class VCarRestTools {
@@ -48,6 +49,13 @@ public class VCarRestTools {
         Gson gson = new GsonBuilder().create();
         return gson.fromJson(jsonString, FacebookUserprofile.class);
     }
+
+
+    public VLocationTrackResponse getLocationTrackData(String jsonString) {
+        Gson gson = new GsonBuilder().create();
+        return gson.fromJson(jsonString, VLocationTrackResponse.class);
+    }
+
 
 
 

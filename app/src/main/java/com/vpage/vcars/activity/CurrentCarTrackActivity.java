@@ -34,8 +34,11 @@ import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.vpage.vcars.R;
+import com.vpage.vcars.httputils.VCarRestClient;
 import com.vpage.vcars.pojos.VLocation;
 import com.vpage.vcars.pojos.VLocationTrack;
+import com.vpage.vcars.pojos.request.VLocationTrackRequest;
+import com.vpage.vcars.pojos.response.VLocationTrack.VLocationTrackResponse;
 import com.vpage.vcars.tools.LocationsDB;
 import com.vpage.vcars.tools.RoutDetector;
 import com.vpage.vcars.tools.VCarsApplication;
@@ -105,6 +108,8 @@ public class CurrentCarTrackActivity extends AppCompatActivity implements OnMapR
     LocationsDB locationsDB;
 
     VLocationTrack vLocationTrack = new VLocationTrack();
+
+    VLocationTrackRequest vLocationTrackRequest = new VLocationTrackRequest();
 
 
     @AfterViews
@@ -252,7 +257,9 @@ public class CurrentCarTrackActivity extends AppCompatActivity implements OnMapR
             vLocationTrack.setDateTime(formattedDate);
             vLocationTrack.setLocation(vLocation.getLocation());
 
-            callRouteDetector(vLocationTrack);
+            storeLocation();
+
+           // callRouteDetector(vLocationTrack);
 
         }else {
             if (LogFlag.bLogOn) Log.i(TAG, "Not able to get Location");
@@ -317,6 +324,46 @@ public class CurrentCarTrackActivity extends AppCompatActivity implements OnMapR
         googleMap.addPolyline(polyLines);
         loaderGif.setVisibility(View.GONE);
         mapContentLayout.setVisibility(View.VISIBLE);
+
+    }
+
+
+    @Background
+    public void storeLocation() {
+        if (LogFlag.bLogOn)Log.d(TAG, "storeLocation");
+        setStoreLocationRequestData();
+        VCarRestClient vCarRestClient = new VCarRestClient();
+        vCarRestClient.locationStore(vLocationTrackRequest);
+        trackLocation();
+    }
+
+    @UiThread
+    public void storeLocationFinish(){
+        if (LogFlag.bLogOn) Log.d(TAG, "storeLocationFinish");
+        loaderGif.setVisibility(View.GONE);
+        mapContentLayout.setVisibility(View.VISIBLE);
+
+    }
+
+
+     void setStoreLocationRequestData() {
+
+         vLocationTrackRequest.setUser("Meera");
+         vLocationTrackRequest.setLatitude(vLocationTrack.getLatitude());
+         vLocationTrackRequest.setLongitude(vLocationTrack.getLongitude());
+         vLocationTrackRequest.setLocation(vLocationTrack.getLocation());
+
+     }
+
+    @Background
+    public void trackLocation() {
+        if (LogFlag.bLogOn)Log.d(TAG, "trackLocation");
+        VCarRestClient vCarRestClient = new VCarRestClient();
+        VLocationTrackResponse vLocationTrackResponse = vCarRestClient.locationTrack("Meera");
+        if(null != vLocationTrackResponse){
+            if (LogFlag.bLogOn) Log.d(TAG, "vLocationTrackResponse: "+vLocationTrackResponse.toString());
+            storeLocationFinish();
+        }
 
     }
 }

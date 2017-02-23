@@ -15,7 +15,7 @@ public class HttpManager {
     private static int DEFAULT_TIMEOUT = 20 * 1000;
 
 
-   private static final String BASE_URL = " ";
+   private static final String BASE_URL = "http://vpageinc.com/vcars/admin/webservice/rest/api.php?";
 
     private static final String CONTENT_TYPE_JSON = "application/json";
 
@@ -63,17 +63,17 @@ public class HttpManager {
             syncHttpClient.setResponseTimeout(DEFAULT_TIMEOUT);
 
 /*            // SSL
-            OustSSLSocketFactory oustSSLSocketFactory = null;
+            VcarSSLSocketFactory vcarSSLSocketFactory = null;
             try {
 
                 KeyStore trustStore = KeyStore.getInstance(KeyStore.getDefaultType());
                 trustStore.load(null, null);
-                oustSSLSocketFactory = new OustSSLSocketFactory(trustStore);
-                oustSSLSocketFactory.setHostnameVerifier(OustSSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
+                vcarSSLSocketFactory = new VcarSSLSocketFactory(trustStore);
+                vcarSSLSocketFactory.setHostnameVerifier(VcarSSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
             } catch (Exception ex) {
                 Log.e(TAG, ex.toString());
             }
-            syncHttpClient.setSSLSocketFactory(oustSSLSocketFactory);*/
+            syncHttpClient.setSSLSocketFactory(vcarSSLSocketFactory);*/
 
             return syncHttpClient;
         }
@@ -83,17 +83,17 @@ public class HttpManager {
         asyncHttpClient.setResponseTimeout(DEFAULT_TIMEOUT);
 
 /*        // SSL
-        OustSSLSocketFactory oustSSLSocketFactory = null;
+        VcarSSLSocketFactory vcarSSLSocketFactory = null;
         try {
 
             KeyStore trustStore = KeyStore.getInstance(KeyStore.getDefaultType());
             trustStore.load(null, null);
-            oustSSLSocketFactory = new OustSSLSocketFactory(trustStore);
-            oustSSLSocketFactory.setHostnameVerifier(OustSSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
+            vcarSSLSocketFactory = new VcarSSLSocketFactory(trustStore);
+            vcarSSLSocketFactory.setHostnameVerifier(VcarSSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
         } catch (Exception ex) {
             Log.e(TAG, ex.toString());
         }
-        asyncHttpClient.setSSLSocketFactory(oustSSLSocketFactory);*/
+        asyncHttpClient.setSSLSocketFactory(vcarSSLSocketFactory);*/
 
         return asyncHttpClient;
     }
