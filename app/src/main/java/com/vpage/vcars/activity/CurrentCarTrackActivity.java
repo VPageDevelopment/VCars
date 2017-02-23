@@ -56,6 +56,8 @@ import org.androidannotations.annotations.WindowFeature;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -257,9 +259,9 @@ public class CurrentCarTrackActivity extends AppCompatActivity implements OnMapR
             vLocationTrack.setDate(formattedDate);
             vLocationTrack.setLocation(vLocation.getLocation());
 
-            storeLocation();
+            storeLocation();  //  used For car borrower track location
 
-           // callRouteDetector(vLocationTrack);
+           // callRouteDetector(vLocationTrack);  //  used For car renters track location
 
         }else {
             if (LogFlag.bLogOn) Log.i(TAG, "Not able to get Location");
@@ -337,18 +339,10 @@ public class CurrentCarTrackActivity extends AppCompatActivity implements OnMapR
         trackLocation();
     }
 
-    @UiThread
-    public void storeLocationFinish(){
-        if (LogFlag.bLogOn) Log.d(TAG, "storeLocationFinish");
-        loaderGif.setVisibility(View.GONE);
-        mapContentLayout.setVisibility(View.VISIBLE);
-
-    }
-
 
      void setStoreLocationRequestData() {
 
-         vLocationTrackRequest.setUser("Meera");
+         vLocationTrackRequest.setUser("Meera");  // only for testing static data used until service ready
          vLocationTrackRequest.setLatitude(vLocationTrack.getLatitude());
          vLocationTrackRequest.setLongitude(vLocationTrack.getLongitude());
          vLocationTrackRequest.setLocation(vLocationTrack.getLocation());
@@ -362,7 +356,17 @@ public class CurrentCarTrackActivity extends AppCompatActivity implements OnMapR
         VLocationTrackResponse vLocationTrackResponse = vCarRestClient.locationTrack("Meera");
         if(null != vLocationTrackResponse){
             if (LogFlag.bLogOn) Log.d(TAG, "vLocationTrackResponse: "+vLocationTrackResponse.toString());
-            storeLocationFinish();
+            List<VLocationTrack> vLocationTrackList = new ArrayList<>();
+            VLocationTrack vLocationTrack = new VLocationTrack();
+
+           for(int i =0;i < vLocationTrackResponse.getLocation().length;i++){
+               vLocationTrack.setLongitude(vLocationTrackResponse.getLocation()[i].getLongitude());
+               vLocationTrack.setLatitude(vLocationTrackResponse.getLocation()[i].getLatitude());
+               vLocationTrack.setDate(vLocationTrackResponse.getLocation()[i].getDate());
+               vLocationTrack.setLocation(vLocationTrackResponse.getLocation()[i].getLocation());
+               vLocationTrackList.add(vLocationTrack);
+           }
+            callRouteDetectorSelectFinish(vLocationTrackList);
         }
 
     }

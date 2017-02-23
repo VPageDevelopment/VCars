@@ -50,8 +50,6 @@ public class SplashActivity extends Activity {
 
        afterSplash();
 
-     //  gotoHomePage();
-
     }
 
 
