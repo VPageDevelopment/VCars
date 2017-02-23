@@ -30,11 +30,8 @@ public class SplashActivity extends Activity {
 
     int delay = 2000;
 
-   /* @ViewById(R.id.splash_textV)
-    TextView splash_textView;
-*/
     @ViewById(R.id.mainlanding_layout)
-    LinearLayout mainlanding_layout;
+    LinearLayout mainLayout;
 
     @ViewById(R.id.splashImage)
     PlayGifView imageView;
@@ -51,15 +48,18 @@ public class SplashActivity extends Activity {
         getGcmDeviceToken();
         setAnimStyle();
 
-      // afterSplash();
+       afterSplash();
 
-       gotoHomePage();
+     //  gotoHomePage();
 
     }
 
 
     private void gotoHomePage() {
-
+        shouldKillActivity = true;
+        if (!checkInternetStatus()) {
+            return;
+        }
         Intent intent = new Intent(getApplicationContext(), HomeActivity_.class);
         startActivity(intent);
         VTools.animation(this);
@@ -67,7 +67,10 @@ public class SplashActivity extends Activity {
 
 
     private void gotoCarRequestPage() {
-
+        shouldKillActivity = true;
+        if (!checkInternetStatus()) {
+            return;
+        }
         Intent intent = new Intent(getApplicationContext(), CurrentCarTrackActivity_.class);
         startActivity(intent);
         VTools.animation(this);
@@ -84,18 +87,6 @@ public class SplashActivity extends Activity {
 
                 goToHome();
 
-
-          /*      Boolean isAppInstalled = VPreferences.getAppInstallStatus("isInstalled");
-
-                if (LogFlag.bLogOn) Log.d(TAG, "isInstalled: "+ isAppInstalled);
-
-                // To check first installation by preference
-                if (!isAppInstalled) {
-                    gotoHelpScreenPage();
-                } else {
-                 //   gotoOTPGenerationPage();
-                    gotoSignInPage();
-                }*/
             }
         }, delay);
     }
@@ -106,8 +97,12 @@ public class SplashActivity extends Activity {
             String userdata  = VPreferences.get("userdata");
 
             if (isLoggedIn == null || isLoggedIn.isEmpty() || null == userdata || userdata.isEmpty()) {
-                gotoGoogleSignInPage();
+                gotoLogInPage();
             } else {
+                shouldKillActivity = true;
+                if (!checkInternetStatus()) {
+                    return;
+                }
 
                 Gson gson = new GsonBuilder().create();
                 VPreferences.save("activeUser", gson.toJson(userdata));
@@ -115,7 +110,6 @@ public class SplashActivity extends Activity {
                 intent.putExtra("ActiveUser", gson.toJson(VTools.getActiveUserFromUserData(userdata)));
                 startActivity(intent);
                 VTools.animation(this);
-                finish();
             }
         } catch (Exception e) {
             if (LogFlag.bLogOn)Log.e(TAG,  e.getMessage());
@@ -124,10 +118,6 @@ public class SplashActivity extends Activity {
 
 
     private void setAnimStyle() {
-
-       /* final Animation splash_anim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.splashanim);
-        imageView.setVisibility(View.VISIBLE);
-        imageView.startAnimation(splash_anim);*/
 
         imageView.setVisibility(View.VISIBLE);
         imageView.setImageResource(R.mipmap.splashimage);
@@ -185,6 +175,10 @@ public class SplashActivity extends Activity {
 
 
     private void gotoHelpScreenPage() {
+        shouldKillActivity = true;
+        if (!checkInternetStatus()) {
+            return;
+        }
         VPreferences.saveAppInstallStatus("isInstalled",true);
         Intent intent = new Intent(getApplicationContext(), HelpScreenActivity_.class);
         startActivity(intent);
@@ -193,12 +187,14 @@ public class SplashActivity extends Activity {
     }
 
 
-    private void gotoGoogleSignInPage() {
-
+    private void gotoLogInPage() {
+        shouldKillActivity = true;
+        if (!checkInternetStatus()) {
+            return;
+        }
         Intent intent = new Intent(getApplicationContext(), LoginActivity_.class);
         startActivity(intent);
         VTools.animation(this);
-        finish();
 
     }
 
@@ -209,7 +205,7 @@ public class SplashActivity extends Activity {
             finish();
         }
 
-        VTools.setSnackBarElements(mainlanding_layout, SplashActivity.this);
+        VTools.setSnackBarElements(mainLayout, SplashActivity.this);
     }
 
     private void getGcmDeviceToken(){

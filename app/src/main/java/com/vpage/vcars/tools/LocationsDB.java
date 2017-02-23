@@ -165,7 +165,7 @@ public class LocationsDB extends SQLiteOpenHelper{
             contentValues.put(LocationsDB.FIELD_LNG, locationTrack.getLongitude());
 
             // Setting longitude in ContentValues
-            contentValues.put(LocationsDB.FIELD_TIME, locationTrack.getDateTime());
+            contentValues.put(LocationsDB.FIELD_TIME, locationTrack.getDate());
 
             // Setting longitude in ContentValues
             contentValues.put(LocationsDB.FIELD_LOCATION, locationTrack.getLocation());
@@ -191,7 +191,7 @@ public class LocationsDB extends SQLiteOpenHelper{
 
                         vLocationTrack.setLongitude(lng);
                         vLocationTrack.setLatitude(lat);
-                        vLocationTrack.setDateTime(dateTime);
+                        vLocationTrack.setDate(dateTime);
                         vLocationTrack.setLocation(location);
                         vLocationTrackList.add(vLocationTrack);
 

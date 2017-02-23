@@ -38,7 +38,7 @@ import com.vpage.vcars.httputils.VCarRestClient;
 import com.vpage.vcars.pojos.VLocation;
 import com.vpage.vcars.pojos.VLocationTrack;
 import com.vpage.vcars.pojos.request.VLocationTrackRequest;
-import com.vpage.vcars.pojos.response.VLocationTrack.VLocationTrackResponse;
+import com.vpage.vcars.pojos.response.VLocationTrackResponse;
 import com.vpage.vcars.tools.LocationsDB;
 import com.vpage.vcars.tools.RoutDetector;
 import com.vpage.vcars.tools.VCarsApplication;
@@ -254,7 +254,7 @@ public class CurrentCarTrackActivity extends AppCompatActivity implements OnMapR
 
             vLocationTrack.setLongitude(latLng.longitude);
             vLocationTrack.setLatitude(latLng.latitude);
-            vLocationTrack.setDateTime(formattedDate);
+            vLocationTrack.setDate(formattedDate);
             vLocationTrack.setLocation(vLocation.getLocation());
 
             storeLocation();

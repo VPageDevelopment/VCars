@@ -5,7 +5,7 @@ public class VLocationTrack {
 
     private double latitude;
     private double longitude;
-    private String dateTime;
+    private String date;
     private String location;
 
     public double getLatitude() {
@@ -24,12 +24,12 @@ public class VLocationTrack {
         this.longitude = longitude;
     }
 
-    public String getDateTime() {
-        return dateTime;
+    public String getDate() {
+        return date;
     }
 
-    public void setDateTime(String dateTime) {
-        this.dateTime = dateTime;
+    public void setDate(String date) {
+        this.date = date;
     }
 
     public String getLocation() {
@@ -45,7 +45,7 @@ public class VLocationTrack {
         return "VLocationTrack{" +
                 "latitude=" + latitude +
                 ", longitude=" + longitude +
-                ", dateTime='" + dateTime + '\'' +
+                ", date='" + date + '\'' +
                 ", location='" + location + '\'' +
                 '}';
     }

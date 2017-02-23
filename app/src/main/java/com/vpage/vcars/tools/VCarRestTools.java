@@ -6,7 +6,7 @@ import com.vpage.vcars.pojos.FacebookUserprofile;
 import com.vpage.vcars.pojos.response.CheckUserResponse;
 import com.vpage.vcars.pojos.response.SignInResponse;
 import com.vpage.vcars.pojos.response.SignupResponse;
-import com.vpage.vcars.pojos.response.VLocationTrack.VLocationTrackResponse;
+import com.vpage.vcars.pojos.response.VLocationTrackResponse;
 
 
 public class VCarRestTools {

@@ -1,5 +1,6 @@
-package com.vpage.vcars.pojos.response.VLocationTrack;
+package com.vpage.vcars.pojos.response;
 
+import com.vpage.vcars.pojos.VLocationTrack;
 import java.util.Arrays;
 
 public class VLocationTrackResponse {

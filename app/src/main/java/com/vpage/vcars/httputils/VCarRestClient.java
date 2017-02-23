@@ -14,12 +14,11 @@ import com.vpage.vcars.pojos.request.VLocationTrackRequest;
 import com.vpage.vcars.pojos.response.CheckUserResponse;
 import com.vpage.vcars.pojos.response.SignInResponse;
 import com.vpage.vcars.pojos.response.SignupResponse;
-import com.vpage.vcars.pojos.response.VLocationTrack.VLocationTrackResponse;
+import com.vpage.vcars.pojos.response.VLocationTrackResponse;
 import com.vpage.vcars.tools.VCarsApplication;
 import com.vpage.vcars.tools.VCarRestTools;
 import com.vpage.vcars.tools.VTools;
 import com.vpage.vcars.tools.utils.LogFlag;
-
 import org.json.JSONObject;
 import java.io.UnsupportedEncodingException;
 import cz.msebera.android.httpclient.Header;
