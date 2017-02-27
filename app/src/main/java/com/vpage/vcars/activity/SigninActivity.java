@@ -51,6 +51,8 @@ import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationListener;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.plus.Plus;
 import com.google.android.gms.plus.model.people.Person;
 import com.google.gson.Gson;
@@ -1117,7 +1119,7 @@ public class SigninActivity extends Activity implements View.OnKeyListener, View
         if (LogFlag.bLogOn)Log.d(TAG, "setCheckVCarUserRequestData");
         String uuid = Settings.Secure.getString(this.getContentResolver(), Settings.Secure.ANDROID_ID);
         checkUserRequest = new CheckUserRequest();
-        checkUserRequest.setStudentid(userPhoneNumberInput);
+        checkUserRequest.setUserID(userPhoneNumberInput);
         checkUserRequest.setDeviceIdentity(uuid);
         checkUserRequest.setDevicePlatformName("Android");
         checkUserRequest.setLoginType(LoginType.VCars.name());
@@ -1469,7 +1471,7 @@ public class SigninActivity extends Activity implements View.OnKeyListener, View
         if (LogFlag.bLogOn)Log.d(TAG, "setCheckGoogleUserRequestData");
         String uuid = Settings.Secure.getString(this.getContentResolver(), Settings.Secure.ANDROID_ID);
         checkUserRequest = new CheckUserRequest();
-        checkUserRequest.setStudentid(currentPerson.getId());
+        checkUserRequest.setUserID(currentPerson.getId());
         checkUserRequest.setDeviceIdentity(uuid);
         checkUserRequest.setDevicePlatformName("Android");
         checkUserRequest.setLoginType("GoogleApp");
@@ -1485,7 +1487,7 @@ public class SigninActivity extends Activity implements View.OnKeyListener, View
         if (LogFlag.bLogOn)Log.d(TAG, "setCheckFacebookUserRequestData");
         String uuid = Settings.Secure.getString(this.getContentResolver(), Settings.Secure.ANDROID_ID);
         checkUserRequest = new CheckUserRequest();
-        checkUserRequest.setStudentid(facebookUserprofile.getToken_for_business());
+        checkUserRequest.setUserID(facebookUserprofile.getToken_for_business());
         checkUserRequest.setEmail(facebookUserprofile.getEmail());
         checkUserRequest.setDeviceIdentity(uuid);
         checkUserRequest.setDevicePlatformName("Android");
@@ -1686,6 +1688,27 @@ public class SigninActivity extends Activity implements View.OnKeyListener, View
             if (LogFlag.bLogOn)Log.e(TAG, "Cannot access Provider " + e.getMessage());
         }
         return location;
+    }
+
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (LogFlag.bLogOn)Log.d(TAG, "onStop");
+        mGoogleApiClient.disconnect();
+        if (LogFlag.bLogOn)Log.d(TAG, "isConnected: " + mGoogleApiClient.isConnected());
+    }
+
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        stopLocationUpdates();
+    }
+
+    protected void stopLocationUpdates() {
+        LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, (LocationListener) this);
+        if (LogFlag.bLogOn)Log.d(TAG, "Location update stopped ");
     }
 
 }

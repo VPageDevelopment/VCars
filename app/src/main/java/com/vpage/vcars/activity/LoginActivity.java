@@ -56,6 +56,8 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
+import com.google.android.gms.location.LocationListener;
+import com.google.android.gms.location.LocationServices;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.vpage.vcars.R;
@@ -755,7 +757,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnKeyListen
         if (LogFlag.bLogOn)Log.d(TAG, "setCheckVCarUserRequestData");
         String uuid = Settings.Secure.getString(this.getContentResolver(), Settings.Secure.ANDROID_ID);
         checkUserRequest = new CheckUserRequest();
-        checkUserRequest.setStudentid(userPhoneNumberInput);
+        checkUserRequest.setUserID(userPhoneNumberInput);
         checkUserRequest.setDeviceIdentity(uuid);
         checkUserRequest.setDevicePlatformName("Android");
         checkUserRequest.setLoginType(LoginType.VCars.name());
@@ -1035,7 +1037,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnKeyListen
         if (LogFlag.bLogOn)Log.d(TAG, "setCheckFacebookUserRequestData");
         String uuid = Settings.Secure.getString(this.getContentResolver(), Settings.Secure.ANDROID_ID);
         checkUserRequest = new CheckUserRequest();
-        checkUserRequest.setStudentid(facebookUserprofile.getToken_for_business());
+        checkUserRequest.setUserID(facebookUserprofile.getToken_for_business());
         checkUserRequest.setEmail(facebookUserprofile.getEmail());
         checkUserRequest.setDeviceIdentity(uuid);
         checkUserRequest.setDevicePlatformName("Android");
@@ -1453,7 +1455,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnKeyListen
         if (LogFlag.bLogOn)Log.d(TAG, "setCheckGoogleUserRequestData");
         String uuid = Settings.Secure.getString(this.getContentResolver(), Settings.Secure.ANDROID_ID);
         checkUserRequest = new CheckUserRequest();
-        checkUserRequest.setStudentid(googleSignInAccount.getId().toString());
+        checkUserRequest.setUserID(googleSignInAccount.getId().toString());
         checkUserRequest.setDeviceIdentity(uuid);
         checkUserRequest.setDevicePlatformName("Android");
         checkUserRequest.setLoginType("GoogleApp");
@@ -1588,12 +1590,30 @@ public class LoginActivity extends AppCompatActivity implements View.OnKeyListen
         if (null != signInResponse) {
             if (LogFlag.bLogOn)Log.d(TAG, signInResponse.toString());
         }
-
-
         if (LogFlag.bLogOn)Log.d(TAG, "Login Success");
 
         goToHome();
 
+    }
+
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (LogFlag.bLogOn)Log.d(TAG, "onStop");
+        mGoogleApiClient.disconnect();
+        if (LogFlag.bLogOn)Log.d(TAG, "isConnected: " + mGoogleApiClient.isConnected());
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        stopLocationUpdates();
+    }
+
+    protected void stopLocationUpdates() {
+        LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, (LocationListener) this);
+        if (LogFlag.bLogOn)Log.d(TAG, "Location update stopped ");
     }
 
 }

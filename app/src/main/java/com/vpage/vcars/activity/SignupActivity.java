@@ -525,7 +525,7 @@ public class SignupActivity extends AppCompatActivity implements   View.OnKeyLis
         if (LogFlag.bLogOn)Log.d(TAG, "setCheckUserRequestData");
         String uuid = Settings.Secure.getString(this.getContentResolver(), Settings.Secure.ANDROID_ID);
         checkUserRequest = new CheckUserRequest();
-        checkUserRequest.setStudentid(userPhoneNumberInput);
+        checkUserRequest.setUserID(userPhoneNumberInput);
         checkUserRequest.setDeviceIdentity(uuid);
         checkUserRequest.setDevicePlatformName("Android");
         checkUserRequest.setLoginType("VCars");

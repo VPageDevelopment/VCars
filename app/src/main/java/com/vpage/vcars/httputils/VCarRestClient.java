@@ -122,7 +122,7 @@ public class VCarRestClient {
         final CheckUserResponse[] checkUserResponses = {null};
         String getCheckUserUrl = VCarsApplication.getContext().getResources().getString(R.string.check_student);
 
-        getCheckUserUrl = getCheckUserUrl.replace("studentid", checkUserRequest.getStudentid());
+        getCheckUserUrl = getCheckUserUrl.replace("studentid", checkUserRequest.getUserID());
         getCheckUserUrl = getCheckUserUrl + "?loginType=" + checkUserRequest.getLoginType();
         getCheckUserUrl = getCheckUserUrl + "&emailid=";
         getCheckUserUrl = getCheckUserUrl + "&devicePlatformName=" + checkUserRequest.getDevicePlatformName();

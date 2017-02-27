@@ -623,6 +623,26 @@ public class HomeActivity  extends AppCompatActivity implements NavigationView.O
         animatorSet.playTogether(alpha, rotationX);
         animatorSet.start();
     }
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (LogFlag.bLogOn)Log.d(TAG, "onStop");
+        mGoogleApiClient.disconnect();
+        if (LogFlag.bLogOn)Log.d(TAG, "isConnected: " + mGoogleApiClient.isConnected());
+    }
+
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        stopLocationUpdates();
+    }
+
+    protected void stopLocationUpdates() {
+        LocationServices.FusedLocationApi.removeLocationUpdates(
+                mGoogleApiClient, this);
+        if (LogFlag.bLogOn)Log.d(TAG, "Location update stopped .......................");
+    }
 
 
 }

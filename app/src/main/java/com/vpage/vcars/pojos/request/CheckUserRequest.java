@@ -2,7 +2,9 @@ package com.vpage.vcars.pojos.request;
 
 public class CheckUserRequest {
 
-    private String studentid;
+    private String phoneNo;
+    private String otp;
+    private String userID;
     private String loginType;
     private String devicePlatformName;
     private String deviceIdentity;
@@ -10,8 +12,23 @@ public class CheckUserRequest {
     private String deviceToken;
     private String email;
     private String country;
-
     private String profilePic;
+
+    public String getPhoneNo() {
+        return phoneNo;
+    }
+
+    public void setPhoneNo(String phoneNo) {
+        this.phoneNo = phoneNo;
+    }
+
+    public String getOtp() {
+        return otp;
+    }
+
+    public void setOtp(String otp) {
+        this.otp = otp;
+    }
 
     public String getProfilePic() {
         return profilePic;
@@ -29,12 +46,12 @@ public class CheckUserRequest {
         this.email = email;
     }
 
-    public String getStudentid() {
-        return studentid;
+    public String getUserID() {
+        return userID;
     }
 
-    public void setStudentid(String studentid) {
-        this.studentid = studentid;
+    public void setUserID(String userID) {
+        this.userID = userID;
     }
 
     public String getLoginType() {
@@ -88,7 +105,9 @@ public class CheckUserRequest {
     @Override
     public String toString() {
         return "CheckUserRequest{" +
-                "studentid='" + studentid + '\'' +
+                "phoneNo='" + phoneNo + '\'' +
+                ", OTP='" + otp + '\'' +
+                ", userID='" + userID + '\'' +
                 ", loginType='" + loginType + '\'' +
                 ", devicePlatformName='" + devicePlatformName + '\'' +
                 ", deviceIdentity='" + deviceIdentity + '\'' +

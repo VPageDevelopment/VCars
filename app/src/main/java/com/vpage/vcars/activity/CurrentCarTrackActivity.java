@@ -33,8 +33,11 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.maps.android.clustering.ClusterManager;
+import com.google.maps.android.ui.IconGenerator;
 import com.vpage.vcars.R;
 import com.vpage.vcars.httputils.VCarRestClient;
+import com.vpage.vcars.pojos.MyItem;
 import com.vpage.vcars.pojos.VLocation;
 import com.vpage.vcars.pojos.VLocationTrack;
 import com.vpage.vcars.pojos.request.VLocationTrackRequest;
@@ -57,7 +60,6 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 
@@ -112,6 +114,9 @@ public class CurrentCarTrackActivity extends AppCompatActivity implements OnMapR
     VLocationTrack vLocationTrack = new VLocationTrack();
 
     VLocationTrackRequest vLocationTrackRequest = new VLocationTrackRequest();
+
+    // Declare a variable for the cluster manager.
+    private ClusterManager<MyItem> mClusterManager;
 
 
     @AfterViews
@@ -200,10 +205,11 @@ public class CurrentCarTrackActivity extends AppCompatActivity implements OnMapR
 
         latLng = new LatLng(location.getLatitude(), location.getLongitude());
 
-       //zoom to current position:
+       /*//zoom to current position:
         CameraPosition cameraPosition = new CameraPosition.Builder().target(latLng).zoom(8).build();
+        googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));*/
 
-        googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 13));
 
     }
 
@@ -242,11 +248,40 @@ public class CurrentCarTrackActivity extends AppCompatActivity implements OnMapR
                 currLocationMarker.remove();
             }
             latLng = new LatLng(location.getLatitude(), location.getLongitude());
+
+
+            IconGenerator iconGenerator = new IconGenerator(this);
+            iconGenerator.setStyle(IconGenerator.STYLE_GREEN);
+            iconGenerator.setTextAppearance(R.style.iconGenText);
+
+
+
+
             MarkerOptions markerOptions = new MarkerOptions();
             markerOptions.position(latLng);
             markerOptions.title(vLocation.getAddress());
-            markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
+         //   markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
+         //   currLocationMarker = googleMap.addMarker(markerOptions);
+
+            markerOptions.icon(BitmapDescriptorFactory.fromBitmap(iconGenerator.makeIcon(location.getTime()+"")));
+            markerOptions.anchor(iconGenerator.getAnchorU(), iconGenerator.getAnchorV());
             currLocationMarker = googleMap.addMarker(markerOptions);
+
+
+            // Initialize the manager with the context and the map.
+            // (Activity extends context, so we can pass 'this' in the constructor.)
+            mClusterManager = new ClusterManager<>(this,googleMap);
+
+            // Point the map's listeners at the listeners implemented by the cluster
+            // manager.
+            googleMap.setOnCameraIdleListener(mClusterManager);
+            googleMap.setOnMarkerClickListener(mClusterManager);
+            mClusterManager.setAnimation(false);
+            // Create a cluster item for the marker and set the title and snippet using the constructor.
+            MyItem infoWindowItem = new MyItem(latLng.longitude, latLng.latitude, vLocation.getAddress());
+
+            // Add the cluster item (marker) to the cluster manager.
+            mClusterManager.addItem(infoWindowItem);
 
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss a");
             String formattedDate = simpleDateFormat.format(location.getTime());
@@ -369,6 +404,26 @@ public class CurrentCarTrackActivity extends AppCompatActivity implements OnMapR
             callRouteDetectorSelectFinish(vLocationTrackList);
         }
 
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (LogFlag.bLogOn)Log.d(TAG, "onStop");
+        mGoogleApiClient.disconnect();
+        if (LogFlag.bLogOn)Log.d(TAG, "isConnected: " + mGoogleApiClient.isConnected());
+    }
+
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        stopLocationUpdates();
+    }
+
+    protected void stopLocationUpdates() {
+        LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
+        if (LogFlag.bLogOn)Log.d(TAG, "Location update stopped ");
     }
 }
 
