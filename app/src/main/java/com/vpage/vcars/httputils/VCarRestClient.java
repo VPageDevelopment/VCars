@@ -21,6 +21,8 @@ import com.vpage.vcars.tools.VTools;
 import com.vpage.vcars.tools.utils.LogFlag;
 import org.json.JSONObject;
 import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
 import cz.msebera.android.httpclient.Header;
 import cz.msebera.android.httpclient.entity.StringEntity;
 
@@ -213,7 +215,9 @@ public class VCarRestClient {
         locationStoreUrl = locationStoreUrl.replace("{user}", vLocationTrackRequest.getUser());
         locationStoreUrl = locationStoreUrl.replace("{lat}", vLocationTrackRequest.getLatitude()+"");
         locationStoreUrl = locationStoreUrl.replace("{lng}", vLocationTrackRequest.getLongitude()+"");
-        locationStoreUrl = locationStoreUrl.replace("{location}",vLocationTrackRequest.getLocation());
+        locationStoreUrl = locationStoreUrl.replace("{address}",URLEncoder.encode(vLocationTrackRequest.getAddress().trim()));
+        locationStoreUrl = locationStoreUrl.replace("{location}",URLEncoder.encode(vLocationTrackRequest.getLocation().trim()));
+        locationStoreUrl = locationStoreUrl.replace("{city}",vLocationTrackRequest.getCity());
 
         if (LogFlag.bLogOn)Log.d(TAG,"locationStoreUrl: "+locationStoreUrl);
 

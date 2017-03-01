@@ -48,7 +48,9 @@ public class SplashActivity extends Activity {
         getGcmDeviceToken();
         setAnimStyle();
 
-       afterSplash();
+      // afterSplash();
+
+        gotoHomePage();
 
     }
 

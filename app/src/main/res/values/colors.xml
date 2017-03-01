@@ -2,7 +2,7 @@
 <resources>
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF43AE43</color>
+    <color name="colorAccent">@color/ParrotGreen</color>
 
     <color name="White">#FFFFFF</color>
     <color name="WheatWhite">#E5E4E2</color>
@@ -17,7 +17,7 @@
     <color name="LiteBlue">#ff00ddff</color>
 
 
-    <color name="common_button_color">#FF43AE43</color>
+    <color name="common_button_color">@color/ParrotGreen</color>
 
     <color name="text_color">#000000</color>
 
@@ -33,7 +33,7 @@
 
     <color name="login_button_color">#ff00ddff</color>
 
-    <color name="ParrotGreen">#FF43AE43</color>
+    <color name="ParrotGreen">#43ae43</color>
     <color name="pink">#e91e63</color>
     <color name="yellow">#ffba01</color>
     <color name="progress_bluestart">#10AAFA</color>

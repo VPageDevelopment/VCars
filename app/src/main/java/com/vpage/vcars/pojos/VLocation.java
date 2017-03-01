@@ -12,6 +12,7 @@ public class VLocation {
     private String countryCode;
     private String countryName;
     private String address;
+    private String city;
 
 
     public String getLocation() {
@@ -86,6 +87,14 @@ public class VLocation {
         this.address = address;
     }
 
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
     @Override
     public String toString() {
         return "VLocation{" +
@@ -98,6 +107,7 @@ public class VLocation {
                 ", countryCode='" + countryCode + '\'' +
                 ", countryName='" + countryName + '\'' +
                 ", address='" + address + '\'' +
+                ", city='" + city + '\'' +
                 '}';
     }
 }

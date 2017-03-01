@@ -9,6 +9,6 @@
 
     <string name="track_location">module=viewtracking&amp;user={user}</string>
 
-    <string name="store_location">module=storetracking&amp;user={user}&amp;lat={lat}&amp;long={lng}&amp;location={location}</string>
+    <string name="store_location">module=storetracking&amp;user={user}&amp;lat={lat}&amp;long={lng}&amp;address={address}&amp;location={location}&amp;city={city}</string>
 
 </resources>

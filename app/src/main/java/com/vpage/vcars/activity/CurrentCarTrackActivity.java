@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -205,11 +206,11 @@ public class CurrentCarTrackActivity extends AppCompatActivity implements OnMapR
 
         latLng = new LatLng(location.getLatitude(), location.getLongitude());
 
-       /*//zoom to current position:
-        CameraPosition cameraPosition = new CameraPosition.Builder().target(latLng).zoom(8).build();
-        googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));*/
+       //zoom to current position:
+        CameraPosition cameraPosition = new CameraPosition.Builder().target(latLng).zoom(15).build();
+        googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
 
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 13));
+       // googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
 
     }
 
@@ -224,7 +225,8 @@ public class CurrentCarTrackActivity extends AppCompatActivity implements OnMapR
                 List<Address> addresses = geocoder.getFromLocation(latitude, longitude, 1);
                 for (Address address : addresses) {
                     if (LogFlag.bLogOn) Log.d(TAG, address.toString());
-                    vLocation.setLocation(address.getLocality());
+                    vLocation.setLocation(address.getAddressLine(1));
+                    vLocation.setCity(address.getLocality());
                     vLocation.setLatitude(latitude);
                     vLocation.setLongitude(longitude);
                     vLocation.setState(address.getAdminArea());
@@ -232,8 +234,8 @@ public class CurrentCarTrackActivity extends AppCompatActivity implements OnMapR
                     vLocation.setPostalCode(address.getPostalCode());
                     vLocation.setCountryCode(address.getCountryCode());
                     vLocation.setCountryName(address.getCountryName());
-                    vLocation.setAddress(address.getAddressLine(0) + "\t" + address.getAddressLine(1)
-                            + "\t" + address.getAddressLine(2));
+                    vLocation.setAddress(address.getAddressLine(0)+ address.getAddressLine(1)
+                            + address.getAddressLine(2));
                     if (LogFlag.bLogOn) Log.d(TAG, vLocation.toString());
                     Gson gson = new GsonBuilder().create();
                     VPreferences.save("CurrentLocation", gson.toJson(vLocation));
@@ -249,12 +251,18 @@ public class CurrentCarTrackActivity extends AppCompatActivity implements OnMapR
             }
             latLng = new LatLng(location.getLatitude(), location.getLongitude());
 
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss a");
+            String formattedDate = simpleDateFormat.format(location.getTime());
+
 
             IconGenerator iconGenerator = new IconGenerator(this);
-            iconGenerator.setStyle(IconGenerator.STYLE_GREEN);
-            iconGenerator.setTextAppearance(R.style.iconGenText);
+          //  iconGenerator.setStyle(R.style.iconGenStyle);
+           // iconGenerator.setTextAppearance(R.style.iconGenText);
 
-
+            View mapMarkerView = LayoutInflater.from(getBaseContext()).inflate(R.layout.map_marker, null);
+            TextView mapMarkerText = (TextView) mapMarkerView.findViewById(R.id.mapMarkerText);
+            mapMarkerText.setText(formattedDate);
+            iconGenerator.setContentView(mapMarkerView);
 
 
             MarkerOptions markerOptions = new MarkerOptions();
@@ -263,7 +271,7 @@ public class CurrentCarTrackActivity extends AppCompatActivity implements OnMapR
          //   markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
          //   currLocationMarker = googleMap.addMarker(markerOptions);
 
-            markerOptions.icon(BitmapDescriptorFactory.fromBitmap(iconGenerator.makeIcon(location.getTime()+"")));
+            markerOptions.icon(BitmapDescriptorFactory.fromBitmap(iconGenerator.makeIcon(formattedDate)));
             markerOptions.anchor(iconGenerator.getAnchorU(), iconGenerator.getAnchorV());
             currLocationMarker = googleMap.addMarker(markerOptions);
 
@@ -283,8 +291,7 @@ public class CurrentCarTrackActivity extends AppCompatActivity implements OnMapR
             // Add the cluster item (marker) to the cluster manager.
             mClusterManager.addItem(infoWindowItem);
 
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss a");
-            String formattedDate = simpleDateFormat.format(location.getTime());
+
 
             if (LogFlag.bLogOn) Log.d(TAG, "getTime: "+formattedDate);
             if (LogFlag.bLogOn) Log.d(TAG, "location: "+vLocation.getLocation());
@@ -292,7 +299,9 @@ public class CurrentCarTrackActivity extends AppCompatActivity implements OnMapR
             vLocationTrack.setLongitude(latLng.longitude);
             vLocationTrack.setLatitude(latLng.latitude);
             vLocationTrack.setDate(formattedDate);
+            vLocationTrack.setAddress(vLocation.getAddress());
             vLocationTrack.setLocation(vLocation.getLocation());
+            vLocationTrack.setCity(vLocation.getCity());
 
             storeLocation();  //  used For car borrower track location
 
@@ -377,18 +386,20 @@ public class CurrentCarTrackActivity extends AppCompatActivity implements OnMapR
 
      void setStoreLocationRequestData() {
 
-         vLocationTrackRequest.setUser("Meera");  // only for testing static data used until service ready
+         vLocationTrackRequest.setUser("Priya");  // only for testing static data used until service ready
          vLocationTrackRequest.setLatitude(vLocationTrack.getLatitude());
          vLocationTrackRequest.setLongitude(vLocationTrack.getLongitude());
+         vLocationTrackRequest.setAddress(vLocationTrack.getAddress());
          vLocationTrackRequest.setLocation(vLocationTrack.getLocation());
+         vLocationTrackRequest.setCity(vLocationTrack.getCity());
 
-     }
+}
 
     @Background
     public void trackLocation() {
         if (LogFlag.bLogOn)Log.d(TAG, "trackLocation");
         VCarRestClient vCarRestClient = new VCarRestClient();
-        VLocationTrackResponse vLocationTrackResponse = vCarRestClient.locationTrack("Meera");
+        VLocationTrackResponse vLocationTrackResponse = vCarRestClient.locationTrack("Priya");
         if(null != vLocationTrackResponse){
             if (LogFlag.bLogOn) Log.d(TAG, "vLocationTrackResponse: "+vLocationTrackResponse.toString());
             List<VLocationTrack> vLocationTrackList = new ArrayList<>();
@@ -406,24 +417,5 @@ public class CurrentCarTrackActivity extends AppCompatActivity implements OnMapR
 
     }
 
-    @Override
-    public void onStop() {
-        super.onStop();
-        if (LogFlag.bLogOn)Log.d(TAG, "onStop");
-        mGoogleApiClient.disconnect();
-        if (LogFlag.bLogOn)Log.d(TAG, "isConnected: " + mGoogleApiClient.isConnected());
-    }
-
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        stopLocationUpdates();
-    }
-
-    protected void stopLocationUpdates() {
-        LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
-        if (LogFlag.bLogOn)Log.d(TAG, "Location update stopped ");
-    }
 }
 

@@ -73,7 +73,7 @@
     <application
         android:name="com.vpage.vcars.tools.VCarsApplication_"
         android:allowBackup="true"
-        android:icon="@mipmap/appicon"
+        android:icon="@mipmap/applogo"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppThemeStyle">

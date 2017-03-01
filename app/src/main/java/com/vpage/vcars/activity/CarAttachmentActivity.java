@@ -46,7 +46,7 @@ public class CarAttachmentActivity extends AppCompatActivity implements AdapterV
 
     ArrayAdapter adapter;
 
-    List<String> list = new ArrayList<String>();
+    List<String> list = new ArrayList<>();
 
 
     @AfterViews
@@ -77,7 +77,7 @@ public class CarAttachmentActivity extends AppCompatActivity implements AdapterV
 
 
 
-        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, list);
+        adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, list);
 
         View.OnClickListener listener = new View.OnClickListener() {
 

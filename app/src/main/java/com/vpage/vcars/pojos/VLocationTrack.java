@@ -6,7 +6,9 @@ public class VLocationTrack {
     private double latitude;
     private double longitude;
     private String date;
+    private String address;
     private String location;
+    private String city;
 
     public double getLatitude() {
         return latitude;
@@ -32,6 +34,14 @@ public class VLocationTrack {
         this.date = date;
     }
 
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
     public String getLocation() {
         return location;
     }
@@ -40,13 +50,23 @@ public class VLocationTrack {
         this.location = location;
     }
 
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
     @Override
     public String toString() {
         return "VLocationTrack{" +
                 "latitude=" + latitude +
                 ", longitude=" + longitude +
                 ", date='" + date + '\'' +
+                ", address='" + address + '\'' +
                 ", location='" + location + '\'' +
+                ", city='" + city + '\'' +
                 '}';
     }
 }

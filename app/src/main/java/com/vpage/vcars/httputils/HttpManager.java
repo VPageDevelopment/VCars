@@ -6,6 +6,8 @@ import android.util.Log;
 import com.loopj.android.http.*;
 import com.vpage.vcars.tools.VCarsApplication;
 
+import java.net.URLEncoder;
+
 import cz.msebera.android.httpclient.HttpEntity;
 import cz.msebera.android.httpclient.entity.StringEntity;
 
@@ -15,7 +17,8 @@ public class HttpManager {
     private static int DEFAULT_TIMEOUT = 20 * 1000;
 
 
-   private static final String BASE_URL = "http://vpageinc.com/vcars/admin/webservice/rest/api.php?";
+  // private static final String BASE_URL = "http://vpageinc.com/vcars/admin/webservice/rest/api.php?";
+   private static final String BASE_URL = "http://www.vpageinc.com/vcars/admin/webservice/rest/api.php?";
 
     private static final String CONTENT_TYPE_JSON = "application/json";
 
