@@ -6,6 +6,8 @@
         android:name="com.vpage.vcars.permission.MAPS_RECEIVE"
         android:protectionLevel="signature"/>
 
+    <uses-permission  android:name="android.permission.INTERACT_ACROSS_USERS_FULL" />
+
     <!-- required permission -->
     <uses-permission android:name="android.permission.INTERNET" />
     <!-- optional permission - highly recommended -->
