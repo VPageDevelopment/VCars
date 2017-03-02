@@ -6,8 +6,7 @@
     <string name="G_PROJECT_ID">vcars-156907</string>
     <string name="G_PROJECT_NUMBER">1022613357287</string>
 
-    <string name="path_tracking_url">http://maps.googleapis.com/maps/api/directions/xml?origin={startlat,startlng}
-                    &amp;destination={endlat,endlng}&amp;sensor=false&amp;units=metric&amp;mode=driving</string>
+    <string name="path_tracking_url">http://maps.googleapis.com/maps/api/directions/xml?origin={startlat,startlng}&amp;destination={endlat,endlng}&amp;sensor=false&amp;units=metric&amp;mode=driving</string>
 
 
 
