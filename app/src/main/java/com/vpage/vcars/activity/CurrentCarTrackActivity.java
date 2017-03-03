@@ -1,6 +1,7 @@
 package com.vpage.vcars.activity;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -208,9 +209,8 @@ public class CurrentCarTrackActivity extends AppCompatActivity implements OnMapR
 
        //zoom to current position:
         CameraPosition cameraPosition = new CameraPosition.Builder().target(latLng).zoom(15).build();
+        googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
         googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-
-       // googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
 
     }
 
@@ -319,9 +319,11 @@ public class CurrentCarTrackActivity extends AppCompatActivity implements OnMapR
 
         switch (v.getId()) {
             case R.id.fullViewButton:
-                contentLayout.setVisibility(View.GONE);
+             /*   contentLayout.setVisibility(View.GONE);
                 progressLayout.setVisibility(View.GONE);
-                halfViewButton.setVisibility(View.VISIBLE);
+                halfViewButton.setVisibility(View.VISIBLE);*/
+
+                gotoMyActivityPage();
                 break;
 
             case R.id.halfViewButton:
@@ -354,9 +356,11 @@ public class CurrentCarTrackActivity extends AppCompatActivity implements OnMapR
     @Background
     public void callRouteTrack(List<VLocationTrack> vLocationTrackList){
 
-        LatLng sourceLocation = new LatLng(vLocationTrackList.get(0).getLatitude(),vLocationTrackList.get(0).getLongitude());
-        LatLng currentLocation = new LatLng(vLocationTrackList.get((vLocationTrackList.size()-1)).getLatitude(),vLocationTrackList.get((vLocationTrackList.size()-1)).getLongitude());
+      //  LatLng sourceLocation = new LatLng(vLocationTrackList.get(0).getLatitude(),vLocationTrackList.get(0).getLongitude());
+      //  LatLng currentLocation = new LatLng(vLocationTrackList.get((vLocationTrackList.size()-1)).getLatitude(),vLocationTrackList.get((vLocationTrackList.size()-1)).getLongitude());
 
+        LatLng sourceLocation = new LatLng(latLng.latitude,latLng.longitude);
+        LatLng currentLocation = new LatLng(13.0537931,80.2352246);
         routDetector = new RoutDetector(CurrentCarTrackActivity.this,sourceLocation,currentLocation);
         polyLines =routDetector.showRoute();
         if(null != polyLines){
@@ -414,7 +418,13 @@ public class CurrentCarTrackActivity extends AppCompatActivity implements OnMapR
            }
             callRouteDetectorSelectFinish(vLocationTrackList);
         }
+    }
 
+
+    private void gotoMyActivityPage() {
+        Intent intent = new Intent(getApplicationContext(), MyActivity_.class);
+        startActivity(intent);
+        VTools.animation(this);
     }
 
 }
