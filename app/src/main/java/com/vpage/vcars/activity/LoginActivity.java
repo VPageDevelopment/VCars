@@ -1597,23 +1597,4 @@ public class LoginActivity extends AppCompatActivity implements View.OnKeyListen
     }
 
 
-    @Override
-    public void onStop() {
-        super.onStop();
-        if (LogFlag.bLogOn)Log.d(TAG, "onStop");
-        mGoogleApiClient.disconnect();
-        if (LogFlag.bLogOn)Log.d(TAG, "isConnected: " + mGoogleApiClient.isConnected());
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        stopLocationUpdates();
-    }
-
-    protected void stopLocationUpdates() {
-        LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, (LocationListener) this);
-        if (LogFlag.bLogOn)Log.d(TAG, "Location update stopped ");
-    }
-
 }
