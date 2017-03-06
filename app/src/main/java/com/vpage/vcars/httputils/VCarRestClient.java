@@ -119,7 +119,7 @@ public class VCarRestClient {
     }
 
 
-    public CheckUserResponse checkStudent(CheckUserRequest checkUserRequest) {
+    public CheckUserResponse checkUser(CheckUserRequest checkUserRequest) {
         if (LogFlag.bLogOn)Log.d(TAG, "CheckUserResponse");
         final CheckUserResponse[] checkUserResponses = {null};
         String getCheckUserUrl = VCarsApplication.getContext().getResources().getString(R.string.check_student);

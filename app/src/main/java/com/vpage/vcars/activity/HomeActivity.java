@@ -562,13 +562,13 @@ public class HomeActivity  extends AppCompatActivity implements NavigationView.O
             VPreferences.clearAll();
         }
         VPreferences.save("isLoggedIn", "false");
-        gotoLoginInPage();
+        gotoSignInPage();
     }
 
 
-    private void gotoLoginInPage() {
+    private void gotoSignInPage() {
 
-        Intent intent = new Intent(getApplicationContext(), LoginActivity_.class);
+        Intent intent = new Intent(getApplicationContext(), SigninActivity_.class);
         startActivity(intent);
         VTools.animation(this);
 

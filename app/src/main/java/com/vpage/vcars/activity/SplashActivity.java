@@ -48,9 +48,9 @@ public class SplashActivity extends Activity {
         getGcmDeviceToken();
         setAnimStyle();
 
-      // afterSplash();
+       afterSplash();
 
-        gotoHomePage();
+       // gotoHomePage();
 
     }
 
@@ -97,7 +97,7 @@ public class SplashActivity extends Activity {
             String userdata  = VPreferences.get("userdata");
 
             if (isLoggedIn == null || isLoggedIn.isEmpty() || null == userdata || userdata.isEmpty()) {
-                gotoLogInPage();
+                gotoSignInPage();
             } else {
                 shouldKillActivity = true;
                 if (!checkInternetStatus()) {

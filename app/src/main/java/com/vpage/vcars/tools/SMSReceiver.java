@@ -35,7 +35,7 @@ public class SMSReceiver extends BroadcastReceiver
             }
             if (LogFlag.bLogOn) Log.d(TAG,"SMS Received: "+sms_str);
             // Start Application's  MainActivty activity
-            Intent smsIntent=new Intent(context,LoginActivity_.class);
+            Intent smsIntent=new Intent(context,SigninActivity_.class);
             smsIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             smsIntent.putExtra("sms_str", sms_str);
             context.startActivity(smsIntent);

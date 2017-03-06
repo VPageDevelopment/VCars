@@ -491,7 +491,7 @@ public class SignupActivity extends AppCompatActivity implements   View.OnKeyLis
         setCheckUserRequestData();
 
         VCarRestClient vCarRestClient = new VCarRestClient();
-        checkUserResponse = vCarRestClient.checkStudent(checkUserRequest);
+        checkUserResponse = vCarRestClient.checkUser(checkUserRequest);
         if(checkUserResponse != null) {
             if (LogFlag.bLogOn)Log.d(TAG, checkUserResponse.toString());
             checkUserProcessFinish();

@@ -56,8 +56,6 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
-import com.google.android.gms.location.LocationListener;
-import com.google.android.gms.location.LocationServices;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.vpage.vcars.R;
@@ -266,9 +264,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnKeyListen
 
             callbackManager = CallbackManager.Factory.create();
 
-            GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+          /*  GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                     .requestEmail()
-                    .build();
+                    .build();*/
+
+            GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                    .requestIdToken(LoginActivity.this.getResources().getString(R.string.G_CLIENT_ID))
+                    .requestEmail().build();
 
             mGoogleApiClient = new GoogleApiClient.Builder(this)
                     .enableAutoManage(this, this)
@@ -744,7 +746,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnKeyListen
         setCheckVCarUserRequestData();
 
         VCarRestClient vCarRestClient = new VCarRestClient();
-        checkUserResponse = vCarRestClient.checkStudent(checkUserRequest);
+        checkUserResponse = vCarRestClient.checkUser(checkUserRequest);
         if(checkUserResponse != null) {
             if (LogFlag.bLogOn)Log.d(TAG, checkUserResponse.toString());
             checkVCarUserProcessFinish();
@@ -1018,7 +1020,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnKeyListen
             setCheckFacebookUserRequestData();
 
             VCarRestClient oustRestClient = new VCarRestClient();
-            checkUserResponse = oustRestClient.checkStudent(checkUserRequest);
+            checkUserResponse = oustRestClient.checkUser(checkUserRequest);
             if (checkUserResponse != null) {
                 if (LogFlag.bLogOn)Log.d(TAG, checkUserResponse.toString());
                 checkFacebookStudentProcessFinish();
@@ -1444,7 +1446,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnKeyListen
         if (LogFlag.bLogOn)Log.d(TAG, "googleUserExists");
         setCheckGoogleUserRequestData();
         VCarRestClient vCarRestClient = new VCarRestClient();
-        checkUserResponse = vCarRestClient.checkStudent(checkUserRequest);
+        checkUserResponse = vCarRestClient.checkUser(checkUserRequest);
         if (checkUserResponse != null) {
             if (LogFlag.bLogOn)Log.d(TAG, checkUserResponse.toString());
             checkGoogleUserProcessFinish();

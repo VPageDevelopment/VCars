@@ -51,8 +51,6 @@ import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.LocationListener;
-import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.plus.Plus;
 import com.google.android.gms.plus.model.people.Person;
 import com.google.gson.Gson;
@@ -1068,7 +1066,7 @@ public class SigninActivity extends Activity implements View.OnKeyListener, View
         if (LogFlag.bLogOn)Log.d(TAG, "googleUserExists");
         setCheckGoogleUserRequestData();
         VCarRestClient vCarRestClient = new VCarRestClient();
-        checkUserResponse = vCarRestClient.checkStudent(checkUserRequest);
+        checkUserResponse = vCarRestClient.checkUser(checkUserRequest);
         if (checkUserResponse != null) {
             if (LogFlag.bLogOn)Log.d(TAG, checkUserResponse.toString());
             checkGoogleUserProcessFinish();
@@ -1084,7 +1082,7 @@ public class SigninActivity extends Activity implements View.OnKeyListener, View
         setCheckVCarUserRequestData();
 
         VCarRestClient vCarRestClient = new VCarRestClient();
-        checkUserResponse = vCarRestClient.checkStudent(checkUserRequest);
+        checkUserResponse = vCarRestClient.checkUser(checkUserRequest);
         if(checkUserResponse != null) {
             if (LogFlag.bLogOn)Log.d(TAG, checkUserResponse.toString());
             checkVCarUserProcessFinish();
@@ -1136,7 +1134,7 @@ public class SigninActivity extends Activity implements View.OnKeyListener, View
             setCheckFacebookUserRequestData();
 
             VCarRestClient oustRestClient = new VCarRestClient();
-            checkUserResponse = oustRestClient.checkStudent(checkUserRequest);
+            checkUserResponse = oustRestClient.checkUser(checkUserRequest);
             if (checkUserResponse != null) {
                 if (LogFlag.bLogOn)Log.d(TAG, checkUserResponse.toString());
                 checkFacebookUserProcessFinish();

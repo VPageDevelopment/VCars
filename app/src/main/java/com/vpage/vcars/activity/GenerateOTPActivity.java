@@ -329,7 +329,7 @@ public class GenerateOTPActivity extends Activity {
 
     private void gotoLoginPage() {
 
-        Intent intent = new Intent(getApplicationContext(), LoginActivity_.class);
+        Intent intent = new Intent(getApplicationContext(), SigninActivity_.class);
         intent.putExtra("OTP",generatedOTP);
         startActivity(intent);
         VTools.animation(this);
