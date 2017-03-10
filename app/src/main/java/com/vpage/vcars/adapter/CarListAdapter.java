@@ -52,7 +52,7 @@ public class CarListAdapter extends BaseAdapter {
         TextView carDistance = (TextView) convertView.findViewById(R.id.carDistance);
         TextView carVarient = (TextView) convertView.findViewById(R.id.carVarient);
 
-        if (LogFlag.bLogOn) Log.d(TAG, "itemPosition: "+itemPosition);
+      // if (LogFlag.bLogOn) Log.d(TAG, "itemPosition: "+itemPosition);
         carName.setText("FIGO");
         carDistance.setText("5 Kms");
         carVarient.setText("Petrol");

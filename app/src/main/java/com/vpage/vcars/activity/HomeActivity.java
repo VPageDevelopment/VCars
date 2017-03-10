@@ -44,11 +44,13 @@ import android.content.Intent;
 import com.vpage.vcars.tools.fab.FloatingActionButton;
 import com.vpage.vcars.tools.utils.LogFlag;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
+import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
@@ -67,20 +69,32 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
+import android.widget.AdapterView;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
+import android.widget.SimpleAdapter;
+import android.widget.TextView;
+
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @EActivity(R.layout.activity_home)
 @Fullscreen
-public class HomeActivity  extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,OnMapReadyCallback,GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
+public class HomeActivity  extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,OnMapReadyCallback,GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener, BottomNavigationView.OnNavigationItemSelectedListener, AdapterView.OnItemClickListener {
 
     private static final String TAG = HomeActivity.class.getName();
 
 
     @ViewById(R.id.toolbar)
     Toolbar toolbar;
+
+    @ViewById(R.id.bottom_navigation)
+    BottomNavigationView bottomNavigationView;
 
     @ViewById(R.id.drawer_layout)
     DrawerLayout drawer;
@@ -123,9 +137,11 @@ public class HomeActivity  extends AppCompatActivity implements NavigationView.O
 
     String[] tabItems;
 
+    PopupWindow PopUp;
+
     @AfterViews
     public void onInitHome() {
-        animateToolbarDroppingDown(mContainerToolbar);
+      //  animateToolbarDroppingDown(mContainerToolbar);
         setActionBarSupport();
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -134,6 +150,7 @@ public class HomeActivity  extends AppCompatActivity implements NavigationView.O
 
 
         navigationView.setNavigationItemSelectedListener(this);
+        bottomNavigationView.setOnNavigationItemSelectedListener(this);
 
         if (floatingActionsMenu.isExpanded()) {
             fabBaseLayout.setBackgroundColor(getResources().getColor(android.R.color.transparent));
@@ -436,10 +453,10 @@ public class HomeActivity  extends AppCompatActivity implements NavigationView.O
         }
     }
 
-    @Override
+ /*   @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_home, menu);
+    //    getMenuInflater().inflate(R.menu.menu_home, menu);
 
 
         setMenu(menu);
@@ -462,7 +479,7 @@ public class HomeActivity  extends AppCompatActivity implements NavigationView.O
 
         return spannableString;
     }
-
+*/
 
 
     @Override
@@ -481,25 +498,15 @@ public class HomeActivity  extends AppCompatActivity implements NavigationView.O
             case R.id.favourite:
                 if (LogFlag.bLogOn) Log.d(TAG, "ItemSelected : "+item.getTitle());
                 return true;
-            case 1:
-                // Share
-                if (LogFlag.bLogOn) Log.d(TAG, "ItemSelected 1: "+item.getTitle());
-                callShareIntent();
-                return true;
-            case 2:
-                // Current Driving
-                if (LogFlag.bLogOn) Log.d(TAG, "ItemSelected 2: "+item.getTitle());
-                gotoCurrentCarTrackPage();
-                return true;
-            case 3:
-                // Report
-                if (LogFlag.bLogOn) Log.d(TAG, "ItemSelected 3: "+item.getTitle());
-                gotoReportPage();
-                return true;
+
+
         }
 
         return super.onOptionsItemSelected(item);
     }
+
+
+
 
 
     void callShareIntent(){
@@ -528,6 +535,27 @@ public class HomeActivity  extends AppCompatActivity implements NavigationView.O
                 break;
             case R.id.nav_logout:
                 onLogout();
+                break;
+            case R.id.home:
+                if (LogFlag.bLogOn) Log.d(TAG, "ItemSelected : "+item.getTitle());
+                break;
+            case R.id.user:
+                if (LogFlag.bLogOn) Log.d(TAG, "ItemSelected : "+item.getTitle());
+                break;
+            case R.id.favourite:
+                if (LogFlag.bLogOn) Log.d(TAG, "ItemSelected : "+item.getTitle());
+                break;
+            case R.id.overflow:
+                if (LogFlag.bLogOn) Log.d(TAG, "ItemSelected : "+item.getTitle());
+
+                String [] textPosition = new String[]{"Share", "Current Driving", "Report"};
+                int[] imagesIcons = new int[]{
+                        (R.drawable.share_white),
+                        (R.drawable.car_white),
+                        (R.drawable.report_white)
+                };
+
+                setSharePopupView(textPosition, imagesIcons);
                 break;
         }
 
@@ -624,5 +652,79 @@ public class HomeActivity  extends AppCompatActivity implements NavigationView.O
         animatorSet.start();
     }
 
+
+    void setSharePopupView(final String[] textPosition, int[] imagesIcons) {
+
+        View popUpView = getLayoutInflater().inflate(R.layout.popupview, null); // inflating popup layout
+        PopUp = VTools.createPopUp(popUpView);
+
+
+        PopUp.setBackgroundDrawable(new BitmapDrawable());
+        PopUp.setOutsideTouchable(true);
+
+        TextView popUpTitle = (TextView) popUpView.findViewById(R.id.popUpTitle);
+        ListView listView = (ListView) popUpView.findViewById(R.id.listView);
+        final ImageButton btnClose = (ImageButton) popUpView.findViewById(R.id.btnClose);
+
+
+         popUpTitle.setText("OverFlow Menu");
+
+
+        // create the grid item mapping
+        String[] col_value = new String[]{"col_1", "col_2"};
+        int[] col_id = new int[]{R.id.menuItemFlag, R.id.menuItemText};
+
+        int[] col_1_values = imagesIcons;
+        String[] col_2_values = textPosition;
+
+        // prepare the list of all records
+        List<HashMap<String, String>> fillMaps = new ArrayList<HashMap<String, String>>();
+        for (int i = 0; i < imagesIcons.length; i++) {
+            HashMap<String, String> map = new HashMap<String, String>();
+
+            map.put("col_2", col_2_values[i]);
+            map.put("col_1", Integer.toString(col_1_values[i]));
+
+            fillMaps.add(map);
+        }
+
+        // fill in the grid_item layout
+        SimpleAdapter adapter = new SimpleAdapter(this, fillMaps, R.layout.popuplist, col_value, col_id);
+        listView.setAdapter(adapter);
+
+
+        listView.setOnItemClickListener(this);
+        btnClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                PopUp.dismiss();
+            }
+        });
+
+    }
+
+
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+        switch (i) {
+            case 0:
+                // Share
+                if (LogFlag.bLogOn) Log.d(TAG, "ItemSelected 1: " + i);
+                callShareIntent();
+                break;
+            case 1:
+                // Current Driving
+                if (LogFlag.bLogOn) Log.d(TAG, "ItemSelected 2: " + i);
+                gotoCurrentCarTrackPage();
+                break;
+            case 2:
+                // Report
+                if (LogFlag.bLogOn) Log.d(TAG, "ItemSelected 3: " + i);
+                gotoReportPage();
+                break;
+        }
+        PopUp.dismiss();
+    }
 }
 

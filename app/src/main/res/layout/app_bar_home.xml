@@ -14,25 +14,41 @@
     <LinearLayout
         android:id="@+id/container_app_bar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        >
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorAccent"
+        android:layout_gravity="bottom">
 
-    <android.support.design.widget.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
+            <android.support.design.widget.AppBarLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:theme="@style/AppTheme.AppBarOverlay">
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorAccent"
+                <android.support.v7.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/transparent"
+                    app:popupTheme="@style/AppTheme.PopupOverlay"
+                    app:titleTextAppearance="@style/Toolbar.TitleText" />
+
+
+            </android.support.design.widget.AppBarLayout>
+        <android.support.design.widget.BottomNavigationView
+            android:id="@+id/bottom_navigation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scrollbars="vertical"
+            app:itemBackground="@color/colorAccent"
+            app:itemIconTint="@color/White"
+            app:itemTextColor="@color/White"
             app:popupTheme="@style/AppTheme.PopupOverlay"
-            app:titleTextAppearance="@style/Toolbar.TitleText" />
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            app:menu="@menu/menu_home" >
 
 
-    </android.support.design.widget.AppBarLayout>
+            </android.support.design.widget.BottomNavigationView>
+
+
     </LinearLayout>
 
     <RelativeLayout
@@ -117,6 +133,7 @@
         android:id="@+id/fab_base_layout">
 
     </RelativeLayout>
+
     <include layout="@layout/fab_home"/>
 
 </android.support.design.widget.CoordinatorLayout>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent">
+
+<RelativeLayout
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:background="@color/White"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true">
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/relativeLayout2"
+        android:background="@color/colorAccent">
+
+        <ImageButton
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:id="@+id/btnClose"
+            android:layout_gravity="center_horizontal|right"
+            android:background="@android:color/transparent"
+            android:src="@drawable/close"
+            android:layout_alignParentRight="true"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:layout_below="@+id/btnClose"
+            android:gravity="center_vertical|center"
+            android:textStyle="bold"
+            android:textColor="@color/Black"
+            android:id="@+id/popUpTitle"
+            android:layout_alignParentTop="true"
+            android:layout_toLeftOf="@+id/btnClose"
+            android:layout_toStartOf="@+id/btnClose"
+            android:layout_alignBottom="@+id/btnClose"
+            android:layout_marginLeft="30dp"/>
+
+    </RelativeLayout>
+
+
+    <ListView android:id="@+id/listView"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_marginTop="5dp"
+              android:layout_gravity="start"
+              android:choiceMode="singleChoice"
+              android:cacheColorHint="@android:color/transparent"
+              android:divider="@color/LiteGray"
+              android:dividerHeight="1dp"
+              android:background="@color/colorAccent"
+              android:footerDividersEnabled="true"
+              android:headerDividersEnabled="true"
+              android:layout_below="@+id/relativeLayout2" />
+
+</RelativeLayout>
+
+</RelativeLayout>
