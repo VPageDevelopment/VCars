@@ -3,6 +3,7 @@ package com.vpage.vcars.activity;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -32,6 +33,7 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -115,11 +117,18 @@ public class CurrentCarTrackActivity extends AppCompatActivity implements OnMapR
 
     VLocationTrack vLocationTrack;
 
+    VLocation vLocation;
+
     VLocationTrackRequest vLocationTrackRequest = new VLocationTrackRequest();
 
     // Declare a variable for the cluster manager.
     private ClusterManager<MyItem> mClusterManager;
 
+    private ArrayList<LatLng> points;
+
+    Polyline line;
+
+    String formattedDate;
 
     @AfterViews
     public void onInitView() {
@@ -217,7 +226,7 @@ public class CurrentCarTrackActivity extends AppCompatActivity implements OnMapR
     void updateLocation(Location location){
 
         if (location != null) {
-            VLocation vLocation = new VLocation();
+            vLocation = new VLocation();
             double latitude = location.getLatitude();
             double longitude = location.getLongitude();
             Geocoder geocoder = new Geocoder(VCarsApplication.getContext());
@@ -252,45 +261,13 @@ public class CurrentCarTrackActivity extends AppCompatActivity implements OnMapR
             latLng = new LatLng(location.getLatitude(), location.getLongitude());
 
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss a");
-            String formattedDate = simpleDateFormat.format(location.getTime());
+            formattedDate = simpleDateFormat.format(location.getTime());
 
 
-            IconGenerator iconGenerator = new IconGenerator(this);
-          //  iconGenerator.setStyle(R.style.iconGenStyle);
-           // iconGenerator.setTextAppearance(R.style.iconGenText);
 
-            View mapMarkerView = LayoutInflater.from(getBaseContext()).inflate(R.layout.map_marker, null);
-            TextView mapMarkerText = (TextView) mapMarkerView.findViewById(R.id.mapMarkerText);
-            mapMarkerText.setText(formattedDate);
-            iconGenerator.setContentView(mapMarkerView);
-
-
-            MarkerOptions markerOptions = new MarkerOptions();
-            markerOptions.position(latLng);
-            markerOptions.title(vLocation.getAddress());
-         //   markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
-         //   currLocationMarker = googleMap.addMarker(markerOptions);
-
-            markerOptions.icon(BitmapDescriptorFactory.fromBitmap(iconGenerator.makeIcon(formattedDate)));
-            markerOptions.anchor(iconGenerator.getAnchorU(), iconGenerator.getAnchorV());
-            currLocationMarker = googleMap.addMarker(markerOptions);
-
-
-            // Initialize the manager with the context and the map.
-            // (Activity extends context, so we can pass 'this' in the constructor.)
-            mClusterManager = new ClusterManager<>(this,googleMap);
-
-            // Point the map's listeners at the listeners implemented by the cluster
-            // manager.
-            googleMap.setOnCameraIdleListener(mClusterManager);
-            googleMap.setOnMarkerClickListener(mClusterManager);
-            mClusterManager.setAnimation(false);
-            // Create a cluster item for the marker and set the title and snippet using the constructor.
-            MyItem infoWindowItem = new MyItem(latLng.longitude, latLng.latitude, vLocation.getAddress());
-
-            // Add the cluster item (marker) to the cluster manager.
-            mClusterManager.addItem(infoWindowItem);
-
+            points = new ArrayList<LatLng>();
+            points.add(latLng); //added
+            redrawLine();
 
 
             if (LogFlag.bLogOn) Log.d(TAG, "getTime: "+formattedDate);
@@ -310,6 +287,57 @@ public class CurrentCarTrackActivity extends AppCompatActivity implements OnMapR
         }else {
             if (LogFlag.bLogOn) Log.i(TAG, "Not able to get Location");
         }
+
+    }
+
+    private void redrawLine(){
+
+        googleMap.clear();  //clears all Markers and Polylines
+
+        PolylineOptions options = new PolylineOptions().width(5).color(Color.BLUE).geodesic(true);
+        for (int i = 0; i < points.size(); i++) {
+            LatLng point = points.get(i);
+            options.add(point);
+        }
+        addMarker();
+        line = googleMap.addPolyline(options); //add Polyline
+    }
+
+    private void addMarker() {
+
+        IconGenerator iconGenerator = new IconGenerator(this);
+        //  iconGenerator.setStyle(R.style.iconGenStyle);
+        // iconGenerator.setTextAppearance(R.style.iconGenText);
+
+        View mapMarkerView = LayoutInflater.from(getBaseContext()).inflate(R.layout.map_marker, null);
+        TextView mapMarkerText = (TextView) mapMarkerView.findViewById(R.id.mapMarkerText);
+        mapMarkerText.setText(formattedDate);
+        iconGenerator.setContentView(mapMarkerView);
+
+
+        MarkerOptions markerOptions = new MarkerOptions();
+        markerOptions.position(latLng);
+        markerOptions.title(vLocation.getAddress());
+        //   markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
+        //   currLocationMarker = googleMap.addMarker(markerOptions);
+
+        markerOptions.icon(BitmapDescriptorFactory.fromBitmap(iconGenerator.makeIcon(formattedDate)));
+        markerOptions.anchor(iconGenerator.getAnchorU(), iconGenerator.getAnchorV());
+        currLocationMarker = googleMap.addMarker(markerOptions);
+        // Initialize the manager with the context and the map.
+        // (Activity extends context, so we can pass 'this' in the constructor.)
+        mClusterManager = new ClusterManager<>(this,googleMap);
+
+        // Point the map's listeners at the listeners implemented by the cluster
+        // manager.
+        googleMap.setOnCameraIdleListener(mClusterManager);
+        googleMap.setOnMarkerClickListener(mClusterManager);
+        mClusterManager.setAnimation(false);
+        // Create a cluster item for the marker and set the title and snippet using the constructor.
+        MyItem infoWindowItem = new MyItem(latLng.longitude, latLng.latitude, vLocation.getAddress());
+
+        // Add the cluster item (marker) to the cluster manager.
+        mClusterManager.addItem(infoWindowItem);
 
     }
 
