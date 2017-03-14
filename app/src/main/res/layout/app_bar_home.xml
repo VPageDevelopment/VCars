@@ -122,8 +122,16 @@
                     />
 
             </RelativeLayout>
-
-
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/fabMenuTitle"
+                android:textColor="@color/colorAccent"
+                android:textSize="12sp"
+                android:gravity="center_vertical"
+                android:layout_gravity="bottom"
+                android:layout_marginLeft="70dp"
+                android:layout_marginBottom="30dp" />
         </FrameLayout>
     </RelativeLayout>
 

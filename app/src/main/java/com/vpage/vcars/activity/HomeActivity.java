@@ -45,7 +45,6 @@ import com.vpage.vcars.tools.fab.FloatingActionButton;
 import com.vpage.vcars.tools.utils.LogFlag;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -61,11 +60,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
-import android.text.Spannable;
-import android.text.SpannableString;
-import android.text.style.ImageSpan;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
@@ -77,7 +72,6 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -123,6 +117,9 @@ public class HomeActivity  extends AppCompatActivity implements NavigationView.O
     @ViewById(R.id.container_app_bar)
     LinearLayout mContainerToolbar;
 
+    @ViewById(R.id.fabMenuTitle)
+    TextView fabMenuTitle;
+
     @Bean
     VCarGooglePlusTools vCarGooglePlusTools;
 
@@ -152,6 +149,7 @@ public class HomeActivity  extends AppCompatActivity implements NavigationView.O
         navigationView.setNavigationItemSelectedListener(this);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
 
+        fabMenuTitle.setText("Map View");
         if (floatingActionsMenu.isExpanded()) {
             fabBaseLayout.setBackgroundColor(getResources().getColor(android.R.color.transparent));
             floatingActionsMenu.toggle();
@@ -366,9 +364,9 @@ public class HomeActivity  extends AppCompatActivity implements NavigationView.O
 
     private void SetFABButton() {
 
-        final FloatingActionButton viewStatus= new FloatingActionButton(getBaseContext());
+        /*final FloatingActionButton viewStatus= new FloatingActionButton(getBaseContext());
         viewStatus.setIconDrawable(getResources().getDrawable(R.drawable.mapviewicon));
-        viewStatus.setTitle("Map View");
+        viewStatus.setTitle("Map View");*/
 
         final FloatingActionButton chatButton= new FloatingActionButton(getBaseContext());
         chatButton.setIconDrawable(getResources().getDrawable(R.drawable.chaticon));
@@ -380,7 +378,7 @@ public class HomeActivity  extends AppCompatActivity implements NavigationView.O
 
         tabContentLayout.setVisibility(View.VISIBLE);
 
-        floatingActionsMenu.addButton(viewStatus);
+       // floatingActionsMenu.addButton(viewStatus);
         floatingActionsMenu.addButton(chatButton);
         floatingActionsMenu.addButton(carDetailButton);
 
@@ -388,6 +386,16 @@ public class HomeActivity  extends AppCompatActivity implements NavigationView.O
             @SuppressLint("NewApi")
             @Override
             public void onClick(View v) {
+                if(fabMenuTitle.getText().equals("Map View")){
+                    fabMenuTitle.setText("List View");
+                    mapContentLayout.setVisibility(View.VISIBLE);
+                    tabContentLayout.setVisibility(View.GONE);
+
+                }else if(fabMenuTitle.getText().equals("List View")){
+                    fabMenuTitle.setText("Map View");
+                    tabContentLayout.setVisibility(View.VISIBLE);
+                    mapContentLayout.setVisibility(View.GONE);
+                }
 
                 if (floatingActionsMenu.isExpanded()) {
                     fabBaseLayout.setBackgroundColor(getResources().getColor(android.R.color.transparent));
@@ -401,7 +409,7 @@ public class HomeActivity  extends AppCompatActivity implements NavigationView.O
         floatingActionsMenu.setAddButtonClickListener(listener);
 
 
-        viewStatus.setOnClickListener(new View.OnClickListener() {
+       /* viewStatus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -422,7 +430,7 @@ public class HomeActivity  extends AppCompatActivity implements NavigationView.O
                 }
             }
         });
-
+*/
         carDetailButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -498,15 +506,10 @@ public class HomeActivity  extends AppCompatActivity implements NavigationView.O
             case R.id.favourite:
                 if (LogFlag.bLogOn) Log.d(TAG, "ItemSelected : "+item.getTitle());
                 return true;
-
-
         }
 
         return super.onOptionsItemSelected(item);
     }
-
-
-
 
 
     void callShareIntent(){
