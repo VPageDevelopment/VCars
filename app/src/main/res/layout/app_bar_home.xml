@@ -126,6 +126,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/fabMenuTitle"
+                android:visibility="gone"
                 android:textColor="@color/colorAccent"
                 android:textSize="12sp"
                 android:gravity="center_vertical"

@@ -25,6 +25,7 @@ import com.vpage.vcars.R;
 import com.vpage.vcars.adapter.HomeFragmentAdapter;
 import com.vpage.vcars.chat.ChatActivity;
 import com.vpage.vcars.pojos.VLocation;
+import com.vpage.vcars.tools.ListScrollCallBack;
 import com.vpage.vcars.tools.VCarGooglePlusTools;
 import com.vpage.vcars.tools.VCarsApplication;
 import com.vpage.vcars.tools.VPreferences;
@@ -79,7 +80,7 @@ import java.util.List;
 
 @EActivity(R.layout.activity_home)
 @Fullscreen
-public class HomeActivity  extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,OnMapReadyCallback,GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener, BottomNavigationView.OnNavigationItemSelectedListener, AdapterView.OnItemClickListener {
+public class HomeActivity  extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,OnMapReadyCallback,GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener, BottomNavigationView.OnNavigationItemSelectedListener, AdapterView.OnItemClickListener, ListScrollCallBack {
 
     private static final String TAG = HomeActivity.class.getName();
 
@@ -148,6 +149,8 @@ public class HomeActivity  extends AppCompatActivity implements NavigationView.O
 
         navigationView.setNavigationItemSelectedListener(this);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
+        fabMenuTitle.setVisibility(View.VISIBLE);
+        floatingActionsMenu.setVisibility(View.VISIBLE);
 
         fabMenuTitle.setText("Map View");
         if (floatingActionsMenu.isExpanded()) {
@@ -336,6 +339,7 @@ public class HomeActivity  extends AppCompatActivity implements NavigationView.O
         tabLayout.addTab(tabLayout.newTab().setText(tabItems[3]));
 
         HomeFragmentAdapter adapter = new HomeFragmentAdapter(getSupportFragmentManager(), tabLayout.getTabCount(),  HomeActivity.this);
+        adapter.onCallBackToListScroll(this);
         viewPager.setAdapter(adapter);
 
             tabLayout.getTabAt(0).select();
@@ -728,6 +732,24 @@ public class HomeActivity  extends AppCompatActivity implements NavigationView.O
                 break;
         }
         PopUp.dismiss();
+    }
+
+    int lastItem;
+    @Override
+    public void onListScrollLastItem(int lastItem) {
+        this.lastItem = lastItem;
+    }
+
+    @Override
+    public void onListScrollTotalItemCount(int totalItemCount) {
+        if (lastItem == totalItemCount) {
+            fabMenuTitle.setVisibility(View.GONE);
+            floatingActionsMenu.setVisibility(View.INVISIBLE);
+
+        }else {
+            fabMenuTitle.setVisibility(View.VISIBLE);
+            floatingActionsMenu.setVisibility(View.VISIBLE);
+        }
     }
 }
 

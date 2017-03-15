@@ -1,16 +1,19 @@
 package com.vpage.vcars.fragment;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 import com.vpage.vcars.R;
 import com.vpage.vcars.activity.CarDetailActivity_;
 import com.vpage.vcars.adapter.CarListAdapter;
+import com.vpage.vcars.tools.ListScrollCallBack;
 import com.vpage.vcars.tools.VTools;
 import com.vpage.vcars.tools.utils.LogFlag;
 import org.androidannotations.annotations.AfterViews;
@@ -18,6 +21,7 @@ import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
 
 
+@SuppressLint("ValidFragment")
 @EFragment(R.layout.fragment_mini)
 public class MiniFragment extends Fragment {
 
@@ -30,6 +34,12 @@ public class MiniFragment extends Fragment {
     TextView noDataText;
 
     CarListAdapter carListAdapter;
+
+    ListScrollCallBack listScrollCallBack;
+
+    public void setListScrollCallBack(ListScrollCallBack listScrollCallBack) {
+        this.listScrollCallBack = listScrollCallBack;
+    }
 
     @AfterViews
     public void initMiniFragment() {
@@ -48,6 +58,23 @@ public class MiniFragment extends Fragment {
 
                 if (LogFlag.bLogOn) Log.d(TAG, "itemClickPosition: "+position);
                 gotoCarDetailPage();
+
+            }
+        });
+
+        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+
+                int lastItem = firstVisibleItem + visibleItemCount;
+                listScrollCallBack.onListScrollLastItem(lastItem);
+                listScrollCallBack.onListScrollTotalItemCount(totalItemCount);
 
             }
         });

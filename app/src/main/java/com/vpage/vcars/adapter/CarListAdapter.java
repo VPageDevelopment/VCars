@@ -19,7 +19,7 @@ public class CarListAdapter extends BaseAdapter {
     LayoutInflater mInflater;
 
 
-    int listCount = 5;
+    int listCount = 20;
 
 
     public CarListAdapter(Activity activity) {
