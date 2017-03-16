@@ -71,7 +71,7 @@ public class GridImageAdapter extends BaseAdapter {
         imageview.setImageDrawable(drawable);
 
         if(selectedPos == position){
-            VTools.setLayoutBackgroud(gridLayout,R.drawable.roundedcornerblue);
+            VTools.setLayoutBackgroud(gridLayout,R.drawable.roundedcorner);
         }
 
         return convertView;

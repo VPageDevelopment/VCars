@@ -291,6 +291,18 @@ public class HomeActivity  extends AppCompatActivity implements NavigationView.O
             markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
             currLocationMarker = mMap.addMarker(markerOptions);
 
+            // to be used after service call made to have multiple markers on cars location in renters view
+
+          /*  Double[] latitudeArray = {13.0636,13.0713,13.0440,12.5922,12.5833};
+            Double[] longitudeArray = {80.1012,80.0636,80.1542,80.1452,80.1315};
+             for(int i=0;i<latitudeArray.length;i++){
+                 latLng = new LatLng(latitudeArray[i], longitudeArray[i]);
+                 MarkerOptions markerOptions = new MarkerOptions();
+                 markerOptions.position(latLng);
+                 markerOptions.title(vLocation.getAddress());
+                 markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
+                 currLocationMarker = mMap.addMarker(markerOptions);
+             }  */
 
 
         }else {
@@ -555,11 +567,12 @@ public class HomeActivity  extends AppCompatActivity implements NavigationView.O
             case R.id.overflow:
                 if (LogFlag.bLogOn) Log.d(TAG, "ItemSelected : "+item.getTitle());
 
-                String [] textPosition = new String[]{"Share", "Current Driving", "Report"};
+                String [] textPosition = new String[]{"Share", "Current Driving", "Report","Feedback"};
                 int[] imagesIcons = new int[]{
                         (R.drawable.share_white),
                         (R.drawable.car_white),
-                        (R.drawable.report_white)
+                        (R.drawable.report_white),
+                        (R.drawable.feedback_white)
                 };
 
                 setSharePopupView(textPosition, imagesIcons);
@@ -630,6 +643,13 @@ public class HomeActivity  extends AppCompatActivity implements NavigationView.O
         VTools.animation(this);
     }
 
+
+    private void gotoFeedbackPage() {
+
+        Intent intent = new Intent(getApplicationContext(), FeedbackActivity_.class);
+        startActivity(intent);
+        VTools.animation(this);
+    }
 
     private void gotoCarAttachmentPage() {
 
@@ -730,19 +750,18 @@ public class HomeActivity  extends AppCompatActivity implements NavigationView.O
                 if (LogFlag.bLogOn) Log.d(TAG, "ItemSelected 3: " + i);
                 gotoReportPage();
                 break;
+            case 3:
+                // Feedback
+                if (LogFlag.bLogOn) Log.d(TAG, "ItemSelected 3: " + i);
+                gotoFeedbackPage();
+                break;
         }
         PopUp.dismiss();
     }
 
-    int lastItem;
     @Override
-    public void onListScrollLastItem(int lastItem) {
-        this.lastItem = lastItem;
-    }
-
-    @Override
-    public void onListScrollTotalItemCount(int totalItemCount) {
-        if (lastItem == totalItemCount) {
+    public void onListScroll(int scrollState){
+        if (scrollState == 1) {
             fabMenuTitle.setVisibility(View.GONE);
             floatingActionsMenu.setVisibility(View.INVISIBLE);
 

@@ -5,6 +5,9 @@
     <string name="action_settings">Settings</string>
     <string name="section_format">Hello World from section: %1$d</string>
 
+    <string name="empty_check">Please fill all information!</string>
+    <string name="connection_check">Please check the network connection!</string>
+
 
     <string name="noInternetMsg">NO INTERNET CONNECTION</string>
 

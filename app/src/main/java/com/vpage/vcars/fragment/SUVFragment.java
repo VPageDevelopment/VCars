@@ -67,15 +67,13 @@ public class SUVFragment extends Fragment {
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {
 
-
+                if (LogFlag.bLogOn) Log.d(TAG, "scrollState: "+scrollState);
+                listScrollCallBack.onListScroll(scrollState);
             }
 
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 
-                int lastItem = firstVisibleItem + visibleItemCount;
-                listScrollCallBack.onListScrollLastItem(lastItem);
-                listScrollCallBack.onListScrollTotalItemCount(totalItemCount);
 
             }
         });

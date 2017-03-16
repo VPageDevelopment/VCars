@@ -40,6 +40,7 @@ import com.vpage.vcars.pojos.request.SignupRequest;
 import com.vpage.vcars.pojos.response.CheckUserResponse;
 import com.vpage.vcars.pojos.response.SignInResponse;
 import com.vpage.vcars.pojos.response.SignupResponse;
+import com.vpage.vcars.tools.ActionEditText;
 import com.vpage.vcars.tools.LoginType;
 import com.vpage.vcars.tools.NetworkUtil;
 import com.vpage.vcars.tools.OnNetworkChangeListener;
@@ -241,7 +242,7 @@ public class SignupActivity extends AppCompatActivity implements   View.OnKeyLis
                 displayName.setText(firstString);
             }
         };
-
+        new ActionEditText(this);
         userNameEditText.addTextChangedListener(textWatcherDisplayName);
         address.addTextChangedListener(textWatcherAddress);
 
@@ -478,7 +479,7 @@ public class SignupActivity extends AppCompatActivity implements   View.OnKeyLis
             return;
         }
         Log.d(TAG, "registerValidation done");
-       // isUserExists();   // to be used when developing
+       // isUserExists();   // to be used when service call is made
 
         gotoHomePage();   // For Testing alone
     }
