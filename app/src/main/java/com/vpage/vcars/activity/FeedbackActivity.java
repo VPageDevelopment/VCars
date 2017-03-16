@@ -1,12 +1,14 @@
 package com.vpage.vcars.activity;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -49,6 +51,22 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
         submitButton.setOnClickListener(this);
 
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        comments.requestFocus();
+
+        comments.postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                InputMethodManager keyboard = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                keyboard.hideSoftInputFromWindow(comments.getWindowToken(), 0);
+            }
+        },200);
+    }
+
 
     private void setActionBarSupport() {
 

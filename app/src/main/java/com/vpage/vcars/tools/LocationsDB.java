@@ -10,6 +10,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import com.vpage.vcars.pojos.VLocationTrack;
+import com.vpage.vcars.tools.utils.AppConstant;
 import com.vpage.vcars.tools.utils.LogFlag;
 
 import java.io.File;
@@ -24,14 +25,6 @@ import java.util.List;
 public class LocationsDB extends SQLiteOpenHelper{
 
 	private static final String TAG = LocationsDB.class.getName();
-
-	public static String DB_PATH = "/data/data/com.vpage.vcars/databases/VcarLocationMarkerLite.sqlite";
-	
-	/** Database name */
-	public static String DB_NAME = "VcarLocationMarkerLite.sqlite";
-
-	//Table name of DB
-	public static String TB_NAME = "tblVcarTrack";
 	
 	/** Field 1 of the table locations, which is the primary key */
 	public static final String FIELD_ROW_ID = "id";
@@ -58,7 +51,7 @@ public class LocationsDB extends SQLiteOpenHelper{
 
 	public LocationsDB(Context context) {
 
-		super(context,DB_NAME, null, DATABASE_VERSION);
+		super(context, AppConstant.DB_NAME, null, DATABASE_VERSION);
 		this.context = context;
 	}
 
@@ -66,7 +59,7 @@ public class LocationsDB extends SQLiteOpenHelper{
     public void onCreate(SQLiteDatabase db) {
 
         myDataBase = db;
-        String sql = 	"create table " + TB_NAME + " ( " +
+        String sql = 	"create table " + AppConstant.TB_NAME + " ( " +
                 FIELD_ROW_ID + " integer primary key autoincrement , " +
                 FIELD_LNG + " double , " +
                 FIELD_LAT + " double , " +
@@ -87,7 +80,7 @@ public class LocationsDB extends SQLiteOpenHelper{
         boolean isExist = checkDBExists();
         if (isExist) {
             if (LogFlag.bLogOn) Log.d(TAG + "exist", "Exist");
-            myDataBase = SQLiteDatabase.openDatabase(DB_PATH, null, SQLiteDatabase.OPEN_READWRITE);
+            myDataBase = SQLiteDatabase.openDatabase(AppConstant.DB_PATH, null, SQLiteDatabase.OPEN_READWRITE);
             onUpgrade(myDataBase, myDataBase.getVersion(), DATABASE_VERSION);
             close();
         } else {
@@ -100,7 +93,7 @@ public class LocationsDB extends SQLiteOpenHelper{
 
     private boolean checkDBExists() {
         try {
-            File file = new File(DB_PATH);
+            File file = new File(AppConstant.DB_PATH);
             if (file.exists()) {
                 return true;
             }
@@ -117,10 +110,10 @@ public class LocationsDB extends SQLiteOpenHelper{
 
 		try {
 			//Open your local db as the input stream
-			InputStream myInput = context.getAssets().open(DB_NAME);
+			InputStream myInput = context.getAssets().open(AppConstant.DB_NAME);
 
 			// Path to the just created empty db
-			String outFileName = DB_PATH;
+			String outFileName = AppConstant.DB_PATH;
 
 			//Open the empty db as the output stream
 			OutputStream myOutput = new FileOutputStream(outFileName);
@@ -153,7 +146,7 @@ public class LocationsDB extends SQLiteOpenHelper{
         List<VLocationTrack> vLocationTrackList = new ArrayList<>();
         try {
 
-            myDataBase = SQLiteDatabase.openDatabase(DB_PATH, null, SQLiteDatabase.OPEN_READWRITE);
+            myDataBase = SQLiteDatabase.openDatabase(AppConstant.DB_PATH, null, SQLiteDatabase.OPEN_READWRITE);
 
             // Creating an instance of ContentValues
             ContentValues contentValues = new ContentValues();
@@ -170,12 +163,12 @@ public class LocationsDB extends SQLiteOpenHelper{
             // Setting longitude in ContentValues
             contentValues.put(LocationsDB.FIELD_LOCATION, locationTrack.getLocation());
 
-            myDataBase.insert(TB_NAME, null, contentValues);
+            myDataBase.insert(AppConstant.TB_NAME, null, contentValues);
 
-            int numRows = (int) DatabaseUtils.longForQuery(myDataBase, "select count(*) from " + TB_NAME, null);
+            int numRows = (int) DatabaseUtils.longForQuery(myDataBase, "select count(*) from " + AppConstant.TB_NAME, null);
             if (LogFlag.bLogOn)Log.d(TAG , "numRows: "+numRows);
 
-            String selectQuery = "SELECT  * FROM " + TB_NAME;
+            String selectQuery = "SELECT  * FROM " + AppConstant.TB_NAME;
             SQLiteDatabase db = this.getReadableDatabase();
             Cursor cursor = db.rawQuery(selectQuery, null);
 

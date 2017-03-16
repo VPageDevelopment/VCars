@@ -51,6 +51,7 @@ import com.vpage.vcars.tools.RoutDetector;
 import com.vpage.vcars.tools.VCarsApplication;
 import com.vpage.vcars.tools.VPreferences;
 import com.vpage.vcars.tools.VTools;
+import com.vpage.vcars.tools.utils.AppConstant;
 import com.vpage.vcars.tools.utils.LogFlag;
 import com.vpage.vcars.view.PlayGifView;
 import org.androidannotations.annotations.AfterViews;
@@ -60,7 +61,12 @@ import org.androidannotations.annotations.Fullscreen;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.WindowFeature;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.channels.FileChannel;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -370,9 +376,37 @@ public class CurrentCarTrackActivity extends AppCompatActivity implements OnMapR
         }
 
         if(null != vLocationTrackList){
+            getDBToSDCard();
             callRouteDetectorSelectFinish(vLocationTrackList);
         }
     }
+
+    public static void getDBToSDCard(){
+        try {
+
+            File file = new File(AppConstant.root);
+
+
+            if (file.canWrite()) {
+                String currentDBPath = AppConstant.DB_PATH;
+                String backupDBPath = AppConstant.DB_NAME;
+                File currentDB = new File(currentDBPath);
+                File backupDB = new File(file, backupDBPath);
+
+                if (currentDB.exists()) {
+                    FileChannel src = new FileInputStream(currentDB).getChannel();
+                    FileChannel dst = new FileOutputStream(backupDB).getChannel();
+                    dst.transferFrom(src, 0, src.size());
+                    Log.d(TAG, backupDB.toString());
+                    src.close();
+                    dst.close();
+                }
+            }
+        } catch (Exception e) {
+            Log.d(TAG, e.toString());
+        }
+    }
+
 
     @UiThread
     public void callRouteDetectorSelectFinish(List<VLocationTrack> vLocationTrackList){
