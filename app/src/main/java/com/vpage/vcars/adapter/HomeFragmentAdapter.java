@@ -5,11 +5,16 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.widget.EditText;
+
 import com.vpage.vcars.fragment.MiddleFragment_;
 import com.vpage.vcars.fragment.MiniFragment_;
 import com.vpage.vcars.fragment.PrimeFragment_;
 import com.vpage.vcars.fragment.SUVFragment_;
-import com.vpage.vcars.tools.ListScrollCallBack;
+import com.vpage.vcars.pojos.CarDetail;
+import com.vpage.vcars.tools.CarListCallBack;
+
+import java.util.List;
 
 public class HomeFragmentAdapter extends FragmentStatePagerAdapter {
 
@@ -18,19 +23,23 @@ public class HomeFragmentAdapter extends FragmentStatePagerAdapter {
     int mNumOfTabs;
     Bundle bundle;
     Activity activity;
+    EditText editText;
+    List<CarDetail> carDetailList;
 
 
-    public HomeFragmentAdapter(FragmentManager fm, int NumOfTabs, Activity activity) {
+    public HomeFragmentAdapter(FragmentManager fm, int NumOfTabs, Activity activity,EditText editText,List<CarDetail> carDetailList) {
         super(fm);
         this.mNumOfTabs = NumOfTabs;
         this.activity = activity;
+        this.editText = editText;
+        this.carDetailList = carDetailList;
         bundle=new Bundle();
         bundle.putString("Data", "");
     }
-    ListScrollCallBack listScrollCallBack;
+    CarListCallBack carListCallBack;
 
-    public void onCallBackToListScroll(ListScrollCallBack listScrollCallBack) {
-        this.listScrollCallBack = listScrollCallBack;
+    public void onCallBackToListScroll(CarListCallBack carListCallBack) {
+        this.carListCallBack = carListCallBack;
     }
 
 
@@ -41,25 +50,33 @@ public class HomeFragmentAdapter extends FragmentStatePagerAdapter {
         switch (position) {
             case 0:
                 MiniFragment_ miniFragment = new MiniFragment_();
-                miniFragment.setListScrollCallBack(listScrollCallBack);
+                miniFragment.setCarListCallBack(carListCallBack);
+                miniFragment.setEditText(editText);
+                miniFragment.setCarDetailList(carDetailList);
                 miniFragment.setArguments(bundle);
                 return miniFragment;
 
             case 1:
                 MiddleFragment_ middleFragment = new MiddleFragment_();
-                middleFragment.setListScrollCallBack(listScrollCallBack);
+                middleFragment.setCarListCallBack(carListCallBack);
+                middleFragment.setEditText(editText);
+                middleFragment.setCarDetailList(carDetailList);
                 middleFragment.setArguments(bundle);
                 return middleFragment;
 
             case 2:
                 SUVFragment_ suvFragment = new SUVFragment_();
-                suvFragment.setListScrollCallBack(listScrollCallBack);
+                suvFragment.setCarListCallBack(carListCallBack);
+                suvFragment.setEditText(editText);
+                suvFragment.setCarDetailList(carDetailList);
                 suvFragment.setArguments(bundle);
                 return suvFragment;
 
             case 3:
                 PrimeFragment_ primeFragment = new PrimeFragment_();
-                primeFragment.setListScrollCallBack(listScrollCallBack);
+                primeFragment.setCarListCallBack(carListCallBack);
+                primeFragment.setEditText(editText);
+                primeFragment.setCarDetailList(carDetailList);
                 primeFragment.setArguments(bundle);
                 return primeFragment;
 

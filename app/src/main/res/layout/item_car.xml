@@ -1,47 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.vpage.vcars.view.CheckableRelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<com.vpage.vcars.view.CheckableRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
 
-    <LinearLayout
-        android:layout_height="50dp"
-        android:layout_width="match_parent"
-        android:id="@+id/topLayout"
-        android:gravity="center_vertical">
 
-        <TextView
-            android:layout_height="wrap_content"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:id="@+id/carName"
-            android:text="Cars"
-            android:gravity="center" />
-        <TextView
-            android:layout_height="wrap_content"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:id="@+id/carDistance"
-            android:text="Distance"
-            android:gravity="center" />
-        <TextView
-            android:layout_height="wrap_content"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:id="@+id/carVarient"
-            android:text="Varient"
-            android:gravity="center" />
+    <RelativeLayout
+        android:id="@+id/contentLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
 
 
-        <com.vpage.vcars.view.InertCheckBox
-            android:id="@+id/radioButton"
-            android:layout_height="wrap_content"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:focusable="false"
-            android:button="@drawable/single_radio_choice"
-            android:layout_marginLeft="10dp"/>
+        <LinearLayout
+            android:id="@+id/topLayout"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_margin="10dp"
+            android:gravity="center_vertical">
 
-    </LinearLayout>
+            <TextView
+                android:id="@+id/carName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="Cars" />
+
+            <TextView
+                android:id="@+id/carDistance"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="Distance" />
+
+            <TextView
+                android:id="@+id/carVarient"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="Varient" />
+
+
+            <com.vpage.vcars.view.InertCheckBox
+                android:id="@+id/radioButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_weight="1"
+                android:button="@drawable/single_radio_choice"
+                android:focusable="false" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
 
 </com.vpage.vcars.view.CheckableRelativeLayout>

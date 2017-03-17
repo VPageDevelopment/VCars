@@ -24,8 +24,9 @@ import com.google.gson.GsonBuilder;
 import com.vpage.vcars.R;
 import com.vpage.vcars.adapter.HomeFragmentAdapter;
 import com.vpage.vcars.chat.ChatActivity;
+import com.vpage.vcars.pojos.CarDetail;
 import com.vpage.vcars.pojos.VLocation;
-import com.vpage.vcars.tools.ListScrollCallBack;
+import com.vpage.vcars.tools.CarListCallBack;
 import com.vpage.vcars.tools.VCarGooglePlusTools;
 import com.vpage.vcars.tools.VCarsApplication;
 import com.vpage.vcars.tools.VPreferences;
@@ -66,6 +67,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -80,7 +82,7 @@ import java.util.List;
 
 @EActivity(R.layout.activity_home)
 @Fullscreen
-public class HomeActivity  extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,OnMapReadyCallback,GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener, BottomNavigationView.OnNavigationItemSelectedListener, AdapterView.OnItemClickListener, ListScrollCallBack {
+public class HomeActivity  extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,OnMapReadyCallback,GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener, BottomNavigationView.OnNavigationItemSelectedListener, AdapterView.OnItemClickListener, CarListCallBack {
 
     private static final String TAG = HomeActivity.class.getName();
 
@@ -121,6 +123,14 @@ public class HomeActivity  extends AppCompatActivity implements NavigationView.O
     @ViewById(R.id.fabMenuTitle)
     TextView fabMenuTitle;
 
+    @ViewById(R.id.searchText)
+    EditText searchText;
+
+    @ViewById(R.id.title)
+    TextView title;
+
+    MenuItem item;
+
     @Bean
     VCarGooglePlusTools vCarGooglePlusTools;
 
@@ -137,6 +147,7 @@ public class HomeActivity  extends AppCompatActivity implements NavigationView.O
 
     PopupWindow PopUp;
 
+
     @AfterViews
     public void onInitHome() {
       //  animateToolbarDroppingDown(mContainerToolbar);
@@ -146,7 +157,7 @@ public class HomeActivity  extends AppCompatActivity implements NavigationView.O
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-
+        title.setVisibility(View.VISIBLE);
         navigationView.setNavigationItemSelectedListener(this);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
         fabMenuTitle.setVisibility(View.VISIBLE);
@@ -350,12 +361,25 @@ public class HomeActivity  extends AppCompatActivity implements NavigationView.O
         tabLayout.addTab(tabLayout.newTab().setText(tabItems[2]));
         tabLayout.addTab(tabLayout.newTab().setText(tabItems[3]));
 
-        HomeFragmentAdapter adapter = new HomeFragmentAdapter(getSupportFragmentManager(), tabLayout.getTabCount(),  HomeActivity.this);
+        String[] carName = new String[] { "China", "India", "United States",
+                "Indonesia", "Brazil", "Pakistan", "Nigeria", "Bangladesh",
+                "Russia", "Japan" };
+
+        List<CarDetail> carDetailList = new ArrayList<>();  // to be set after service call
+
+
+        for (int i = 0; i < carName.length; i++)
+        {
+            CarDetail carDetail = new CarDetail();
+            carDetail.setCarName(carName[i]);
+            carDetailList.add(carDetail);
+        }
+
+        HomeFragmentAdapter adapter = new HomeFragmentAdapter(getSupportFragmentManager(),tabLayout.getTabCount(),HomeActivity.this,searchText,carDetailList);
         adapter.onCallBackToListScroll(this);
         viewPager.setAdapter(adapter);
-
-            tabLayout.getTabAt(0).select();
-            viewPager.setCurrentItem(0);
+        tabLayout.getTabAt(0).select();
+        viewPager.setCurrentItem(0);
 
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -540,7 +564,7 @@ public class HomeActivity  extends AppCompatActivity implements NavigationView.O
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-
+        this.item = item;
         switch (id) {
             case R.id.nav_camera:
                 break;
@@ -577,6 +601,12 @@ public class HomeActivity  extends AppCompatActivity implements NavigationView.O
 
                 setSharePopupView(textPosition, imagesIcons);
                 break;
+            case R.id.search:
+                if (LogFlag.bLogOn) Log.d(TAG, "ItemSelected : "+item.getTitle());
+                searchText.setVisibility(View.VISIBLE);
+                title.setVisibility(View.GONE);
+                break;
+
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -770,5 +800,13 @@ public class HomeActivity  extends AppCompatActivity implements NavigationView.O
             floatingActionsMenu.setVisibility(View.VISIBLE);
         }
     }
+
+    @Override
+    public void onListClick() {
+        searchText.setVisibility(View.GONE);
+        title.setVisibility(View.VISIBLE);
+    }
+
+
 }
 

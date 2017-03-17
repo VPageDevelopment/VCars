@@ -481,12 +481,5 @@ public class CurrentCarTrackActivity extends AppCompatActivity implements OnMapR
         }
     }
 
-
-    private void gotoMyActivityPage() {
-        Intent intent = new Intent(getApplicationContext(), MyActivity_.class);
-        startActivity(intent);
-        VTools.animation(this);
-    }
-
 }
 
