@@ -65,7 +65,11 @@ import android.text.Html;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.animation.DecelerateInterpolator;
+import android.view.animation.TranslateAnimation;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -146,6 +150,8 @@ public class HomeActivity  extends AppCompatActivity implements NavigationView.O
     String[] tabItems;
 
     PopupWindow PopUp;
+    int currentTab = 0;
+
 
 
     @AfterViews
@@ -375,9 +381,12 @@ public class HomeActivity  extends AppCompatActivity implements NavigationView.O
             carDetailList.add(carDetail);
         }
 
+
+     //   tabLayout.setupWithViewPager(viewPager);
         HomeFragmentAdapter adapter = new HomeFragmentAdapter(getSupportFragmentManager(),tabLayout.getTabCount(),HomeActivity.this,searchText,carDetailList);
         adapter.onCallBackToListScroll(this);
         viewPager.setAdapter(adapter);
+        viewPager.setOffscreenPageLimit(4);
         tabLayout.getTabAt(0).select();
         viewPager.setCurrentItem(0);
 
@@ -385,7 +394,20 @@ public class HomeActivity  extends AppCompatActivity implements NavigationView.O
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
+
                 viewPager.setCurrentItem(tab.getPosition());
+             /*   if (LogFlag.bLogOn) Log.d(TAG, "TabSelected: "+tab.getPosition());
+
+                View currentView = viewPager.getChildAt(tab.getPosition()-1);
+                if(currentView != null){
+
+                    Animation animation = AnimationUtils.loadAnimation(HomeActivity.this, ((tab.getPosition()-1) > currentTab) ? R.anim.slide_out_right : R.anim.slide_in_left);
+                    currentView.startAnimation(animation);
+                    currentTab = tab.getPosition()-1;
+
+                }else {
+                    if (LogFlag.bLogOn) Log.d(TAG, "currentView is empty");
+                }*/
             }
 
             @Override
@@ -398,6 +420,36 @@ public class HomeActivity  extends AppCompatActivity implements NavigationView.O
 
             }
         });
+/*        tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(viewPager));
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                viewPager.setCurrentItem(position);
+                if (LogFlag.bLogOn) Log.d(TAG, "TabSelected: "+position);
+
+                View currentView = viewPager.getChildAt(position-1);
+                if(currentView != null){
+
+                    Animation animation = AnimationUtils.loadAnimation(HomeActivity.this, ((position-1) > currentTab) ? R.anim.slide_out_right : R.anim.slide_in_left);
+                    currentView.startAnimation(animation);
+                    currentTab = position-1;
+
+                }else {
+                    if (LogFlag.bLogOn) Log.d(TAG, "currentView is empty");
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });*/
+
 
     }
 

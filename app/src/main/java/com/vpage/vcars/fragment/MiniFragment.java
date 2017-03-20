@@ -129,6 +129,7 @@ public class MiniFragment extends Fragment {
         intent.putExtra("SelectedCar","Car Selected");
         startActivity(intent);
         VTools.animation(getActivity());
+        getActivity().finish();
     }
 }
 

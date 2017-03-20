@@ -25,7 +25,6 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.vpage.vcars.R;
@@ -34,10 +33,8 @@ import com.vpage.vcars.pojos.VLocation;
 import com.vpage.vcars.pojos.response.SignInResponse;
 import com.vpage.vcars.tools.utils.LogFlag;
 import com.vpage.vcars.tools.fab.FloatingActionButton;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import fr.castorflex.android.smoothprogressbar.SmoothProgressBar;
 import fr.castorflex.android.smoothprogressbar.SmoothProgressBarUtils;
 import fr.castorflex.android.smoothprogressbar.SmoothProgressDrawable;

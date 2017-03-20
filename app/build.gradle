@@ -77,4 +77,5 @@ dependencies {
     compile 'com.github.nkzawa:socket.io-client:0.3.0'
     compile 'com.android.support:recyclerview-v7:25.1.0'
     compile 'com.google.maps.android:android-maps-utils:0.5+'
+    compile 'com.mcxiaoke.volley:library-aar:1.0.0'
 }

@@ -40,12 +40,12 @@ public class CarListAdapter extends BaseAdapter implements Filterable {
 
     public CarListAdapter(Activity activity,List<CarDetail> carDetailList) {
         this.activity = activity;
-       // this.carDetailList = carDetailList;
-      //  this.arrayList = new ArrayList<>();
-      //  this.arrayList.addAll(carDetailList);
+        this.carDetailList = carDetailList;
+        this.arrayList = new ArrayList<>();
+        this.arrayList.addAll(carDetailList);
 
-        this.carDetailList = new ArrayList<>(carDetailList);
-        this.arrayList = new ArrayList<>(carDetailList);
+       /* this.carDetailList = new ArrayList<>(carDetailList);
+        this.arrayList = new ArrayList<>(carDetailList);*/
         this.filter = new CarFilter();
 
     }
@@ -80,7 +80,7 @@ public class CarListAdapter extends BaseAdapter implements Filterable {
         TextView carVarient = (TextView) convertView.findViewById(R.id.carVarient);
         RelativeLayout contentLayout = (RelativeLayout) convertView.findViewById(R.id.contentLayout);
 
-       if (LogFlag.bLogOn) Log.d(TAG, "itemPosition: "+itemPosition);
+     //  if (LogFlag.bLogOn) Log.d(TAG, "itemPosition: "+itemPosition);
         carName.setText(carDetailList.get(itemPosition).getCarName());
         carDistance.setText("5 Kms");
         carVarient.setText("Petrol");

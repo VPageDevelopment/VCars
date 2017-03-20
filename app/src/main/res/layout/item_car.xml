@@ -22,6 +22,9 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:textColor="@color/Black"
+                android:textSize="12sp"
+                android:textStyle="bold"
                 android:gravity="center"
                 android:text="Cars" />
 
@@ -30,6 +33,9 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:textColor="@color/Black"
+                android:textSize="12sp"
+                android:textStyle="bold"
                 android:gravity="center"
                 android:text="Distance" />
 
@@ -38,6 +44,9 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:textColor="@color/Black"
+                android:textSize="12sp"
+                android:textStyle="bold"
                 android:gravity="center"
                 android:text="Varient" />
 

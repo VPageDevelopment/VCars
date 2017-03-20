@@ -119,6 +119,7 @@
                     android:background="@color/White"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    app:tabBackground="@drawable/tab_color_selector"
                     app:tabIndicatorHeight="@dimen/tab_indicator_height"
                     app:tabIndicatorColor="@color/colorAccent"/>
 
@@ -126,6 +127,7 @@
                     android:id="@+id/viewpager"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:animateLayoutChanges="true"
                     android:layout_below="@+id/tabLayout"
                     android:layout_alignParentBottom="true"
                     android:layout_alignParentLeft="true"

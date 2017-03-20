@@ -62,6 +62,8 @@
     <color name="username10">#a700ff</color>
     <color name="username11">#d300e7</color>
 
+    <color name="tab_background_selected">@color/username4</color>
+    <color name="tab_background_unselected">@color/username6</color>
 
 
 

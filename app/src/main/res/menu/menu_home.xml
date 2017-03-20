@@ -20,15 +20,15 @@
         app:showAsAction="always">
     </item>
 
-    <item android:id="@+id/overflow"
-        android:title="Overflow"
-        android:icon="@drawable/overflowicon"
-        app:showAsAction="always">
-    </item>
-
     <item android:id="@+id/search"
         android:title="search"
         android:icon="@drawable/searchicon"
+        app:showAsAction="always">
+    </item>
+
+    <item android:id="@+id/overflow"
+        android:title="Overflow"
+        android:icon="@drawable/overflowicon"
         app:showAsAction="always">
     </item>
 

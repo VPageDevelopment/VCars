@@ -25,6 +25,7 @@ public class HomeFragmentAdapter extends FragmentStatePagerAdapter {
     Activity activity;
     EditText editText;
     List<CarDetail> carDetailList;
+    CarListCallBack carListCallBack;
 
 
     public HomeFragmentAdapter(FragmentManager fm, int NumOfTabs, Activity activity,EditText editText,List<CarDetail> carDetailList) {
@@ -36,7 +37,7 @@ public class HomeFragmentAdapter extends FragmentStatePagerAdapter {
         bundle=new Bundle();
         bundle.putString("Data", "");
     }
-    CarListCallBack carListCallBack;
+
 
     public void onCallBackToListScroll(CarListCallBack carListCallBack) {
         this.carListCallBack = carListCallBack;

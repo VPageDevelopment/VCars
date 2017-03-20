@@ -71,7 +71,7 @@ public class CarDetailActivity extends AppCompatActivity implements View.OnClick
 
         if (id == android.R.id.home) {
             if (LogFlag.bLogOn) Log.d(TAG, "Back Pressed ");
-            onBackPressed();
+            gotoHomePage();
         }
 
         return super.onOptionsItemSelected(item);
@@ -89,4 +89,23 @@ public class CarDetailActivity extends AppCompatActivity implements View.OnClick
         startActivity(intent);
         VTools.animation(this);
     }
+
+    private void gotoHomePage() {
+
+        Intent intent = new Intent(getApplicationContext(), HomeActivity_.class);
+        startActivity(intent);
+        VTools.animation(this);
+        finish();
+    }
+
+
+    @Override
+    public void onBackPressed()
+    {
+      //  super.onBackPressed();
+        gotoHomePage();
+    }
+
+
+
 }

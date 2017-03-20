@@ -60,6 +60,23 @@ import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.WindowFeature;
 import java.security.NoSuchAlgorithmException;
+import android.app.ProgressDialog;
+import android.graphics.Bitmap;
+import android.net.Uri;
+import android.provider.MediaStore;
+import android.util.Base64;
+import android.widget.Toast;
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.util.Hashtable;
+import java.util.Map;
 
 @WindowFeature({ Window.FEATURE_NO_TITLE, Window.FEATURE_ACTION_BAR_OVERLAY })
 @Fullscreen
@@ -69,8 +86,22 @@ public class SignupActivity extends AppCompatActivity implements   View.OnKeyLis
     private static final String TAG = SignupActivity.class.getName();
 
 
+    private Bitmap bitmap;
+
+    private int PICK_IMAGE_REQUEST = 1;
+
+    private String UPLOAD_URL ="http://simplifiedcoding.16mb.com/VolleyUpload/upload.php";
+
+    private String KEY_IMAGE = "image";
+
     @ViewById(R.id.chooseProfile)
     ImageButton chooseProfile;
+
+    @ViewById(R.id.licenseUploadButton)
+    Button licenseUploadButton;
+
+    @ViewById(R.id.proofUploadButton)
+    Button proofUploadButton;
 
     @ViewById(R.id.userPhoneNumber)
     EditText userPhoneNumber;
@@ -286,7 +317,7 @@ public class SignupActivity extends AppCompatActivity implements   View.OnKeyLis
 
 
     @Click({R.id.chooseProfile, R.id.createBtn, R.id.signInLayout,R.id.phoneInfoButton,R.id.passWordInfoButton,R.id.cpassWordInfoButton,
-            R.id.userNameInfoButton,R.id.addressInfoButton})
+            R.id.userNameInfoButton,R.id.addressInfoButton,R.id.licenseUploadButton,R.id.proofUploadButton})
     public void onButtonClick(View v) {
 
         final View infoPopUpView =getLayoutInflater().inflate(R.layout.popup_info, null); // inflating popup layout
@@ -346,10 +377,18 @@ public class SignupActivity extends AppCompatActivity implements   View.OnKeyLis
                 registerValidation();
                 break;
 
-
             case R.id.signInLayout:
                 onBackPressed();
                 break;
+
+            case R.id.licenseUploadButton:
+                showFileChooser();
+                break;
+
+            case R.id.proofUploadButton:
+                showFileChooser();
+                break;
+
 
         }
     }
@@ -520,8 +559,6 @@ public class SignupActivity extends AppCompatActivity implements   View.OnKeyLis
         }
     }
 
-
-
     public void setCheckUserRequestData() {
         if (LogFlag.bLogOn)Log.d(TAG, "setCheckUserRequestData");
         String uuid = Settings.Secure.getString(this.getContentResolver(), Settings.Secure.ANDROID_ID);
@@ -533,8 +570,6 @@ public class SignupActivity extends AppCompatActivity implements   View.OnKeyLis
         checkUserRequest.setDeviceToken(VPreferences.get("gcmToken"));
         if (LogFlag.bLogOn)Log.d(TAG, checkUserRequest.toString());
     }
-
-
 
 
     @Background
@@ -659,7 +694,6 @@ public class SignupActivity extends AppCompatActivity implements   View.OnKeyLis
                 break;
             case R.id.btnClose:
                 showPopUp.dismiss();
-
                 layoutSignup.setAlpha(220);
                 break;
 
@@ -724,6 +758,90 @@ public class SignupActivity extends AppCompatActivity implements   View.OnKeyLis
     private void hideKeyboard(){
         InputMethodManager inputManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
         inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+    }
+
+
+
+    public String getStringImage(Bitmap bmp){
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bmp.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] imageBytes = baos.toByteArray();
+        String encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
+        return encodedImage;
+    }
+
+    @Background
+    public void uploadImage(){
+        //Showing the progress dialog
+     //   final ProgressDialog loading = ProgressDialog.show(this,"Uploading...","Please wait...",false,false);
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, UPLOAD_URL,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String s) {
+                        //Disimissing the progress dialog
+                    //    loading.dismiss();
+                        //Showing toast message of the response
+                        Toast.makeText(SignupActivity.this, s , Toast.LENGTH_LONG).show();
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError volleyError) {
+                        //Dismissing the progress dialog
+                      //  loading.dismiss();
+
+                        //Showing toast
+                        Toast.makeText(SignupActivity.this, volleyError.getMessage().toString(), Toast.LENGTH_LONG).show();
+                    }
+                }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                //Converting Bitmap to String
+                String image = getStringImage(bitmap);
+
+                //Creating parameters
+                Map<String,String> params = new Hashtable<String, String>();
+
+                //Adding parameters
+                params.put(KEY_IMAGE, image);
+
+                //returning parameters
+                return params;
+            }
+        };
+
+        //Creating a Request Queue
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+
+        //Adding request to the queue
+        requestQueue.add(stringRequest);
+    }
+
+    @UiThread
+    public void showFileChooser() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            Uri filePath = data.getData();
+            try {
+                //Getting the Bitmap from Gallery
+                bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
+                if(bitmap != null){
+                    uploadImage();
+                }
+
+            } catch (IOException e) {
+                if (LogFlag.bLogOn)Log.e(TAG,e.getMessage());
+            }
+        }
     }
 
 }

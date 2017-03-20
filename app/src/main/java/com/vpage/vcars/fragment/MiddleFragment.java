@@ -125,6 +125,7 @@ public class MiddleFragment extends Fragment {
         intent.putExtra("SelectedCar","Car Selected");
         startActivity(intent);
         VTools.animation(getActivity());
+        getActivity().finish();
     }
 }
 
