@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<tabs>
+    <tab
+        id="@+id/tab_user"
+        icon="@drawable/ic_user"
+        title="User"
+        barColorWhenSelected="@color/colorAccent" />
+
+    <tab
+        id="@+id/tab_home"
+        icon="@drawable/home"
+        title="Home"
+        barColorWhenSelected="#FF5252" />
+
+    <tab
+        id="@+id/tab_favorites"
+        icon="@drawable/ic_favorites"
+        title="Favorites"
+        barColorWhenSelected="#5D4037" />
+
+    <tab
+        id="@+id/tab_search"
+        icon="@drawable/searchicon"
+        title="Search"
+        barColorWhenSelected="#7B1FA2" />
+
+    <tab
+        id="@+id/tab_overflow"
+        icon="@drawable/overflowicon"
+        title="Overflow"
+        barColorWhenSelected="#FF9800" />
+
+</tabs>

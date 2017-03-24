@@ -8,11 +8,14 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
+import android.provider.MediaStore;
 import android.support.design.widget.Snackbar;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -364,5 +367,20 @@ public class VTools {
 
     }
 
+    public static String getRealPathFromURI(Activity activity, Uri uri) {
+        Cursor cursor = activity.getContentResolver().query(uri, null, null, null, null);
+        cursor.moveToFirst();
+        int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
+        return cursor.getString(idx);
+    }
 
+    private static String cameraImagePath = "";
+
+    public static String getCameraImagePath() {
+        return cameraImagePath;
+    }
+
+    public static void setCameraImagePath(String cameraImagePath) {
+        VTools.cameraImagePath = cameraImagePath;
+    }
 }

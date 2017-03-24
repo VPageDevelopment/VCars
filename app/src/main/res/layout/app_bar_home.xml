@@ -33,7 +33,7 @@
 
 
             </android.support.design.widget.AppBarLayout>
-        <android.support.design.widget.BottomNavigationView
+       <!-- <android.support.design.widget.BottomNavigationView
             android:id="@+id/bottom_navigation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -46,7 +46,17 @@
             app:menu="@menu/menu_home" >
 
 
-            </android.support.design.widget.BottomNavigationView>
+            </android.support.design.widget.BottomNavigationView>-->
+        <com.roughike.bottombar.BottomBar
+            android:id="@+id/bottomBar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentBottom="true"
+            app:itemIconTint="@color/White"
+            app:itemTextColor="@color/White"
+            app:bb_tabXmlResource="@xml/bottombar_tabs_color_changing"
+            app:bb_behavior="shifting|underNavbar" />
+
 
 
     </LinearLayout>

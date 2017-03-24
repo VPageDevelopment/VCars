@@ -21,12 +21,16 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.plus.Plus;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.roughike.bottombar.BottomBar;
+import com.roughike.bottombar.BottomBarTab;
+import com.roughike.bottombar.OnTabSelectListener;
 import com.vpage.vcars.R;
 import com.vpage.vcars.adapter.HomeFragmentAdapter;
 import com.vpage.vcars.chat.ChatActivity;
 import com.vpage.vcars.pojos.CarDetail;
 import com.vpage.vcars.pojos.VLocation;
 import com.vpage.vcars.tools.CarListCallBack;
+import com.vpage.vcars.tools.TabMessage;
 import com.vpage.vcars.tools.VCarGooglePlusTools;
 import com.vpage.vcars.tools.VCarsApplication;
 import com.vpage.vcars.tools.VPreferences;
@@ -51,6 +55,7 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
+import android.support.annotation.IdRes;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
@@ -94,8 +99,11 @@ public class HomeActivity  extends AppCompatActivity implements NavigationView.O
     @ViewById(R.id.toolbar)
     Toolbar toolbar;
 
-    @ViewById(R.id.bottom_navigation)
-    BottomNavigationView bottomNavigationView;
+  /*  @ViewById(R.id.bottom_navigation)
+    BottomNavigationView bottomNavigationView;*/
+
+    @ViewById(R.id.bottomBar)
+    BottomBar bottomBar;
 
     @ViewById(R.id.drawer_layout)
     DrawerLayout drawer;
@@ -165,7 +173,7 @@ public class HomeActivity  extends AppCompatActivity implements NavigationView.O
 
         title.setVisibility(View.VISIBLE);
         navigationView.setNavigationItemSelectedListener(this);
-        bottomNavigationView.setOnNavigationItemSelectedListener(this);
+      //  bottomNavigationView.setOnNavigationItemSelectedListener(this);
         fabMenuTitle.setVisibility(View.VISIBLE);
         floatingActionsMenu.setVisibility(View.VISIBLE);
 
@@ -180,8 +188,44 @@ public class HomeActivity  extends AppCompatActivity implements NavigationView.O
         mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-    }
 
+
+        bottomBar.setOnTabSelectListener(new OnTabSelectListener() {
+            @Override
+            public void onTabSelected(@IdRes int tabId) {
+                switch (tabId) {
+                    case R.id.tab_user:
+                        if (LogFlag.bLogOn) Log.d(TAG, "ItemSelected : "+ TabMessage.get(tabId, false));
+                        break;
+                    case R.id.tab_home:
+                        if (LogFlag.bLogOn) Log.d(TAG, "ItemSelected : "+TabMessage.get(tabId, false));
+                        break;
+                    case R.id.tab_favorites:
+                        if (LogFlag.bLogOn) Log.d(TAG, "ItemSelected : "+TabMessage.get(tabId, false));
+                        break;
+                    case R.id.tab_overflow:
+                        if (LogFlag.bLogOn) Log.d(TAG, "ItemSelected : "+TabMessage.get(tabId, false));
+
+                        String [] textPosition = new String[]{"Share", "Current Driving", "Report","Feedback"};
+                        int[] imagesIcons = new int[]{
+                                (R.drawable.share_white),
+                                (R.drawable.car_white),
+                                (R.drawable.report_white),
+                                (R.drawable.feedback_white)
+                        };
+
+                        setSharePopupView(textPosition, imagesIcons);
+                        break;
+                    case R.id.tab_search:
+                        if (LogFlag.bLogOn) Log.d(TAG, "ItemSelected : "+TabMessage.get(tabId, false));
+                        searchText.setVisibility(View.VISIBLE);
+                        title.setVisibility(View.GONE);
+                        break;
+
+                }
+            }
+        });
+    }
 
 
     @Override

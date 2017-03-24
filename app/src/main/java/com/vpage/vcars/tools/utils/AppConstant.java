@@ -13,8 +13,12 @@ public class AppConstant {
     //Table name of DB
     public static String TB_NAME = "tblVcarTrack";
 
-
-
     public static String root = Environment.getExternalStorageDirectory().toString();
+
+    public static int PICK_IMAGE_REQUEST = 1;
+
+    public static String UPLOAD_URL ="http://simplifiedcoding.16mb.com/VolleyUpload/upload.php";
+
+    public static String KEY_IMAGE = "image";
 
 }
