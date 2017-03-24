@@ -125,7 +125,6 @@ public class SUVFragment extends Fragment {
         intent.putExtra("SelectedCar","Car Selected");
         startActivity(intent);
         VTools.animation(getActivity());
-        getActivity().finish();
     }
 }
 

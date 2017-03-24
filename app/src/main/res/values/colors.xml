@@ -47,6 +47,26 @@
 
     <color name="Red">#d9534f</color>
 
+    <color name="yellowN">#f4e242</color>
+    <color name="greenN">#dff441</color>
+    <color name="brGreenN">#41f4b2</color>
+    <color name="brBlueN">#41f1f4</color>
+    <color name="brMagentaN">#f441d6</color>
+    <color name="PinkN">#f4418b</color>
+    <color name="orangeN">#f44152</color>
+    <color name="redN">#f4417c</color>
+    <color name="brPinkN">#ffccff</color>
+
+
+    <integer-array name="list_colors">
+        <item>@color/brPinkN</item>
+        <item>@color/brGreenN</item>
+        <item>@color/yellowN</item>
+        <item>@color/brBlueN</item>
+
+    </integer-array>
+
+
 
 
     <color name="username0">#e21400</color>

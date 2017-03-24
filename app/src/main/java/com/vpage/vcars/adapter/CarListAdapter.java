@@ -34,9 +34,10 @@ public class CarListAdapter extends BaseAdapter implements Filterable {
     private List<CarDetail> arrayList;
 
     private Filter filter;
-    Random randomColor;
 
     private int lastPosition = -1;
+
+    int [] mColors;
 
     public CarListAdapter(Activity activity,List<CarDetail> carDetailList) {
         this.activity = activity;
@@ -47,6 +48,7 @@ public class CarListAdapter extends BaseAdapter implements Filterable {
        /* this.carDetailList = new ArrayList<>(carDetailList);
         this.arrayList = new ArrayList<>(carDetailList);*/
         this.filter = new CarFilter();
+        mColors = activity.getResources().getIntArray(R.array.list_colors);
 
     }
 
@@ -85,18 +87,14 @@ public class CarListAdapter extends BaseAdapter implements Filterable {
         carDistance.setText("5 Kms");
         carVarient.setText("Petrol");
 
-        contentLayout.setBackgroundColor(randomColor());
+        int colorPos = itemPosition % mColors.length;
+        contentLayout.setBackgroundColor(mColors[colorPos]);
+
 
         return convertView;
     }
 
-    int randomColor() {
-        randomColor = new Random();
-        int red = randomColor.nextInt(256);
-        int green = randomColor.nextInt(256);
-        int blue = randomColor.nextInt(256);
-        return Color.rgb(red, green, blue);
-    }
+
    /* // Filter Class
     public void filter(String charText) {
         charText = charText.toLowerCase(Locale.getDefault());
