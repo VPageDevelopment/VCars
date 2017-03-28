@@ -256,19 +256,16 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
 
         if (requestCode == AppConstant.PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
             Uri filePath = data.getData();
-            try {
                 //Getting the Bitmap from Gallery
                // bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
-                imagePath = VTools.getRealPathFromURI(FeedbackActivity.this,filePath);
 
-                if(!imagePath.isEmpty()){
+                if(null != filePath){
+                    if (LogFlag.bLogOn) Log.d(TAG,"FilePath: "+filePath);
+                 //   imagePath = VTools.getRealPathFromURI(FeedbackActivity.this,filePath);
+                    imagePath = filePath.getPath();
                     if (LogFlag.bLogOn) Log.d(TAG,"ImageTaken: "+imagePath);
                   //  uploadImage();
                 }
-
-            } catch (Exception e) {
-                if (LogFlag.bLogOn) Log.e(TAG,e.getMessage());
-            }
         }
     }
 
