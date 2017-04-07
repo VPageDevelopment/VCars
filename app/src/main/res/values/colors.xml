@@ -9,6 +9,7 @@
     <color name="Black">#000000</color>
 
     <color name="background">#e5e5e5</color>
+    <color name="trans">#EAEAEA</color>
 
     <color name="black_semi_transparent">#41000000</color>
 
@@ -59,15 +60,9 @@
 
 
     <integer-array name="list_colors">
-        <item>@color/brPinkN</item>
-        <item>@color/brGreenN</item>
-        <item>@color/yellowN</item>
         <item>@color/brBlueN</item>
-
+        <item>@color/greenN</item>
     </integer-array>
-
-
-
 
     <color name="username0">#e21400</color>
     <color name="username1">#91580f</color>
@@ -82,13 +77,23 @@
     <color name="username10">#a700ff</color>
     <color name="username11">#d300e7</color>
 
-    <color name="tab_background_selected">@color/username4</color>
-    <color name="tab_background_unselected">@color/username6</color>
+    <color name="green">#58dc00</color>
+    <color name="liteGreen">#a8f07a</color>
+
+
+    <color name="tab_background_selected">@color/green</color>
+    <color name="tab_background_unselected">@color/liteGreen</color>
 
 
     <color name="bb_inActiveBottomBarItemColor">#747474</color>
     <color name="bb_darkBackgroundColor">#212121</color>
     <color name="bb_tabletRightBorderDark">#505050</color>
+
+
+    <color name="red">#FF5252</color>
+    <color name="brown">#5D4037</color>
+    <color name="violet">#7B1FA2</color>
+    <color name="orange">#FF9800</color>
 
 
 </resources>

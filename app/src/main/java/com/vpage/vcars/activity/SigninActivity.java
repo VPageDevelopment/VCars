@@ -69,6 +69,7 @@ import com.vpage.vcars.pojos.response.SignInResponse;
 import com.vpage.vcars.pojos.response.SignupResponse;
 import com.vpage.vcars.tools.LoginType;
 import com.vpage.vcars.tools.NetworkUtil;
+import com.vpage.vcars.tools.OnNetworkChangeListener;
 import com.vpage.vcars.tools.VCarAnalyticsTools;
 import com.vpage.vcars.tools.VCarGooglePlusTools;
 import com.vpage.vcars.tools.VCarRestTools;
@@ -106,7 +107,7 @@ import java.util.TimerTask;
 @Fullscreen
 @EActivity(R.layout.activity_signin)
 public class SigninActivity extends Activity implements View.OnKeyListener, View.OnClickListener, GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener {
+        GoogleApiClient.OnConnectionFailedListener,OnNetworkChangeListener {
 
     private static final String TAG = SigninActivity.class.getName();
 
@@ -236,6 +237,9 @@ public class SigninActivity extends Activity implements View.OnKeyListener, View
     @AfterViews
     public void initView() {
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+
+        isNetworkAvailable = VTools.networkStatus(SigninActivity.this);
+        NetworkUtil.setOnNetworkChangeListener(this);
 
         generateKeyHash();
         try {
@@ -430,7 +434,6 @@ public class SigninActivity extends Activity implements View.OnKeyListener, View
 
     @Click(R.id.loginButton)
     public void onLoginClick(View v) {
-        networkStatus();
         if (!isNetworkAvailable) {
             return;
         }
@@ -537,7 +540,6 @@ public class SigninActivity extends Activity implements View.OnKeyListener, View
 
     @Click(R.id.gLoginButton)
     public void gLoginClick(View v) {
-        networkStatus();
         if (!isNetworkAvailable) {
             return;
         }
@@ -837,7 +839,6 @@ public class SigninActivity extends Activity implements View.OnKeyListener, View
     //TODO SignUp button now hide
    /* @Click(R.id.signUpButton)
     public void onCSignuplick(View v) {
-        networkStatus();
         if (!isNetworkAvailable) {
             return;
         }
@@ -882,7 +883,6 @@ public class SigninActivity extends Activity implements View.OnKeyListener, View
             case R.id.btnSignIn:
                 btnSignIn.setEnabled(false);
 
-                networkStatus();
                 if (!isNetworkAvailable) {
                     btnSignIn.setEnabled(true);
                     return;
@@ -912,7 +912,6 @@ public class SigninActivity extends Activity implements View.OnKeyListener, View
             case R.id.btnOTPSignIn:
                 btnOTPSignIn.setEnabled(false);
 
-                networkStatus();
                 if (!isNetworkAvailable) {
                     btnOTPSignIn.setEnabled(true);
                     return;
@@ -957,7 +956,6 @@ public class SigninActivity extends Activity implements View.OnKeyListener, View
 
                 btnOTPGenerate.setEnabled(false);
 
-                networkStatus();
                 if (!isNetworkAvailable) {
                     btnOTPGenerate.setEnabled(true);
                     return;
@@ -1577,25 +1575,6 @@ public class SigninActivity extends Activity implements View.OnKeyListener, View
         }
     }
 
-    public void networkStatus() {
-        String status = NetworkUtil.getConnectivityStatusString(this);
-        if (LogFlag.bLogOn)Log.d(TAG, "Network Availability");
-        if (LogFlag.bLogOn)Log.d(TAG, status);
-
-
-        switch (status) {
-            case "Connected to Internet with Mobile Data":
-                isNetworkAvailable = true;
-                break;
-            case "Connected to Internet with WIFI":
-                isNetworkAvailable = true;
-                break;
-            default:
-                VTools.getInstance().showToast(status);
-                isNetworkAvailable = false;
-                break;
-        }
-    }
 
     //get country code if have permission else ask
     private void getCountryCode() {
@@ -1686,6 +1665,11 @@ public class SigninActivity extends Activity implements View.OnKeyListener, View
             if (LogFlag.bLogOn)Log.e(TAG, "Cannot access Provider " + e.getMessage());
         }
         return location;
+    }
+
+    @Override
+    public void onChange(String status) {
+        isNetworkAvailable = VTools.networkStatus(status);
     }
 
 

@@ -81,6 +81,7 @@
         <item>PRIME</item>
     </string-array>
 
+    <string name="actionSearch">Search Car Name</string>
 
     <!-- common actions -->
     <string name="action_Exit">Exit</string>

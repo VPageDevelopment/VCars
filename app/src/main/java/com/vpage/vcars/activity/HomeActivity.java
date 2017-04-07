@@ -30,6 +30,7 @@ import com.vpage.vcars.chat.ChatActivity;
 import com.vpage.vcars.pojos.CarDetail;
 import com.vpage.vcars.pojos.VLocation;
 import com.vpage.vcars.tools.CarListCallBack;
+import com.vpage.vcars.tools.CustomSearchView;
 import com.vpage.vcars.tools.TabMessage;
 import com.vpage.vcars.tools.VCarGooglePlusTools;
 import com.vpage.vcars.tools.VCarsApplication;
@@ -40,6 +41,9 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Fullscreen;
+import org.androidannotations.annotations.OptionsItem;
+import org.androidannotations.annotations.OptionsMenu;
+import org.androidannotations.annotations.OptionsMenuItem;
 import org.androidannotations.annotations.ViewById;
 import android.Manifest;
 import android.animation.Animator;
@@ -61,6 +65,7 @@ import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -68,6 +73,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
@@ -76,8 +82,8 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.TranslateAnimation;
 import android.widget.AdapterView;
-import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
@@ -99,11 +105,15 @@ public class HomeActivity  extends AppCompatActivity implements NavigationView.O
     @ViewById(R.id.toolbar)
     Toolbar toolbar;
 
-  /*  @ViewById(R.id.bottom_navigation)
-    BottomNavigationView bottomNavigationView;*/
+    @ViewById(R.id.bottom_navigation)
+    BottomNavigationView bottomNavigationView;
 
-    @ViewById(R.id.bottomBar)
-    BottomBar bottomBar;
+    MenuItem searchMenuItem,homeMenuItem,userMenuItem,favouriteMenuItem,overflowMenuItem;
+
+    CustomSearchView searchView;
+
+ /*   @ViewById(R.id.bottomBar)
+    BottomBar bottomBar;*/
 
     @ViewById(R.id.drawer_layout)
     DrawerLayout drawer;
@@ -135,12 +145,6 @@ public class HomeActivity  extends AppCompatActivity implements NavigationView.O
     @ViewById(R.id.fabMenuTitle)
     TextView fabMenuTitle;
 
-    @ViewById(R.id.searchText)
-    EditText searchText;
-
-    @ViewById(R.id.title)
-    TextView title;
-
     MenuItem item;
 
     @Bean
@@ -170,10 +174,10 @@ public class HomeActivity  extends AppCompatActivity implements NavigationView.O
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
+        mContainerToolbar.setBackgroundColor(getResources().getColor(R.color.colorAccent));
 
-        title.setVisibility(View.VISIBLE);
         navigationView.setNavigationItemSelectedListener(this);
-      //  bottomNavigationView.setOnNavigationItemSelectedListener(this);
+        bottomNavigationView.setOnNavigationItemSelectedListener(this);
         fabMenuTitle.setVisibility(View.VISIBLE);
         floatingActionsMenu.setVisibility(View.VISIBLE);
 
@@ -183,27 +187,31 @@ public class HomeActivity  extends AppCompatActivity implements NavigationView.O
             floatingActionsMenu.toggle();
         }
         SetFABButton();
-        showTab();
+        setBottomNavigationViewMenu();
 
         mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
 
-        bottomBar.setOnTabSelectListener(new OnTabSelectListener() {
+      /*  bottomBar.setOnTabSelectListener(new OnTabSelectListener() {
             @Override
             public void onTabSelected(@IdRes int tabId) {
                 switch (tabId) {
                     case R.id.tab_user:
+                        mContainerToolbar.setBackgroundColor(getResources().getColor(R.color.red));
                         if (LogFlag.bLogOn) Log.d(TAG, "ItemSelected : "+ TabMessage.get(tabId, false));
                         break;
                     case R.id.tab_home:
+                        mContainerToolbar.setBackgroundColor(getResources().getColor(R.color.colorAccent));
                         if (LogFlag.bLogOn) Log.d(TAG, "ItemSelected : "+TabMessage.get(tabId, false));
                         break;
                     case R.id.tab_favorites:
+                        mContainerToolbar.setBackgroundColor(getResources().getColor(R.color.brown));
                         if (LogFlag.bLogOn) Log.d(TAG, "ItemSelected : "+TabMessage.get(tabId, false));
                         break;
                     case R.id.tab_overflow:
+                        mContainerToolbar.setBackgroundColor(getResources().getColor(R.color.violet));
                         if (LogFlag.bLogOn) Log.d(TAG, "ItemSelected : "+TabMessage.get(tabId, false));
 
                         String [] textPosition = new String[]{"Share", "Current Driving", "Report","Feedback"};
@@ -217,16 +225,84 @@ public class HomeActivity  extends AppCompatActivity implements NavigationView.O
                         setSharePopupView(textPosition, imagesIcons);
                         break;
                     case R.id.tab_search:
+                        mContainerToolbar.setBackgroundColor(getResources().getColor(R.color.orange));
                         if (LogFlag.bLogOn) Log.d(TAG, "ItemSelected : "+TabMessage.get(tabId, false));
-                        searchText.setVisibility(View.VISIBLE);
-                        title.setVisibility(View.GONE);
+
                         break;
 
                 }
             }
-        });
+        });*/
     }
 
+
+    void setBottomNavigationViewMenu(){
+        searchMenuItem = bottomNavigationView.getMenu().findItem(R.id.search);
+        homeMenuItem = bottomNavigationView.getMenu().findItem(R.id.home);
+        userMenuItem = bottomNavigationView.getMenu().findItem(R.id.user);
+        favouriteMenuItem = bottomNavigationView.getMenu().findItem(R.id.favourite);
+        overflowMenuItem = bottomNavigationView.getMenu().findItem(R.id.overflow);
+        if(searchMenuItem != null){
+            showTab();
+        }
+
+    }
+
+
+    void searchSelected() {
+
+        searchView = (CustomSearchView) MenuItemCompat.getActionView(searchMenuItem);
+     //   searchView = (CustomSearchView) bottomNavigationView.getMenu().findItem(R.id.search);
+
+        if(searchView != null){
+            if (LogFlag.bLogOn) Log.d(TAG, "CustomSearchView : "+searchView.getImeOptions());
+        }
+
+        View view = searchView.findViewById(R.id.search);
+        view.setBackgroundColor(getResources().getColor(R.color.White));
+        searchView.setQueryHint(getResources().getString(R.string.actionSearch));
+
+        TextView textView = (TextView) searchView.findViewById(android.support.v7.appcompat.R.id.search_src_text);
+        textView.setTextColor(getResources().getColor(R.color.Black));
+        textView.setHintTextColor(getResources().getColor(R.color.Black));
+
+        ImageView searchCloseIcon = (ImageView)searchView.findViewById(android.support.v7.appcompat.R.id.search_close_btn);
+        searchCloseIcon.setImageResource(R.drawable.close);
+
+        searchView.setOnSearchViewCollapsedEventListener(listenerCollapse);
+        searchView.setOnSearchViewExpandedEventListener(listenerExpand);
+
+    }
+
+    final private CustomSearchView.OnSearchViewCollapsedEventListener listenerCollapse = new CustomSearchView.OnSearchViewCollapsedEventListener() {
+
+        @Override
+        public void onSearchViewCollapsed() {
+            // show other actions
+
+            homeMenuItem.setVisible(true);
+            userMenuItem.setVisible(true);
+            favouriteMenuItem.setVisible(true);
+            overflowMenuItem.setVisible(true);
+
+            // I'm doing my actual search here
+        }
+    };
+
+    final private CustomSearchView.OnSearchViewExpandedEventListener listenerExpand = new CustomSearchView.OnSearchViewExpandedEventListener() {
+
+        @Override
+        public void onSearchViewExpanded() {
+            // hide other actions
+
+
+            homeMenuItem.setVisible(false);
+            userMenuItem.setVisible(false);
+            favouriteMenuItem.setVisible(false);
+            overflowMenuItem.setVisible(false);
+
+        }
+    };
 
     @Override
     public void onDestroy() {
@@ -427,7 +503,7 @@ public class HomeActivity  extends AppCompatActivity implements NavigationView.O
 
 
      //   tabLayout.setupWithViewPager(viewPager);
-        HomeFragmentAdapter adapter = new HomeFragmentAdapter(getSupportFragmentManager(),tabLayout.getTabCount(),HomeActivity.this,searchText,carDetailList);
+        HomeFragmentAdapter adapter = new HomeFragmentAdapter(getSupportFragmentManager(),tabLayout.getTabCount(),HomeActivity.this,searchMenuItem,carDetailList);
         adapter.onCallBackToListScroll(this);
         viewPager.setAdapter(adapter);
         viewPager.setOffscreenPageLimit(4);
@@ -626,28 +702,6 @@ public class HomeActivity  extends AppCompatActivity implements NavigationView.O
 */
 
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        switch (id) {
-            case R.id.home:
-                if (LogFlag.bLogOn) Log.d(TAG, "ItemSelected : "+item.getTitle());
-                return true;
-            case R.id.user:
-                if (LogFlag.bLogOn) Log.d(TAG, "ItemSelected : "+item.getTitle());
-                return true;
-            case R.id.favourite:
-                if (LogFlag.bLogOn) Log.d(TAG, "ItemSelected : "+item.getTitle());
-                return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-
     void callShareIntent(){
 
         Intent sharingIntent = new Intent(Intent.ACTION_SEND);
@@ -676,15 +730,19 @@ public class HomeActivity  extends AppCompatActivity implements NavigationView.O
                 onLogout();
                 break;
             case R.id.home:
+                mContainerToolbar.setBackgroundColor(getResources().getColor(R.color.colorAccent));
                 if (LogFlag.bLogOn) Log.d(TAG, "ItemSelected : "+item.getTitle());
                 break;
             case R.id.user:
+                mContainerToolbar.setBackgroundColor(getResources().getColor(R.color.red));
                 if (LogFlag.bLogOn) Log.d(TAG, "ItemSelected : "+item.getTitle());
                 break;
             case R.id.favourite:
+                mContainerToolbar.setBackgroundColor(getResources().getColor(R.color.brown));
                 if (LogFlag.bLogOn) Log.d(TAG, "ItemSelected : "+item.getTitle());
                 break;
             case R.id.overflow:
+                mContainerToolbar.setBackgroundColor(getResources().getColor(R.color.violet));
                 if (LogFlag.bLogOn) Log.d(TAG, "ItemSelected : "+item.getTitle());
 
                 String [] textPosition = new String[]{"Share", "Current Driving", "Report","Feedback"};
@@ -698,9 +756,10 @@ public class HomeActivity  extends AppCompatActivity implements NavigationView.O
                 setSharePopupView(textPosition, imagesIcons);
                 break;
             case R.id.search:
+                mContainerToolbar.setBackgroundColor(getResources().getColor(R.color.orange));
                 if (LogFlag.bLogOn) Log.d(TAG, "ItemSelected : "+item.getTitle());
-                searchText.setVisibility(View.VISIBLE);
-                title.setVisibility(View.GONE);
+
+                searchSelected();
                 break;
 
         }
@@ -899,8 +958,7 @@ public class HomeActivity  extends AppCompatActivity implements NavigationView.O
 
     @Override
     public void onListClick() {
-        searchText.setVisibility(View.GONE);
-        title.setVisibility(View.VISIBLE);
+
     }
 
 

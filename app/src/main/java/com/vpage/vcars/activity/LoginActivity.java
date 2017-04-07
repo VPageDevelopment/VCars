@@ -72,6 +72,7 @@ import com.vpage.vcars.pojos.response.SignInResponse;
 import com.vpage.vcars.pojos.response.SignupResponse;
 import com.vpage.vcars.tools.LoginType;
 import com.vpage.vcars.tools.NetworkUtil;
+import com.vpage.vcars.tools.OnNetworkChangeListener;
 import com.vpage.vcars.tools.VCarAnalyticsTools;
 import com.vpage.vcars.tools.VCarGooglePlusTools;
 import com.vpage.vcars.tools.VCarRestTools;
@@ -106,7 +107,7 @@ import java.util.TimerTask;
 
 @Fullscreen
 @EActivity(R.layout.activity_signin)
-public class LoginActivity extends AppCompatActivity implements View.OnKeyListener, GoogleApiClient.OnConnectionFailedListener,GoogleApiClient.ConnectionCallbacks, View.OnClickListener {
+public class LoginActivity extends AppCompatActivity implements View.OnKeyListener, GoogleApiClient.OnConnectionFailedListener,GoogleApiClient.ConnectionCallbacks, View.OnClickListener, OnNetworkChangeListener {
 
     private static final String TAG = LoginActivity.class.getName();
 
@@ -228,6 +229,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnKeyListen
     @AfterViews
     public void initView() {
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+
+        isNetworkAvailable = VTools.networkStatus(LoginActivity.this);
+        NetworkUtil.setOnNetworkChangeListener(this);
 
         generateKeyHash();
         try {
@@ -386,7 +390,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnKeyListen
 
     @Click(R.id.loginButton)
     public void onLoginClick(View v) {
-        networkStatus();
         if (!isNetworkAvailable) {
             return;
         }
@@ -396,7 +399,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnKeyListen
 
     @Click(R.id.gLoginButton)
     public void gLoginClick(View v) {
-        networkStatus();
         if (!isNetworkAvailable) {
             return;
         }
@@ -522,7 +524,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnKeyListen
             case R.id.btnSignIn:
                 btnSignIn.setEnabled(false);
 
-                networkStatus();
                 if (!isNetworkAvailable) {
                     btnSignIn.setEnabled(true);
                     return;
@@ -552,7 +553,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnKeyListen
             case R.id.btnOTPSignIn:
                 btnOTPSignIn.setEnabled(false);
 
-                networkStatus();
                 if (!isNetworkAvailable) {
                     btnOTPSignIn.setEnabled(true);
                     return;
@@ -597,7 +597,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnKeyListen
 
                 btnOTPGenerate.setEnabled(false);
 
-                networkStatus();
                 if (!isNetworkAvailable) {
                     btnOTPGenerate.setEnabled(true);
                     return;
@@ -691,6 +690,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnKeyListen
         LoginActivity.this.finish();
         startActivity(intent);
 
+    }
+
+    @Override
+    public void onChange(String status) {
+        isNetworkAvailable = VTools.networkStatus(status);
     }
 
     class TimeOutTask extends TimerTask {
@@ -868,27 +872,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnKeyListen
 
         }
 
-    }
-
-
-    public void networkStatus() {
-        String status = NetworkUtil.getConnectivityStatusString(this);
-        if (LogFlag.bLogOn)Log.d(TAG, "Network Availability");
-        if (LogFlag.bLogOn)Log.d(TAG, status);
-
-
-        switch (status) {
-            case "Connected to Internet with Mobile Data":
-                isNetworkAvailable = true;
-                break;
-            case "Connected to Internet with WIFI":
-                isNetworkAvailable = true;
-                break;
-            default:
-                VTools.getInstance().showToast(status);
-                isNetworkAvailable = false;
-                break;
-        }
     }
 
     void generateKeyHash(){

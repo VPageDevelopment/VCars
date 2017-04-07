@@ -3,9 +3,12 @@ package com.vpage.vcars.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.MenuItemCompat;
+import android.support.v7.widget.SearchView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
@@ -18,6 +21,7 @@ import com.vpage.vcars.activity.CarDetailActivity_;
 import com.vpage.vcars.adapter.CarListAdapter;
 import com.vpage.vcars.pojos.CarDetail;
 import com.vpage.vcars.tools.CarListCallBack;
+import com.vpage.vcars.tools.CustomSearchView;
 import com.vpage.vcars.tools.VTools;
 import com.vpage.vcars.tools.utils.LogFlag;
 
@@ -29,7 +33,7 @@ import java.util.List;
 
 
 @EFragment(R.layout.fragment_mini)
-public class MiddleFragment extends Fragment {
+public class MiddleFragment extends Fragment implements SearchView.OnQueryTextListener {
 
     private static final String TAG = MiddleFragment.class.getName();
 
@@ -43,7 +47,9 @@ public class MiddleFragment extends Fragment {
 
     CarListCallBack carListCallBack;
 
-    EditText editText;
+    MenuItem searchMenuItem;
+    CustomSearchView searchView;
+    Boolean searchStatus = false;
 
     List<CarDetail> carDetailList;
 
@@ -51,8 +57,9 @@ public class MiddleFragment extends Fragment {
         this.carListCallBack = carListCallBack;
     }
 
-    public void setEditText(EditText editText) {
-        this.editText = editText;
+    public void setSearchMenuItem(MenuItem searchMenuItem) {
+        this.searchMenuItem = searchMenuItem;
+        searchView = (CustomSearchView) MenuItemCompat.getActionView(this.searchMenuItem);
     }
 
     public void setCarDetailList(List<CarDetail> carDetailList) {
@@ -69,17 +76,28 @@ public class MiddleFragment extends Fragment {
 
         carListAdapter = new CarListAdapter(getActivity(),carDetailList);
         listView.setAdapter(carListAdapter);
-        doSearch();
+
+        if(searchView!= null){
+            searchView.setIconifiedByDefault(false);
+            searchView.clearFocus();
+            searchView.setOnQueryTextListener(this);
+        }
+
+
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 carListCallBack.onListClick();
-                if (LogFlag.bLogOn) Log.d(TAG, "itemClickPosition: "+position);
-                listView.clearTextFilter();
-                carListAdapter.notifyDataSetChanged();
-                gotoCarDetailPage();
+                if (searchStatus) {
+                    // to get search Items position when items searched using search view
+                    int searchItemPosition = setSearchedItemPosition(carDetailList.get(position).getCarName());
+                    Log.d(TAG, "searchItemPosition: " + searchItemPosition);
+                }else {
+                    if (LogFlag.bLogOn) Log.d(TAG, "itemClickPosition: "+position);
+                }
 
+                gotoCarDetailPage();
             }
         });
 
@@ -98,26 +116,20 @@ public class MiddleFragment extends Fragment {
         });
     }
 
+    int setSearchedItemPosition(String listItem){
 
+        int searchItemPosition = 0;
+        for(int i = 0;i< carDetailList.size();i++){
+            if(carDetailList.get(i).getCarName().equals(listItem)){
 
-    private void doSearch() {
-
-        editText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                searchItemPosition = i;
+                Log.d(TAG, "searchItemPosition: " + searchItemPosition);
             }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                carListAdapter.getFilter().filter(s.toString());
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
+        }
+        return searchItemPosition;
     }
+
+
 
     private void gotoCarDetailPage() {
 
@@ -125,6 +137,22 @@ public class MiddleFragment extends Fragment {
         intent.putExtra("SelectedCar","Car Selected");
         startActivity(intent);
         VTools.animation(getActivity());
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        Log.d(TAG, "newText: " + newText);
+        if(newText.length() > 0){
+            searchStatus = true;
+        }
+        carListAdapter.getFilter().filter(newText.toLowerCase());
+        carListAdapter.notifyDataSetChanged();
+        return false;
     }
 }
 

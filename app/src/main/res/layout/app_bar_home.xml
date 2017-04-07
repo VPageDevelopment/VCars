@@ -15,39 +15,39 @@
         android:id="@+id/container_app_bar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/colorAccent"
         android:layout_gravity="bottom">
 
             <android.support.design.widget.AppBarLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
                 android:theme="@style/AppTheme.AppBarOverlay">
 
                 <android.support.v7.widget.Toolbar
                     android:id="@+id/toolbar"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:background="@android:color/transparent"
                     app:popupTheme="@style/AppTheme.PopupOverlay"
                     app:titleTextAppearance="@style/Toolbar.TitleText" />
 
 
             </android.support.design.widget.AppBarLayout>
-       <!-- <android.support.design.widget.BottomNavigationView
+        <android.support.design.widget.BottomNavigationView
             android:id="@+id/bottom_navigation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:scrollbars="vertical"
-            app:itemBackground="@color/colorAccent"
+            app:itemBackground="@android:color/transparent"
             app:itemIconTint="@color/White"
             app:itemTextColor="@color/White"
             app:popupTheme="@style/AppTheme.PopupOverlay"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            app:layout_behavior="shifting|underNavbar"
+            app:theme="@style/menu_style"
             app:menu="@menu/menu_home" >
 
 
-            </android.support.design.widget.BottomNavigationView>-->
-        <com.roughike.bottombar.BottomBar
+            </android.support.design.widget.BottomNavigationView>
+<!--        <com.roughike.bottombar.BottomBar
             android:id="@+id/bottomBar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -55,7 +55,7 @@
             app:itemIconTint="@color/White"
             app:itemTextColor="@color/White"
             app:bb_tabXmlResource="@xml/bottombar_tabs_color_changing"
-            app:bb_behavior="shifting|underNavbar" />
+            app:bb_behavior="shifting|underNavbar" />-->
 
 
 
@@ -73,36 +73,11 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center|center_horizontal"
-            android:visibility="gone"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
             android:textColor="@color/Black"
             android:text="Find Your Cars"
             android:background="@android:color/white"/>
-
-<!--        <SearchView
-            android:id="@+id/search"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:iconifiedByDefault="false"
-            android:background="@android:color/darker_gray"
-            android:imeOptions="actionGo"
-            android:textColorHint="@color/Gray"
-            android:queryHint="search"
-            android:textColor="@android:color/white"
-            />-->
-        <EditText
-            android:id="@+id/searchText"
-            android:layout_width="fill_parent"
-            android:layout_height="match_parent"
-            android:paddingLeft="10dp"
-            android:drawableLeft="@drawable/searchicon"
-            android:imeOptions="actionGo"
-            android:visibility="gone">
-        <requestFocus />
-        </EditText>
-
-
     </RelativeLayout>
     <RelativeLayout
         android:layout_width="match_parent"

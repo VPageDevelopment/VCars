@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.view.MenuItem;
 import android.widget.EditText;
 
 import com.vpage.vcars.fragment.MiddleFragment_;
@@ -23,16 +24,16 @@ public class HomeFragmentAdapter extends FragmentStatePagerAdapter {
     int mNumOfTabs;
     Bundle bundle;
     Activity activity;
-    EditText editText;
+    MenuItem searchMenuItem;
     List<CarDetail> carDetailList;
     CarListCallBack carListCallBack;
 
 
-    public HomeFragmentAdapter(FragmentManager fm, int NumOfTabs, Activity activity,EditText editText,List<CarDetail> carDetailList) {
+    public HomeFragmentAdapter(FragmentManager fm, int NumOfTabs, Activity activity,MenuItem searchMenuItem,List<CarDetail> carDetailList) {
         super(fm);
         this.mNumOfTabs = NumOfTabs;
         this.activity = activity;
-        this.editText = editText;
+        this.searchMenuItem = searchMenuItem;
         this.carDetailList = carDetailList;
         bundle=new Bundle();
         bundle.putString("Data", "");
@@ -52,7 +53,7 @@ public class HomeFragmentAdapter extends FragmentStatePagerAdapter {
             case 0:
                 MiniFragment_ miniFragment = new MiniFragment_();
                 miniFragment.setCarListCallBack(carListCallBack);
-                miniFragment.setEditText(editText);
+                miniFragment.setSearchMenuItem(searchMenuItem);
                 miniFragment.setCarDetailList(carDetailList);
                 miniFragment.setArguments(bundle);
                 return miniFragment;
@@ -60,7 +61,7 @@ public class HomeFragmentAdapter extends FragmentStatePagerAdapter {
             case 1:
                 MiddleFragment_ middleFragment = new MiddleFragment_();
                 middleFragment.setCarListCallBack(carListCallBack);
-                middleFragment.setEditText(editText);
+                middleFragment.setSearchMenuItem(searchMenuItem);
                 middleFragment.setCarDetailList(carDetailList);
                 middleFragment.setArguments(bundle);
                 return middleFragment;
@@ -68,7 +69,7 @@ public class HomeFragmentAdapter extends FragmentStatePagerAdapter {
             case 2:
                 SUVFragment_ suvFragment = new SUVFragment_();
                 suvFragment.setCarListCallBack(carListCallBack);
-                suvFragment.setEditText(editText);
+                suvFragment.setSearchMenuItem(searchMenuItem);
                 suvFragment.setCarDetailList(carDetailList);
                 suvFragment.setArguments(bundle);
                 return suvFragment;
@@ -76,7 +77,7 @@ public class HomeFragmentAdapter extends FragmentStatePagerAdapter {
             case 3:
                 PrimeFragment_ primeFragment = new PrimeFragment_();
                 primeFragment.setCarListCallBack(carListCallBack);
-                primeFragment.setEditText(editText);
+                primeFragment.setSearchMenuItem(searchMenuItem);
                 primeFragment.setCarDetailList(carDetailList);
                 primeFragment.setArguments(bundle);
                 return primeFragment;

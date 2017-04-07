@@ -383,4 +383,46 @@ public class VTools {
     public static void setCameraImagePath(String cameraImagePath) {
         VTools.cameraImagePath = cameraImagePath;
     }
+
+
+    public static boolean networkStatus(Activity activity) {
+        boolean isNetworkAvailable;
+        String status = NetworkUtil.getConnectivityStatusString(activity.getApplicationContext());
+        if (LogFlag.bLogOn)Log.d(TAG, "Network Availability");
+        if (LogFlag.bLogOn)Log.d(TAG, status);
+
+        switch (status) {
+            case "Connected to Internet with Mobile Data":
+                isNetworkAvailable = true;
+                break;
+            case "Connected to Internet with WIFI":
+                isNetworkAvailable = true;
+                break;
+            default:
+                VTools.getInstance().showToast(status);
+                isNetworkAvailable = false;
+                break;
+        }
+        return isNetworkAvailable;
+    }
+
+    public static boolean networkStatus(String status) {
+        boolean isNetworkAvailable;
+        if (LogFlag.bLogOn)Log.d(TAG, "Network Availability");
+        if (LogFlag.bLogOn)Log.d(TAG, status);
+
+        switch (status) {
+            case "Connected to Internet with Mobile Data":
+                isNetworkAvailable = true;
+                break;
+            case "Connected to Internet with WIFI":
+                isNetworkAvailable = true;
+                break;
+            default:
+                VTools.getInstance().showToast(status);
+                isNetworkAvailable = false;
+                break;
+        }
+        return isNetworkAvailable;
+    }
 }

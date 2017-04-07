@@ -174,6 +174,8 @@ public class SignupActivity extends AppCompatActivity implements   View.OnKeyLis
 
     @AfterViews
     public void initSignUp() {
+        isNetworkAvailable = VTools.networkStatus(SignupActivity.this);
+        NetworkUtil.setOnNetworkChangeListener(this);
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
@@ -438,7 +440,6 @@ public class SignupActivity extends AppCompatActivity implements   View.OnKeyLis
 
     void registerValidation() {
 
-        networkStatus();
         if (!isNetworkAvailable) {
             return;
         }
@@ -703,34 +704,9 @@ public class SignupActivity extends AppCompatActivity implements   View.OnKeyLis
 
     @Override
     public void onChange(String status) {
-        if (LogFlag.bLogOn)Log.d(TAG, "Network Availability");
-        if (LogFlag.bLogOn)Log.d(TAG, status);
-        VTools.getInstance().showToast(status);
-        // isNetworkAvailable= true;
+        isNetworkAvailable = VTools.networkStatus(status);
     }
 
-
-    public void networkStatus() {
-        String status = NetworkUtil.getConnectivityStatusString(this);
-        if (LogFlag.bLogOn)Log.d(TAG, "Network Availability");
-        if (LogFlag.bLogOn)Log.d(TAG, status);
-
-
-        switch (status) {
-            case "Connected to Internet with Mobile Data":
-                isNetworkAvailable = true;
-                break;
-            case "Connected to Internet with WIFI":
-                isNetworkAvailable = true;
-                break;
-            default:
-                VTools.getInstance().showToast(status);
-                isNetworkAvailable = false;
-                break;
-
-        }
-
-    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

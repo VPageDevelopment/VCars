@@ -41,6 +41,7 @@ public class SplashActivity extends Activity {
 
     @AfterViews
     public void onSplash() {
+        VTools.setSnackBarElements(mainLayout, SplashActivity.this);
         if ((getIntent().getFlags() & Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT) != 0) {
             finish();
             return;
@@ -50,30 +51,30 @@ public class SplashActivity extends Activity {
 
        afterSplash();
 
-       // gotoHomePage();
+        // gotoHomePage();
 
     }
 
 
     private void gotoHomePage() {
         shouldKillActivity = true;
-        if (!checkInternetStatus()) {
-            return;
+        if (checkInternetStatus()) {
+            Intent intent = new Intent(getApplicationContext(), HomeActivity_.class);
+            startActivity(intent);
+            VTools.animation(this);
         }
-        Intent intent = new Intent(getApplicationContext(), HomeActivity_.class);
-        startActivity(intent);
-        VTools.animation(this);
+
     }
 
 
     private void gotoCarRequestPage() {
         shouldKillActivity = true;
-        if (!checkInternetStatus()) {
-            return;
+        if (checkInternetStatus()) {
+            Intent intent = new Intent(getApplicationContext(), CurrentCarTrackActivity_.class);
+            startActivity(intent);
+            VTools.animation(this);
         }
-        Intent intent = new Intent(getApplicationContext(), CurrentCarTrackActivity_.class);
-        startActivity(intent);
-        VTools.animation(this);
+
     }
 
 
@@ -100,16 +101,16 @@ public class SplashActivity extends Activity {
                 gotoSignInPage();
             } else {
                 shouldKillActivity = true;
-                if (!checkInternetStatus()) {
-                    return;
+                if (checkInternetStatus()) {
+                    Gson gson = new GsonBuilder().create();
+                    VPreferences.save("activeUser", gson.toJson(userdata));
+                    Intent intent = new Intent(getApplicationContext(), HomeActivity_.class);
+                    intent.putExtra("ActiveUser", gson.toJson(VTools.getActiveUserFromUserData(userdata)));
+                    startActivity(intent);
+                    VTools.animation(this);
                 }
 
-                Gson gson = new GsonBuilder().create();
-                VPreferences.save("activeUser", gson.toJson(userdata));
-                Intent intent = new Intent(getApplicationContext(), HomeActivity_.class);
-                intent.putExtra("ActiveUser", gson.toJson(VTools.getActiveUserFromUserData(userdata)));
-                startActivity(intent);
-                VTools.animation(this);
+
             }
         } catch (Exception e) {
             if (LogFlag.bLogOn)Log.e(TAG,  e.getMessage());
@@ -126,75 +127,63 @@ public class SplashActivity extends Activity {
 
     private void gotoOTPGenerationPage() {
         shouldKillActivity = true;
-        if (!checkInternetStatus()) {
-            return;
+        if (checkInternetStatus()) {
+            Intent intent = new Intent(getApplicationContext(), GenerateOTPActivity_.class);
+            startActivity(intent);
+            VTools.animation(this);
         }
-       Intent intent = new Intent(getApplicationContext(), GenerateOTPActivity_.class);
-       startActivity(intent);
-       VTools.animation(this);
+
     }
 
     private void gotoSignInPage() {
         shouldKillActivity = true;
-        if (!checkInternetStatus()) {
-            return;
+        if (checkInternetStatus()) {
+            Intent intent = new Intent(getApplicationContext(), SigninActivity_.class);
+            startActivity(intent);
+            VTools.animation(this);
         }
-        Intent intent = new Intent(getApplicationContext(), SigninActivity_.class);
-        startActivity(intent);
-        VTools.animation(this);
+
     }
 
     private void gotoSignUpPage() {
         shouldKillActivity = true;
-        if (!checkInternetStatus()) {
-            return;
+        if (checkInternetStatus()) {
+            Intent intent = new Intent(getApplicationContext(), SignupActivity_.class);
+            startActivity(intent);
+            VTools.animation(this);
         }
-        Intent intent = new Intent(getApplicationContext(), SignupActivity_.class);
-        startActivity(intent);
-        VTools.animation(this);
+
     }
 
     public  boolean checkInternetStatus() {
-        String status = NetworkUtil.getConnectivityStatusString(this);
-        boolean isNetworkAvailable;
-        switch (status) {
-            case "Connected to Internet with Mobile Data":
-                isNetworkAvailable = true;
-                break;
-            case "Connected to Internet with WIFI":
-                isNetworkAvailable = true;
-                break;
-            default:
-
-                isNetworkAvailable = false;
-                break;
-        }
+        boolean isNetworkAvailable = VTools.networkStatus(SplashActivity.this);
         VTools.showSnackBarBasedOnStatus(isNetworkAvailable,getString(R.string.noInternetMsg));
         return isNetworkAvailable;
     }
 
 
+
     private void gotoHelpScreenPage() {
         shouldKillActivity = true;
-        if (!checkInternetStatus()) {
-            return;
+        if (checkInternetStatus()) {
+            VPreferences.saveAppInstallStatus("isInstalled",true);
+            Intent intent = new Intent(getApplicationContext(), HelpScreenActivity_.class);
+            startActivity(intent);
+            VTools.animation(this);
         }
-        VPreferences.saveAppInstallStatus("isInstalled",true);
-        Intent intent = new Intent(getApplicationContext(), HelpScreenActivity_.class);
-        startActivity(intent);
-        VTools.animation(this);
+
 
     }
 
 
     private void gotoLogInPage() {
         shouldKillActivity = true;
-        if (!checkInternetStatus()) {
-            return;
+        if (checkInternetStatus()) {
+            Intent intent = new Intent(getApplicationContext(), LoginActivity_.class);
+            startActivity(intent);
+            VTools.animation(this);
         }
-        Intent intent = new Intent(getApplicationContext(), LoginActivity_.class);
-        startActivity(intent);
-        VTools.animation(this);
+
 
     }
 
@@ -205,10 +194,10 @@ public class SplashActivity extends Activity {
             finish();
         }
 
-        VTools.setSnackBarElements(mainLayout, SplashActivity.this);
     }
 
     private void getGcmDeviceToken(){
+
         try {
             PROJECT_NUMBER = getString(R.string.G_PROJECT_NUMBER);
             if (LogFlag.bLogOn) Log.d(TAG, "PROJECT_NUMBER: "+ PROJECT_NUMBER);

@@ -34,6 +34,11 @@ android {
     }
 
 
+    dexOptions {
+        incremental true
+        javaMaxHeapSize "4G"
+    }
+
     apt {
         arguments {
             androidManifestFile variant.outputs[0]?.processResources?.manifestFile
@@ -57,12 +62,7 @@ dependencies {
     compile 'com.android.support:design:25.1.0'
     apt "org.androidannotations:androidannotations:$AAVersion"
     compile "org.androidannotations:androidannotations-api:$AAVersion"
-    compile 'com.google.android.gms:play-services-location:10.0.1'
-    compile 'com.google.android.gms:play-services-maps:10.0.1'
-    compile 'com.google.android.gms:play-services-gcm:10.0.1'
-    compile 'com.google.android.gms:play-services-analytics:10.0.1'
-    compile 'com.google.android.gms:play-services-plus:10.0.1'
-    compile 'com.google.android.gms:play-services-auth:10.0.1'
+    compile 'com.google.android.gms:play-services:10.0.1'
     compile 'com.mcxiaoke.volley:library-aar:1.0.0'
     compile 'info.hoang8f:fbutton:1.0.5'
     compile 'com.github.castorflex.smoothprogressbar:library:1.1.0'

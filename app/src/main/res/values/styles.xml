@@ -89,6 +89,10 @@
         <item name="android:textColor">#FFFFFF</item>
     </style>
 
+    <style name="menu_style">
+        <item name="android:visible">false</item>
+        <item name="android:textColor">@color/White</item>
+    </style>
 
 
 </resources>
