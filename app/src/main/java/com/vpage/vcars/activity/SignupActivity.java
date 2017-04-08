@@ -720,7 +720,6 @@ public class SignupActivity extends AppCompatActivity implements   View.OnKeyLis
 
     void  setSignUpFontStyle(){
 
-
         createBtn.setTypeface(VTools.getAvenirLTStdHeavy());
         userPhoneNumber.setTypeface(VTools.getAvenirLTStdRoman());
         passWord.setTypeface(VTools.getAvenirLTStdRoman());
@@ -735,8 +734,6 @@ public class SignupActivity extends AppCompatActivity implements   View.OnKeyLis
         InputMethodManager inputManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
         inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
     }
-
-
 
     public String getStringImage(Bitmap bmp){
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -767,7 +764,7 @@ public class SignupActivity extends AppCompatActivity implements   View.OnKeyLis
                       //  loading.dismiss();
 
                         //Showing toast
-                        Toast.makeText(SignupActivity.this, volleyError.getMessage().toString(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), volleyError.getMessage().toString(), Toast.LENGTH_LONG).show();
                     }
                 }){
             @Override
